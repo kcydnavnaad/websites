@@ -51,6 +51,15 @@ h1 {
   line-height: 1.1;
 }
 
+h1 .heart {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 0.8em;
+  margin: 0 0.45em;
+  vertical-align: 0.05em;
+  font-variant-emoji: text;
+}
+
 .date {
   font-family: "Cormorant Garamond", Georgia, serif;
   font-style: italic;
@@ -80,6 +89,7 @@ h1 {
   font-size: 1.4rem;
   line-height: 1;
   color: var(--gold);
+  font-variant-emoji: text;
 }
 
 .section-divider {
