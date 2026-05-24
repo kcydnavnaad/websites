@@ -1,0 +1,246 @@
+:root {
+  --ivory: #FAF7F2;
+  --gold: #C9A961;
+  --gold-soft: #d8bf85;
+  --brown: #3D2817;
+  --brown-soft: #6b4f38;
+  --rule: rgba(201, 169, 97, 0.55);
+  --dot: rgba(61, 40, 23, 0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--ivory);
+  color: var(--brown);
+  font-family: "Lora", Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  line-height: 1.55;
+  font-weight: 400;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+main {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4rem;
+}
+
+.masthead {
+  text-align: center;
+  padding: 1rem 0 2.5rem;
+}
+
+h1 {
+  font-family: "Cormorant Garamond", "Cormorant", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(2.4rem, 7vw, 3.4rem);
+  color: var(--brown);
+  margin: 0 0 1.25rem;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+
+.date {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--brown-soft);
+  letter-spacing: 0.08em;
+  margin: 1rem 0 0;
+}
+
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.25rem auto;
+  color: var(--gold);
+}
+
+.ornament .rule {
+  flex: 0 1 6rem;
+  height: 1px;
+  background: var(--rule);
+}
+
+.ornament .glyph {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--gold);
+}
+
+.section-divider {
+  margin: 3rem auto 2.5rem;
+}
+
+.menu {
+  margin-top: 2rem;
+}
+
+.menu h2 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.9rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin: 0 0 2rem;
+}
+
+.course {
+  margin: 2.25rem 0;
+}
+
+.course h3 {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 0.12em;
+  margin: 0 0 1rem;
+}
+
+ul.dishes,
+ul.drinks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.dishes li,
+ul.drinks li {
+  text-align: center;
+  margin: 0.4rem 0;
+  font-size: 1.05rem;
+  color: var(--brown);
+}
+
+ul.dishes .conj {
+  font-style: italic;
+  color: var(--brown-soft);
+  font-size: 0.95rem;
+  margin-right: 0.15rem;
+}
+
+ul.drinks .drink-name {
+  display: block;
+}
+
+ul.drinks .note {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+}
+
+details.course {
+  margin: 2.25rem 0;
+}
+
+details.course > summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.35rem 0;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-weight: 500;
+  font-size: 1.35rem;
+  color: var(--gold);
+  letter-spacing: 0.12em;
+  margin: 0 0 1rem;
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+details.course > summary::-webkit-details-marker {
+  display: none;
+}
+
+details.course > summary::marker {
+  display: none;
+  content: "";
+}
+
+details.course > summary:hover,
+details.course > summary:focus-visible {
+  color: #a8873f;
+  outline: none;
+}
+
+details.course > summary .chevron {
+  display: inline-block;
+  font-size: 0.85em;
+  line-height: 1;
+  color: var(--gold);
+  transition: transform 0.25s ease;
+}
+
+details.course[open] > summary .chevron {
+  transform: rotate(180deg);
+}
+
+.closing {
+  margin-top: 3.5rem;
+}
+
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  main { padding: 2rem 1.1rem 3rem; }
+  .menu h2 { font-size: 1.6rem; letter-spacing: 0.2em; }
+  .ornament .rule { flex-basis: 4rem; }
+}
+
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 11pt;
+  }
+  main { padding: 0; max-width: none; }
+  .menu { page-break-inside: avoid; }
+  article.course,
+  details.course { page-break-inside: avoid; }
+  .ornament .rule { background: #999; }
+  .ornament .glyph,
+  .menu h2,
+  .course h3,
+  details.course > summary,
+  ul.drinks .note {
+    color: #6b4f38;
+  }
+
+  details.course > summary {
+    cursor: default;
+    padding: 0;
+  }
+  details.course > summary .chevron {
+    display: none;
+  }
+  details.course > *:not(summary) {
+    display: revert !important;
+  }
+  details.course > ul.drinks {
+    display: block !important;
+  }
+}
