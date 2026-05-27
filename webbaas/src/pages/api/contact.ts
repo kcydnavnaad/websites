@@ -44,12 +44,12 @@ export const POST: APIRoute = async ({ request }) => {
     }
 
     const transporter = nodemailer.createTransport({
-      host: import.meta.env.SMTP_HOST,
-      port: parseInt(import.meta.env.SMTP_PORT ?? '2525', 10),
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT ?? '2525', 10),
       secure: false,
       auth: {
-        user: import.meta.env.SMTP_USER,
-        pass: import.meta.env.SMTP_PASS,
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
       },
     });
 
@@ -59,8 +59,8 @@ export const POST: APIRoute = async ({ request }) => {
     const safeBericht = escapeHtml(bericht).replace(/\n/g, '<br>');
 
     await transporter.sendMail({
-      from: import.meta.env.MAIL_FROM,
-      to: import.meta.env.MAIL_TO,
+      from: process.env.MAIL_FROM,
+      to: process.env.MAIL_TO,
       replyTo: email,
       subject: `Nieuwe intake aanvraag van ${naam}`,
       text: `Naam: ${naam}\nEmail: ${email}\nTelefoon: ${telefoon || '-'}\n\nBericht:\n${bericht}`,
