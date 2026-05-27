@@ -1,0 +1,86 @@
+---
+interface Benefit {
+  title: string;
+  description: string;
+  icon: string;
+}
+
+const benefits: ReadonlyArray<Benefit> = [
+  {
+    title: 'Binnen 30 dagen online',
+    description: 'Snelle oplevering zonder loze beloftes.',
+    icon: 'clock',
+  },
+  {
+    title: 'Vaste prijs: €500',
+    description: 'Geen verrassingen. Geen kleine lettertjes.',
+    icon: 'tag',
+  },
+  {
+    title: '1 jaar hosting + support',
+    description: 'Hosting, updates en support inbegrepen.',
+    icon: 'server',
+  },
+  {
+    title: 'Mooi, snel & veilig',
+    description: 'Professioneel design, snelle laadtijd.',
+    icon: 'sparkle',
+  },
+  {
+    title: 'Persoonlijke aanpak',
+    description: 'Direct contact. Geen tussenpersonen.',
+    icon: 'chat',
+  },
+];
+---
+
+<section id="voordelen" class="section">
+  <div class="container-x">
+    <div class="text-center">
+      <h2 class="section-title">Waarom WebBaas?</h2>
+      <p class="section-subtitle">Concreet. Transparant. Geen gedoe.</p>
+    </div>
+
+    <div class="mt-14 grid gap-4 md:grid-cols-3 lg:grid-cols-5">
+      {
+        benefits.map((b) => (
+          <article class="card group p-5">
+            <div class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl bg-accent/10 text-accent ring-1 ring-accent/30 transition group-hover:bg-accent group-hover:text-ink">
+              {b.icon === 'clock' && (
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 2" />
+                </svg>
+              )}
+              {b.icon === 'tag' && (
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M20 12V5a1 1 0 0 0-1-1h-7L4 12l8 8 8-8Z" />
+                  <circle cx="9" cy="9" r="1.4" fill="currentColor" stroke="none" />
+                </svg>
+              )}
+              {b.icon === 'server' && (
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <rect x="3" y="4" width="18" height="7" rx="2" />
+                  <rect x="3" y="13" width="18" height="7" rx="2" />
+                  <path stroke-linecap="round" d="M7 8h.01M7 17h.01" />
+                </svg>
+              )}
+              {b.icon === 'sparkle' && (
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m12 3 1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3Zm6 11 .9 2.1L21 17l-2.1.9L18 20l-.9-2.1L15 17l2.1-.9L18 14Z" />
+                </svg>
+              )}
+              {b.icon === 'chat' && (
+                <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a8 8 0 0 1-12.5 6.6L3 20l1.4-5.5A8 8 0 1 1 21 12Z" />
+                </svg>
+              )}
+            </div>
+            <h3 class="text-base font-semibold leading-snug">{b.title}</h3>
+            <p class="mt-1.5 text-sm leading-relaxed text-white/65">{b.description}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

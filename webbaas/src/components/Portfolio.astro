@@ -1,0 +1,90 @@
+---
+interface SectorExample {
+  title: string;
+  description: string;
+  tags: ReadonlyArray<string>;
+}
+
+const sectorExamples: ReadonlyArray<SectorExample> = [
+  {
+    title: 'Lokale dienstverleners',
+    description:
+      'Boekingssysteem, klantbeheer of intern portaal voor jouw zaak. Helemaal op maat van hoe jij werkt.',
+    tags: ['Kapper', 'Garage', 'Praktijk'],
+  },
+  {
+    title: 'Sportclubs & Verenigingen',
+    description:
+      'Ledenlijsten, inschrijvingen, betalingen en communicatie in één platform. Speciaal voor Belgische clubs en jeugdbewegingen.',
+    tags: ['Voetbal', 'Turnen', 'Jeugdbeweging'],
+  },
+];
+---
+
+<section id="portfolio" class="section">
+  <div class="container-x">
+    <div class="text-center">
+      <h2 class="section-title">
+        Custom portalen <span class="text-accent">op maat</span>
+      </h2>
+      <p class="section-subtitle">
+        Voor elke sector bouwen we een portaal dat exact past bij jouw werking — van
+        bestelsysteem tot ledenbeheer. Jij bepaalt de functies, wij bouwen het.
+      </p>
+      <span class="pill mt-6">Voorbeelden van wat we al bouwden</span>
+    </div>
+
+    <div class="mt-14 grid gap-6 md:grid-cols-2">
+      {
+        sectorExamples.map((example) => (
+          <article class="card flex flex-col">
+            <h3 class="text-lg font-semibold">{example.title}</h3>
+            <p class="mt-2 text-sm text-white/65">{example.description}</p>
+            <ul class="mt-4 flex flex-wrap gap-2">
+              {example.tags.map((tag) => (
+                <li class="pill">{tag}</li>
+              ))}
+            </ul>
+            <a href="#contact" class="btn-outline mt-6 self-start">
+              Interesse? Meld je aan
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-12">
+      <div
+        class="relative overflow-hidden rounded-2xl border border-white/10 bg-black p-8 text-center sm:p-12"
+      >
+        <div
+          class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(250,204,21,0.18),transparent_55%)]"
+          aria-hidden="true"
+        >
+        </div>
+        <h3 class="relative text-2xl font-bold sm:text-3xl">
+          Iets specifieks nodig voor jouw sector?
+        </h3>
+        <a href="#contact" class="btn-primary relative mt-6">
+          Bespreek jouw portaal
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-12">
+      <div
+        class="relative overflow-hidden rounded-2xl border border-accent/40 bg-gradient-to-br from-accent/10 via-accent/5 to-transparent p-8 sm:p-10"
+      >
+        <h3 class="text-2xl font-bold sm:text-3xl">🤝 Baas Brengt Baas</h3>
+        <p class="mt-4 max-w-3xl text-white/80">
+          Ken je iemand die een website nodig heeft? Verwijs hem of haar door naar WebBaas en
+          vermeld jouw naam bij de intake. Voor elke succesvolle referral krijg jij
+          <span class="font-semibold text-accent">€75 korting</span> op je volgende jaarfactuur.
+          Geen limiet — 2 referrals? Dan betaal je dat jaar
+          <span class="font-semibold text-accent">€0 hosting</span>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

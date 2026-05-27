@@ -1,0 +1,91 @@
+---
+interface QA {
+  q: string;
+  a: string;
+}
+
+const faq: ReadonlyArray<QA> = [
+  {
+    q: 'Hoe snel is mijn website klaar?',
+    a: 'Na een snelle intake en het aanleveren van je content gaan we aan de slag. In de meeste gevallen staat je site binnen 20 werkdagen klaar voor feedback en is hij binnen 30 dagen live. Heb je haast voor een evenement of opening? Geef het door tijdens de intake, dan kijken we wat haalbaar is.',
+  },
+  {
+    q: 'Wat zit er vanaf het tweede jaar in de €200 hosting?',
+    a: 'Voor €200 per jaar verzorgen we hosting in een Belgisch datacenter, SSL-certificaat, dagelijkse back-ups, security-updates en kleine inhoudelijke aanpassingen (tot 1 uur per jaar). Daarnaast krijg je voorrang bij vragen via mail of WhatsApp.',
+  },
+  {
+    q: 'Kan ik later uitbreiden?',
+    a: 'Zeker. Je start met het pakket dat past en groeit mee. Extra pagina\'s, een blog, een webshop of een integratie (boekhouding, kassa, reservatie) zetten we op aanvraag bij. Je hoeft je site dus niet opnieuw te laten bouwen wanneer je business evolueert.',
+  },
+  {
+    q: 'Krijg ik volledige eigendom van de site?',
+    a: 'Ja. Alle content, het domein en de broncode zijn van jou. Wil je later overstappen naar een andere hostingprovider of partij, dan bezorgen we je gewoon de bestanden. Geen lock-in, geen verborgen kosten.',
+  },
+  {
+    q: 'Wat als ik al een domeinnaam heb?',
+    a: 'Geen probleem. We koppelen je bestaande domein zonder downtime aan je nieuwe site. Heb je nog geen domein? Dan registreren en beheren we het voor je, inbegrepen in het eerste jaar.',
+  },
+];
+---
+
+<section id="faq" class="section">
+  <div class="container-x">
+    <div class="text-center">
+      <h2 class="section-title">Veelgestelde vragen</h2>
+      <p class="section-subtitle">Alles wat je moet weten op een rijtje.</p>
+    </div>
+
+    <div class="mx-auto mt-14 max-w-3xl space-y-3" data-accordion>
+      {
+        faq.map((item, i) => (
+          <details
+            class="group rounded-xl border border-white/10 bg-white/[0.03] open:border-accent/40 open:bg-white/[0.05]"
+            data-accordion-item
+            name="faq"
+          >
+            <summary
+              class="flex cursor-pointer list-none items-start justify-between gap-4 p-5 text-left text-base font-semibold focus:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              aria-controls={`faq-${i}`}
+            >
+              <span>{item.q}</span>
+              <svg
+                class="mt-1 h-5 w-5 flex-none text-accent transition-transform duration-300 group-open:rotate-180"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+              </svg>
+            </summary>
+            <div id={`faq-${i}`} class="px-5 pb-5 text-sm leading-relaxed text-white/70">
+              {item.a}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+
+    <p class="mt-10 text-center text-sm text-white/60">
+      Vraag niet beantwoord?
+      <a href="#contact" class="font-semibold text-accent hover:underline"
+        >Neem contact op</a
+      >
+      en we helpen je graag verder!
+    </p>
+  </div>
+</section>
+
+<script>
+  const items = document.querySelectorAll<HTMLDetailsElement>('[data-accordion-item]');
+  items.forEach((el) => {
+    el.addEventListener('toggle', () => {
+      if (el.open) {
+        items.forEach((other) => {
+          if (other !== el) other.open = false;
+        });
+      }
+    });
+  });
+</script>

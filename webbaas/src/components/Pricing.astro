@@ -1,0 +1,151 @@
+---
+interface Plan {
+  id: string;
+  name: string;
+  tagline: string;
+  price: string;
+  included: ReadonlyArray<string>;
+  excluded?: ReadonlyArray<string>;
+  highlighted?: boolean;
+  cta: string;
+}
+
+const plans: ReadonlyArray<Plan> = [
+  {
+    id: 'basis',
+    name: 'Basis',
+    tagline: 'Online Start',
+    price: '€500',
+    included: [
+      'One-page website',
+      'Responsive design (mobielvriendelijk)',
+      'Content aangeleverd door klant',
+      '1 jaar hosting + support',
+    ],
+    excluded: ['Contactformulier', "Extra pagina's", 'Integraties'],
+    cta: 'Vraag gratis intake aan',
+  },
+  {
+    id: 'pro',
+    name: 'Professioneel',
+    tagline: 'Meest gekozen',
+    price: '€900',
+    included: [
+      'Alles uit Basis',
+      'Contactformulier',
+      "Tot 3 pagina's (Home, Over ons, Contact)",
+      'Structuur & eenvoudige copy-feedback',
+      'Snellere oplevering',
+      '1 jaar hosting + support',
+    ],
+    highlighted: true,
+    cta: 'Vraag gratis intake aan',
+  },
+  {
+    id: 'groei',
+    name: 'Groei',
+    tagline: 'Klaar om te groeien',
+    price: '€1.350',
+    included: [
+      'Alles uit Professioneel',
+      "5+ pagina's",
+      'Integraties',
+      'Extra feedbackronde',
+      'Prioriteit support',
+      '1 jaar hosting + support',
+    ],
+    cta: 'Vraag gratis intake aan',
+  },
+];
+---
+
+<section id="prijzen" class="section">
+  <div class="container-x">
+    <div class="text-center">
+      <h2 class="section-title">Duidelijke prijzen</h2>
+      <p class="section-subtitle">
+        Geen verrassingen. Wat je ziet is wat je betaalt.
+      </p>
+    </div>
+
+    <div class="mt-14 grid gap-6 lg:grid-cols-3 lg:items-stretch">
+      {
+        plans.map((plan) => (
+          <article
+            class:list={[
+              'relative flex flex-col rounded-2xl p-7 transition',
+              plan.highlighted
+                ? 'border border-accent bg-gradient-to-b from-accent/[0.08] to-transparent shadow-glow lg:-mt-4 lg:mb-0'
+                : 'border border-white/10 bg-white/[0.03] hover:border-white/20',
+            ]}
+          >
+            {plan.highlighted && (
+              <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-accent px-3 py-1 text-xs font-bold uppercase tracking-wider text-ink">
+                Meest gekozen
+              </span>
+            )}
+
+            <div class="mb-6">
+              <p class="text-sm font-medium text-white/60">{plan.tagline}</p>
+              <h3 class="mt-1 text-2xl font-bold">{plan.name}</h3>
+              <div class="mt-4 flex items-baseline gap-2">
+                <span class="text-4xl font-extrabold tracking-tight">{plan.price}</span>
+                <span class="text-sm text-white/55">eenmalig</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-sm">
+              {plan.included.map((item) => (
+                <li class="flex items-start gap-3">
+                  <svg
+                    class="mt-0.5 h-4 w-4 flex-none text-accent"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="3"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5 9-11" />
+                  </svg>
+                  <span class="text-white/85">{item}</span>
+                </li>
+              ))}
+              {plan.excluded?.map((item) => (
+                <li class="flex items-start gap-3 text-white/40">
+                  <svg
+                    class="mt-0.5 h-4 w-4 flex-none"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    aria-hidden="true"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18 18 6" />
+                  </svg>
+                  <span class="line-through">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <a
+              href="#contact"
+              class:list={[
+                'mt-8 w-full',
+                plan.highlighted ? 'btn-primary' : 'btn-outline',
+              ]}
+            >
+              {plan.cta}
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="mt-10 text-center text-sm text-white/60">
+      <p>Twijfel? De meeste klanten kiezen voor het <span class="text-white">Professioneel</span> pakket.</p>
+      <p class="mt-2">
+        Vanaf jaar 2: hosting + updates voor <span class="text-white">€200/jaar</span>
+      </p>
+    </div>
+  </div>
+</section>

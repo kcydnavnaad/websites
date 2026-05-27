@@ -1,0 +1,97 @@
+---
+const checks: ReadonlyArray<string> = [
+  'Vaste prijs',
+  '1 jaar hosting gratis',
+  'Binnen 30 dagen online',
+];
+---
+
+<section id="home" class="relative overflow-hidden pt-32 sm:pt-40">
+  <div
+    class="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[640px] w-[640px] -translate-x-1/2 rounded-full bg-accent/20 blur-3xl"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute inset-x-0 -top-10 -z-10 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="container-x">
+    <div class="mx-auto max-w-3xl text-center">
+      <span class="pill mb-6">
+        <span class="h-2 w-2 rounded-full bg-accent"></span>
+        Belgisch webbureau, transparante prijzen
+      </span>
+
+      <h1 class="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+        Professionele website vanaf <span class="text-accent">€500.</span>
+      </h1>
+      <p class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">
+        Binnen <span class="text-accent">30 dagen</span> online.
+      </p>
+      <p class="mt-6 text-base text-white/70 sm:text-lg">
+        Vaste prijs. 1 jaar hosting + support inbegrepen.
+      </p>
+
+      <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="#contact" class="btn-primary w-full sm:w-auto">
+          Vraag gratis intake aan
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href="https://wa.me/32483062307"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-outline w-full sm:w-auto"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M20.5 3.5A11 11 0 0 0 3.6 17.3L2 22l4.8-1.6A11 11 0 1 0 20.5 3.5Zm-8.5 17a8.9 8.9 0 0 1-4.5-1.2l-.3-.2-2.9.95.95-2.8-.2-.3a8.9 8.9 0 1 1 6.95 3.55Zm4.95-6.65c-.3-.15-1.75-.85-2-.95-.3-.1-.5-.15-.7.15-.2.3-.8.95-1 1.15-.2.2-.4.2-.7.05-.3-.15-1.25-.45-2.4-1.45-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.45.15-.6.15-.15.3-.4.45-.6.15-.2.2-.3.3-.5.1-.2.05-.4 0-.55-.05-.15-.7-1.65-.95-2.25-.25-.6-.5-.5-.7-.5h-.6c-.2 0-.55.05-.85.4-.3.3-1.1 1.05-1.1 2.55s1.15 2.95 1.3 3.15c.15.2 2.25 3.45 5.5 4.85.75.3 1.35.5 1.85.6.75.25 1.45.2 2 .15.6-.1 1.75-.7 2-1.4.25-.7.25-1.3.2-1.4-.05-.15-.25-.2-.55-.35Z"
+            ></path>
+          </svg>
+          Stel je vraag via WhatsApp
+        </a>
+      </div>
+
+      <ul class="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        {
+          checks.map((label) => (
+            <li class="inline-flex items-center gap-2 text-sm text-white/70">
+              <svg
+                class="h-4 w-4 text-accent"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5 9-11" />
+              </svg>
+              {label}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="mt-20 flex justify-center" aria-hidden="true">
+      <a
+        href="#voordelen"
+        class="group inline-flex flex-col items-center text-xs uppercase tracking-widest text-white/40 transition hover:text-accent"
+      >
+        Scroll
+        <svg
+          class="mt-2 h-5 w-5 animate-bob"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

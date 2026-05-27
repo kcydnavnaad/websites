@@ -1,0 +1,52 @@
+---
+interface Step {
+  title: string;
+  description: string;
+}
+
+const steps: ReadonlyArray<Step> = [
+  {
+    title: 'Gratis intake',
+    description: 'We bespreken je wensen en geven een duidelijke offerte.',
+  },
+  {
+    title: 'We bouwen je website',
+    description: 'Binnen 20 dagen staat je website klaar.',
+  },
+  {
+    title: 'Feedback & aanpassingen',
+    description: 'Jij geeft feedback, wij passen aan.',
+  },
+  {
+    title: 'Livegang + support',
+    description: 'Je website gaat live met 1 jaar gratis support.',
+  },
+];
+---
+
+<section id="werkwijze" class="section bg-black/30">
+  <div class="container-x">
+    <div class="text-center">
+      <h2 class="section-title">Hoe werkt het?</h2>
+      <p class="section-subtitle">Van intake tot livegang in 4 simpele stappen.</p>
+    </div>
+
+    <ol class="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((step, i) => (
+          <li class="card relative">
+            <span
+              class="font-extrabold leading-none text-accent"
+              style="font-size: clamp(3rem, 5vw, 4.5rem)"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="mt-2 text-lg font-semibold">{step.title}</h3>
+            <p class="mt-2 text-sm text-white/65">{step.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

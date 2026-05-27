@@ -1,0 +1,152 @@
+---
+const navItems: ReadonlyArray<{ label: string; href: string }> = [
+  { label: 'Home', href: '#home' },
+  { label: 'Voordelen', href: '#voordelen' },
+  { label: 'Prijzen', href: '#prijzen' },
+  { label: 'Werkwijze', href: '#werkwijze' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'FAQ', href: '#faq' },
+];
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-40 transition-colors duration-300"
+  data-scrolled="false"
+>
+  <div class="container-x">
+    <div class="flex items-center justify-between py-6">
+      <a href="#home" class="inline-flex items-center" aria-label="WebBaas home">
+        <img src="/logo.png" alt="WebBaas" class="h-28 w-auto lg:h-40" />
+      </a>
+
+      <nav aria-label="Hoofdnavigatie" class="hidden lg:block">
+        <ul class="flex items-center gap-7 text-sm font-medium text-white/80">
+          {
+            navItems.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class="transition-colors hover:text-accent focus:outline-none focus-visible:text-accent"
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="hidden lg:block">
+        <a href="#contact" class="btn-primary">Gratis Intake</a>
+      </div>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/15 text-white"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Menu openen"
+      >
+        <svg
+          class="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div
+      id="mobile-menu"
+      class="lg:hidden hidden border-t border-white/10 pb-4 pt-2"
+      aria-hidden="true"
+    >
+      <ul class="flex flex-col gap-1 text-base font-medium">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="block rounded-lg px-3 py-2 text-white/80 hover:bg-white/5 hover:text-accent"
+                data-nav-link
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="px-3 pt-3">
+          <a href="#contact" class="btn-primary w-full" data-nav-link>Gratis Intake</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<script>
+  const header = document.getElementById('site-header');
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (header) {
+    const onScroll = () => {
+      const scrolled = window.scrollY > 12;
+      header.dataset.scrolled = String(scrolled);
+      if (scrolled) {
+        header.classList.add(
+          'bg-ink/80',
+          'backdrop-blur-md',
+          'border-b',
+          'border-white/10',
+          'shadow-lg',
+          'shadow-black/30',
+        );
+      } else {
+        header.classList.remove(
+          'bg-ink/80',
+          'backdrop-blur-md',
+          'border-b',
+          'border-white/10',
+          'shadow-lg',
+          'shadow-black/30',
+        );
+      }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  if (toggle && menu) {
+    const closeMenu = () => {
+      menu.classList.add('hidden');
+      menu.setAttribute('aria-hidden', 'true');
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Menu openen');
+    };
+    const openMenu = () => {
+      menu.classList.remove('hidden');
+      menu.setAttribute('aria-hidden', 'false');
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Menu sluiten');
+    };
+    toggle.addEventListener('click', () => {
+      if (menu.classList.contains('hidden')) {
+        openMenu();
+      } else {
+        closeMenu();
+      }
+    });
+    menu.querySelectorAll<HTMLAnchorElement>('[data-nav-link]').forEach((link) => {
+      link.addEventListener('click', () => closeMenu());
+    });
+  }
+</script>
