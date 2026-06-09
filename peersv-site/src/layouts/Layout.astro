@@ -1,0 +1,88 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+}
+
+const {
+  title = 'PeerSV — Voetbalclub uit [GEMEENTE]',
+  description = 'PeerSV is een Belgische voetbalclub. Bekijk onze ploegen, vind ons contact en wedstrijduitslagen.',
+  // TODO: vervang door definitieve domeinnaam
+  canonical = 'https://peersv.be/',
+} = Astro.props;
+
+// TODO: vervang og-image door echte afbeelding zodra beschikbaar
+const ogImage = 'https://peersv.be/og-image.png';
+---
+
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="nl_BE" />
+    <meta property="og:site_name" content="PeerSV" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SportsClub',
+        name: 'PeerSV',
+        sport: 'Soccer',
+        url: 'https://peersv.be',
+        // TODO: vervang door echt logo-pad
+        logo: 'https://peersv.be/logo.png',
+        description,
+        // TODO: contactgegevens invullen
+        email: 'info@peersv.be',
+        telephone: '+32 000 00 00 00',
+        address: {
+          '@type': 'PostalAddress',
+          addressCountry: 'BE',
+          // TODO: invullen
+          streetAddress: '[Straat en nummer]',
+          postalCode: '[Postcode]',
+          addressLocality: '[Gemeente]',
+        },
+      })}
+    />
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-club-yellow focus:px-4 focus:py-2 focus:text-ink"
+    >
+      Naar hoofdinhoud
+    </a>
+    <slot />
+  </body>
+</html>

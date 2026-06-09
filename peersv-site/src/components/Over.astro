@@ -1,0 +1,39 @@
+---
+// TODO: vul concrete waarden in (oprichtingsjaar, thuishaven, ledenaantal)
+const facts: ReadonlyArray<{ label: string; value: string }> = [
+  { label: 'Opgericht', value: '[jaar]' },
+  { label: 'Thuishaven', value: '[adres / naam terrein]' },
+  { label: 'Leden', value: '[aantal]' },
+];
+---
+
+<section id="over" class="section">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <span class="eyebrow">Over de club</span>
+      <h2 class="section-title mt-3">Een club met een verhaal.</h2>
+      <span class="accent-bar mt-6"></span>
+
+      <p class="mt-8 text-base text-muted sm:text-lg">
+        {/* TODO: vervang door echte introtekst over de club */}
+        PeerSV is opgericht in <strong class="text-ink">[jaar]</strong> en speelt al sinds dag één
+        op <strong class="text-ink">[thuishaven]</strong>. We zijn een
+        vrijwilligersclub met aandacht voor sport, plezier en sociale verbondenheid.
+        Van jeugd tot veteranen: bij ons mag iedereen meevoetballen.
+      </p>
+    </div>
+
+    <dl class="mt-14 grid gap-6 sm:grid-cols-3">
+      {
+        facts.map((fact) => (
+          <div class="card">
+            <dt class="text-xs font-semibold uppercase tracking-[0.18em] text-club-red">
+              {fact.label}
+            </dt>
+            <dd class="mt-3 text-2xl font-bold text-ink">{fact.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+</section>

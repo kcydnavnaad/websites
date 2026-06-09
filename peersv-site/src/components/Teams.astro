@@ -1,0 +1,42 @@
+---
+// TODO: pas de ploegenlijst aan. ~1x per jaar bijwerken aan het begin van het seizoen.
+const teams: ReadonlyArray<{ name: string; category: string; note?: string }> = [
+  { name: 'Eerste ploeg', category: 'Heren', note: '[reeks]' },
+  { name: 'Reserves', category: 'Heren' },
+  { name: 'U17', category: 'Jeugd' },
+  { name: 'U15', category: 'Jeugd' },
+  { name: 'U13', category: 'Jeugd' },
+  { name: 'U11', category: 'Jeugd' },
+  { name: 'U9', category: 'Jeugd' },
+  { name: 'Veteranen', category: 'Recreatief' },
+];
+---
+
+<section id="teams" class="section bg-soft">
+  <div class="container-x">
+    <div class="max-w-3xl">
+      <span class="eyebrow">Teams</span>
+      <h2 class="section-title mt-3">Onze ploegen.</h2>
+      <span class="accent-bar mt-6"></span>
+      <p class="section-subtitle mx-0 mt-4 text-left">
+        Een overzicht van de ploegen die dit seizoen actief zijn bij PeerSV.
+      </p>
+    </div>
+
+    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        teams.map((team) => (
+          <li class="card flex flex-col">
+            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-club-red">
+              {team.category}
+            </span>
+            <span class="mt-2 text-lg font-bold text-ink">{team.name}</span>
+            {team.note ? (
+              <span class="mt-1 text-sm text-muted">{team.note}</span>
+            ) : null}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto max-w-6xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-club-red focus-visible:ring-offset-2 focus-visible:ring-offset-paper;
+  }
+
+  .btn-primary {
+    @apply btn bg-club-red text-white hover:bg-[#b71f2e];
+  }
+
+  .btn-outline {
+    @apply btn border border-ink/15 text-ink hover:border-club-red hover:text-club-red;
+  }
+
+  .section {
+    @apply py-20 sm:py-28;
+  }
+
+  .section-title {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink;
+  }
+
+  .section-subtitle {
+    @apply mt-4 text-base sm:text-lg text-muted max-w-2xl mx-auto;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-club-red;
+  }
+
+  .accent-bar {
+    @apply block h-1 w-12 rounded-full bg-club-yellow;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-club-red/40;
+  }
+}
+
+::selection {
+  background-color: #f9c80e;
+  color: #111111;
+}
