@@ -1,6 +1,8 @@
 ---
+type Cat = 'Heren' | 'Jeugd' | 'Recreatief';
+
 // TODO: pas de ploegenlijst aan. ~1x per jaar bijwerken aan het begin van het seizoen.
-const teams: ReadonlyArray<{ name: string; category: string; note?: string }> = [
+const teams: ReadonlyArray<{ name: string; category: Cat; note?: string }> = [
   { name: 'Eerste ploeg', category: 'Heren', note: '[reeks]' },
   { name: 'Reserves', category: 'Heren' },
   { name: 'U17', category: 'Jeugd' },
@@ -10,29 +12,43 @@ const teams: ReadonlyArray<{ name: string; category: string; note?: string }> = 
   { name: 'U9', category: 'Jeugd' },
   { name: 'Veteranen', category: 'Recreatief' },
 ];
+
+const variantClass: Record<Cat, string> = {
+  Heren: 'is-heren',
+  Jeugd: 'is-jeugd',
+  Recreatief: 'is-rec',
+};
+
+const labelClass: Record<Cat, string> = {
+  Heren: 'text-club-red',
+  Jeugd: 'text-club-yellow',
+  Recreatief: 'text-white',
+};
 ---
 
-<section id="teams" class="section bg-soft">
+<section id="teams" class="section section-dark">
   <div class="container-x">
     <div class="max-w-3xl">
       <span class="eyebrow">Teams</span>
-      <h2 class="section-title mt-3">Onze ploegen.</h2>
+      <h2 class="section-title mt-4">Onze ploegen.</h2>
       <span class="accent-bar mt-6"></span>
-      <p class="section-subtitle mx-0 mt-4 text-left">
-        Een overzicht van de ploegen die dit seizoen actief zijn bij PeerSV.
+      <p class="section-subtitle mt-4">
+        Een overzicht van de ploegen die dit seizoen actief zijn bij K. Peer SV.
       </p>
     </div>
 
-    <ul class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
       {
         teams.map((team) => (
-          <li class="card flex flex-col">
-            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-club-red">
+          <li class={`team-card ${variantClass[team.category]} flex flex-col`}>
+            <span class={`text-[11px] font-bold uppercase tracking-[0.22em] ${labelClass[team.category]}`}>
               {team.category}
             </span>
-            <span class="mt-2 text-lg font-bold text-ink">{team.name}</span>
+            <span class="mt-2 text-xl font-extrabold tracking-display text-white">
+              {team.name}
+            </span>
             {team.note ? (
-              <span class="mt-1 text-sm text-muted">{team.note}</span>
+              <span class="mt-1 text-sm text-white/60">{team.note}</span>
             ) : null}
           </li>
         ))

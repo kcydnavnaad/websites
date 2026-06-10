@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #ffffff;
+  background-color: #0d0d0f;
 }
 
 body {
@@ -26,27 +26,55 @@ body {
   }
 
   .btn-primary {
-    @apply btn bg-club-red text-white hover:bg-[#b71f2e];
+    @apply btn bg-club-red text-white hover:bg-club-red-dark hover:-translate-y-0.5 hover:shadow-glow-red;
   }
 
   .btn-outline {
-    @apply btn border border-ink/15 text-ink hover:border-club-red hover:text-club-red;
+    @apply btn border border-ink/15 text-ink hover:border-club-red hover:text-club-red hover:-translate-y-0.5;
+  }
+
+  .btn-outline-light {
+    @apply btn border border-white/40 text-white hover:border-white hover:bg-white/10 hover:-translate-y-0.5;
   }
 
   .section {
     @apply py-20 sm:py-28;
   }
 
+  .section-dark {
+    @apply bg-ink-deep text-white;
+  }
+
+  .section-dark .section-title {
+    @apply text-white;
+  }
+
+  .section-dark .section-subtitle {
+    @apply text-white/70;
+  }
+
+  .section-dark .eyebrow {
+    @apply text-club-yellow;
+  }
+
+  .section-dark .accent-bar {
+    @apply bg-club-yellow;
+  }
+
   .section-title {
-    @apply text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink;
+    @apply text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-display text-ink;
   }
 
   .section-subtitle {
-    @apply mt-4 text-base sm:text-lg text-muted max-w-2xl mx-auto;
+    @apply mt-4 text-base sm:text-lg text-muted max-w-2xl;
+  }
+
+  .display {
+    @apply font-extrabold tracking-display;
   }
 
   .eyebrow {
-    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-club-red;
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-club-red;
   }
 
   .accent-bar {
@@ -54,11 +82,61 @@ body {
   }
 
   .card {
-    @apply rounded-2xl border border-line bg-paper p-6 transition-colors hover:border-club-red/40;
+    @apply rounded-2xl border border-line bg-paper p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-club-red/40 hover:shadow-card-hover;
+  }
+
+  .card-dark {
+    @apply rounded-2xl border border-white/10 bg-anthracite p-6 transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25;
+  }
+
+  .stat-card {
+    @apply card relative overflow-hidden pt-7;
+  }
+
+  .stat-card::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-1 bg-club-red;
+  }
+
+  .stat-card.is-yellow::before {
+    @apply bg-club-yellow;
+  }
+
+  .stat-card.is-ink::before {
+    @apply bg-ink;
+  }
+
+  .team-card {
+    @apply card-dark relative overflow-hidden pt-7;
+  }
+
+  .team-card::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-1 bg-club-red;
+  }
+
+  .team-card.is-jeugd::before {
+    @apply bg-club-yellow;
+  }
+
+  .team-card.is-rec::before {
+    @apply bg-white;
+  }
+
+  .team-card.is-heren:hover {
+    @apply shadow-glow-red;
+  }
+
+  .team-card.is-jeugd:hover {
+    @apply shadow-glow-yellow;
+  }
+
+  .logo-badge {
+    @apply inline-flex items-center justify-center rounded-full bg-white p-1 ring-1 ring-white/20;
   }
 }
 
 ::selection {
   background-color: #f9c80e;
-  color: #111111;
+  color: #0d0d0f;
 }

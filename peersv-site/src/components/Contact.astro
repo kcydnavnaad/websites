@@ -1,19 +1,20 @@
 ---
 // TODO: vul echte contactgegevens en URL's in
 const club = {
-  address: '[Straat en nummer], [Postcode] [Gemeente]',
+  address: '[Straat en nummer], [Postcode] Peer',
   email: 'info@peersv.be',
   phone: '+32 000 00 00 00',
   phoneHref: 'tel:+3200000000',
+  // TODO: vervang door echte URL voor wedstrijden & uitslagen
   resultsUrl: 'https://www.voetbalvlaanderen.be/club/[clubnummer]',
 };
 ---
 
-<section id="contact" class="section">
+<section id="contact" class="section section-dark">
   <div class="container-x">
     <div class="max-w-3xl">
       <span class="eyebrow">Contact &amp; Lid worden</span>
-      <h2 class="section-title mt-3">Kom langs of stuur een bericht.</h2>
+      <h2 class="section-title mt-4">Kom langs of stuur een bericht.</h2>
       <span class="accent-bar mt-6"></span>
     </div>
 
@@ -21,12 +22,12 @@ const club = {
       <form
         id="contact-form"
         novalidate
-        class="card space-y-5"
+        class="rounded-2xl border border-white/10 bg-anthracite p-7 sm:p-8 space-y-5 shadow-2xl shadow-black/40"
         aria-describedby="form-status"
       >
         <div>
-          <label for="naam" class="mb-1.5 block text-sm font-medium text-ink">
-            Naam <span class="text-club-red" aria-hidden="true">*</span>
+          <label for="naam" class="mb-1.5 block text-sm font-medium text-white">
+            Naam <span class="text-club-yellow" aria-hidden="true">*</span>
           </label>
           <input
             id="naam"
@@ -34,13 +35,13 @@ const club = {
             type="text"
             autocomplete="name"
             required
-            class="w-full rounded-lg border border-line bg-paper px-4 py-2.5 text-sm text-ink outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+            class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
           />
         </div>
 
         <div>
-          <label for="email" class="mb-1.5 block text-sm font-medium text-ink">
-            E-mail <span class="text-club-red" aria-hidden="true">*</span>
+          <label for="email" class="mb-1.5 block text-sm font-medium text-white">
+            E-mail <span class="text-club-yellow" aria-hidden="true">*</span>
           </label>
           <input
             id="email"
@@ -48,12 +49,12 @@ const club = {
             type="email"
             autocomplete="email"
             required
-            class="w-full rounded-lg border border-line bg-paper px-4 py-2.5 text-sm text-ink outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+            class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
           />
         </div>
 
         <div>
-          <label for="telefoon" class="mb-1.5 block text-sm font-medium text-ink">
+          <label for="telefoon" class="mb-1.5 block text-sm font-medium text-white">
             Telefoonnummer
           </label>
           <input
@@ -61,13 +62,13 @@ const club = {
             name="telefoon"
             type="tel"
             autocomplete="tel"
-            class="w-full rounded-lg border border-line bg-paper px-4 py-2.5 text-sm text-ink outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+            class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
           />
         </div>
 
         <div>
-          <label for="bericht" class="mb-1.5 block text-sm font-medium text-ink">
-            Je bericht <span class="text-club-red" aria-hidden="true">*</span>
+          <label for="bericht" class="mb-1.5 block text-sm font-medium text-white">
+            Je bericht <span class="text-club-yellow" aria-hidden="true">*</span>
           </label>
           <textarea
             id="bericht"
@@ -75,7 +76,7 @@ const club = {
             rows="5"
             required
             placeholder="Vraag, suggestie, of interesse om lid te worden?"
-            class="w-full resize-y rounded-lg border border-line bg-paper px-4 py-2.5 text-sm text-ink outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+            class="w-full resize-y rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
           ></textarea>
         </div>
 
@@ -103,19 +104,19 @@ const club = {
           id="form-status"
           role="status"
           aria-live="polite"
-          class="text-sm"
+          class="text-sm text-white/80"
           data-status="idle"
         >
         </p>
       </form>
 
       <aside class="flex flex-col gap-6">
-        <div class="card">
-          <h3 class="text-lg font-semibold text-ink">Vind ons</h3>
+        <div class="rounded-2xl border border-white/10 bg-anthracite p-7 sm:p-8">
+          <h3 class="text-lg font-extrabold tracking-tight text-white">Vind ons</h3>
           <ul class="mt-5 space-y-4 text-sm">
             <li class="flex items-start gap-3">
               <svg
-                class="mt-0.5 h-5 w-5 flex-none text-club-red"
+                class="mt-0.5 h-5 w-5 flex-none text-club-yellow"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -130,13 +131,13 @@ const club = {
                 <circle cx="12" cy="9" r="2.5" stroke-linecap="round" stroke-linejoin="round"></circle>
               </svg>
               <div>
-                <p class="font-medium text-ink">Adres</p>
-                <p class="text-muted">{club.address}</p>
+                <p class="font-semibold text-white">Adres</p>
+                <p class="text-white/70">{club.address}</p>
               </div>
             </li>
             <li class="flex items-start gap-3">
               <svg
-                class="mt-0.5 h-5 w-5 flex-none text-club-red"
+                class="mt-0.5 h-5 w-5 flex-none text-club-yellow"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -150,10 +151,10 @@ const club = {
                 <path stroke-linecap="round" stroke-linejoin="round" d="m4 7 8 6 8-6"></path>
               </svg>
               <div>
-                <p class="font-medium text-ink">E-mail</p>
+                <p class="font-semibold text-white">E-mail</p>
                 <a
                   href={`mailto:${club.email}`}
-                  class="text-muted hover:text-club-red"
+                  class="text-white/70 transition hover:text-club-red"
                 >
                   {club.email}
                 </a>
@@ -161,7 +162,7 @@ const club = {
             </li>
             <li class="flex items-start gap-3">
               <svg
-                class="mt-0.5 h-5 w-5 flex-none text-club-red"
+                class="mt-0.5 h-5 w-5 flex-none text-club-yellow"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -175,10 +176,10 @@ const club = {
                 ></path>
               </svg>
               <div>
-                <p class="font-medium text-ink">Telefoon</p>
+                <p class="font-semibold text-white">Telefoon</p>
                 <a
                   href={club.phoneHref}
-                  class="text-muted hover:text-club-red"
+                  class="text-white/70 transition hover:text-club-red"
                 >
                   {club.phone}
                 </a>
@@ -191,21 +192,21 @@ const club = {
           href={club.resultsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="card flex items-center justify-between gap-4 hover:border-club-red"
+          class="group relative flex items-center justify-between gap-4 overflow-hidden rounded-2xl border border-club-red/40 bg-gradient-to-br from-club-red/20 via-anthracite to-anthracite p-7 transition-all duration-200 hover:-translate-y-0.5 hover:border-club-red"
         >
           <div>
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-club-red">
+            <p class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow">
               Voetbal Vlaanderen
             </p>
-            <p class="mt-1 text-lg font-semibold text-ink">
+            <p class="mt-2 text-xl font-extrabold tracking-display text-white">
               Wedstrijden &amp; uitslagen
             </p>
-            <p class="mt-1 text-sm text-muted">
+            <p class="mt-1 text-sm text-white/70">
               Bekijk de actuele kalender en standen.
             </p>
           </div>
           <span
-            class="inline-flex h-10 w-10 flex-none items-center justify-center rounded-full bg-club-yellow text-ink"
+            class="inline-flex h-11 w-11 flex-none items-center justify-center rounded-full bg-club-yellow text-ink transition group-hover:bg-white"
             aria-hidden="true"
           >
             →
@@ -228,9 +229,9 @@ const club = {
     const setStatus = (state: 'idle' | 'success' | 'error', message: string) => {
       status.dataset.status = state;
       status.textContent = message;
-      status.classList.remove('text-emerald-600', 'text-club-red');
-      if (state === 'success') status.classList.add('text-emerald-600');
-      if (state === 'error') status.classList.add('text-club-red');
+      status.classList.remove('text-emerald-400', 'text-club-yellow');
+      if (state === 'success') status.classList.add('text-emerald-400');
+      if (state === 'error') status.classList.add('text-club-yellow');
     };
 
     const setLoading = (loading: boolean) => {

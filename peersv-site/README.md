@@ -1,6 +1,6 @@
-# PeerSV one-pager
+# K. Peer SV one-pager
 
-Minimalistische one-page website voor voetbalclub PeerSV. Bevat een contactformulier
+Minimalistische one-page website voor voetbalclub K. Peer SV. Bevat een contactformulier
 dat via SMTP2GO verstuurt.
 
 ## Stack

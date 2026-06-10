@@ -2,19 +2,26 @@
 const year = new Date().getFullYear();
 // TODO: vervang door echte social URL's, of verwijder de items die niet bestaan
 const socials: ReadonlyArray<{ label: string; href: string; icon: 'facebook' | 'instagram' }> = [
-  { label: 'PeerSV op Facebook', href: 'https://www.facebook.com/peersv', icon: 'facebook' },
-  { label: 'PeerSV op Instagram', href: 'https://www.instagram.com/peersv', icon: 'instagram' },
+  { label: 'K. Peer SV op Facebook', href: 'https://www.facebook.com/peersv', icon: 'facebook' },
+  { label: 'K. Peer SV op Instagram', href: 'https://www.instagram.com/peersv', icon: 'instagram' },
 ];
 ---
 
-<footer class="border-t border-line bg-paper">
-  <div class="container-x py-10">
-    <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-      <div class="flex items-center gap-3">
-        <img src="/logo.png" alt="PeerSV" class="h-9 w-auto" />
-        <p class="text-sm text-muted">
-          &copy; {year} PeerSV. Alle rechten voorbehouden.
-        </p>
+<footer class="relative bg-black text-white/80">
+  <div class="h-1 w-full bg-gradient-to-r from-club-red via-club-yellow to-club-red" aria-hidden="true"></div>
+
+  <div class="container-x py-12">
+    <div class="flex flex-col items-start gap-8 sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-4">
+        <span class="logo-badge h-12 w-12">
+          <img src="/logo.png" alt="K. Peer SV" class="h-10 w-10 object-contain" />
+        </span>
+        <div>
+          <p class="text-base font-extrabold tracking-tight text-white">K. Peer SV</p>
+          <p class="text-sm text-white/55">
+            &copy; {year} K. Peer SV. Alle rechten voorbehouden.
+          </p>
+        </div>
       </div>
 
       <ul class="flex items-center gap-3">
@@ -26,7 +33,7 @@ const socials: ReadonlyArray<{ label: string; href: string; icon: 'facebook' | '
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.label}
-                class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink/70 transition hover:border-club-red hover:text-club-red"
+                class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/75 transition hover:-translate-y-0.5 hover:border-club-red hover:bg-club-red hover:text-white"
               >
                 {social.icon === 'instagram' ? (
                   <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">

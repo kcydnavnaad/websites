@@ -13,15 +13,18 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
   data-scrolled="false"
 >
   <div class="container-x">
-    <div class="flex items-center justify-between py-5">
-      <a href="#home" class="inline-flex items-center gap-3" aria-label="PeerSV home">
-        {/* TODO: vervang public/logo.png door het echte clublogo */}
-        <img src="/logo.png" alt="PeerSV" class="h-12 w-auto lg:h-14" />
-        <span class="text-lg font-extrabold tracking-tight text-ink">PeerSV</span>
+    <div class="flex items-center justify-between py-4">
+      <a href="#home" class="inline-flex items-center gap-3" aria-label="K. Peer SV home">
+        <span class="logo-badge h-12 w-12">
+          <img src="/logo.png" alt="K. Peer SV clublogo" class="h-10 w-10 object-contain" />
+        </span>
+        <span class="text-lg font-extrabold tracking-tight text-white drop-shadow">
+          K. Peer SV
+        </span>
       </a>
 
       <nav aria-label="Hoofdnavigatie" class="hidden lg:block">
-        <ul class="flex items-center gap-8 text-sm font-medium text-ink/80">
+        <ul class="flex items-center gap-8 text-sm font-semibold text-white/90 drop-shadow">
           {
             navItems.map((item) => (
               <li>
@@ -44,7 +47,7 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
       <button
         id="menu-toggle"
         type="button"
-        class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-line text-ink"
+        class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/30 bg-black/30 text-white backdrop-blur"
         aria-expanded="false"
         aria-controls="mobile-menu"
         aria-label="Menu openen"
@@ -67,7 +70,7 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
 
     <div
       id="mobile-menu"
-      class="lg:hidden hidden border-t border-line pb-4 pt-2"
+      class="lg:hidden hidden border-t border-white/10 bg-ink-deep/95 pb-4 pt-2 backdrop-blur"
       aria-hidden="true"
     >
       <ul class="flex flex-col gap-1 text-base font-medium">
@@ -76,7 +79,7 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
             <li>
               <a
                 href={item.href}
-                class="block rounded-lg px-3 py-2 text-ink/80 hover:bg-soft hover:text-club-red"
+                class="block rounded-lg px-3 py-2 text-white/85 hover:bg-white/10 hover:text-club-red"
                 data-nav-link
               >
                 {item.label}
@@ -99,23 +102,25 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
 
   if (header) {
     const onScroll = () => {
-      const scrolled = window.scrollY > 12;
+      const scrolled = window.scrollY > 24;
       header.dataset.scrolled = String(scrolled);
       if (scrolled) {
         header.classList.add(
-          'bg-paper/85',
+          'bg-ink-deep/90',
           'backdrop-blur-md',
           'border-b',
-          'border-line',
-          'shadow-sm',
+          'border-white/10',
+          'shadow-lg',
+          'shadow-black/40',
         );
       } else {
         header.classList.remove(
-          'bg-paper/85',
+          'bg-ink-deep/90',
           'backdrop-blur-md',
           'border-b',
-          'border-line',
-          'shadow-sm',
+          'border-white/10',
+          'shadow-lg',
+          'shadow-black/40',
         );
       }
     };

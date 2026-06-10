@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = 'PeerSV — Voetbalclub uit [GEMEENTE]',
-  description = 'PeerSV is een Belgische voetbalclub. Bekijk onze ploegen, vind ons contact en wedstrijduitslagen.',
+  title = 'K. Peer SV — Voetbalclub uit Peer',
+  description = 'K. Peer SV is een Belgische voetbalclub uit Peer. Bekijk onze ploegen, vind ons contact en wedstrijduitslagen.',
   // TODO: vervang door definitieve domeinnaam
   canonical = 'https://peersv.be/',
 } = Astro.props;
@@ -23,7 +23,7 @@ const ogImage = 'https://peersv.be/og-image.png';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#0d0d0f" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
@@ -37,7 +37,7 @@ const ogImage = 'https://peersv.be/og-image.png';
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content="nl_BE" />
-    <meta property="og:site_name" content="PeerSV" />
+    <meta property="og:site_name" content="K. Peer SV" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -56,10 +56,10 @@ const ogImage = 'https://peersv.be/og-image.png';
       set:html={JSON.stringify({
         '@context': 'https://schema.org',
         '@type': 'SportsClub',
-        name: 'PeerSV',
+        name: 'K. Peer SV',
+        alternateName: 'Peer SV',
         sport: 'Soccer',
         url: 'https://peersv.be',
-        // TODO: vervang door echt logo-pad
         logo: 'https://peersv.be/logo.png',
         description,
         // TODO: contactgegevens invullen
@@ -70,8 +70,8 @@ const ogImage = 'https://peersv.be/og-image.png';
           addressCountry: 'BE',
           // TODO: invullen
           streetAddress: '[Straat en nummer]',
-          postalCode: '[Postcode]',
-          addressLocality: '[Gemeente]',
+          postalCode: '3990',
+          addressLocality: 'Peer',
         },
       })}
     />
