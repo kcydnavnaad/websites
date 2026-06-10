@@ -130,10 +130,6 @@ body {
   .team-card.is-jeugd:hover {
     @apply shadow-glow-yellow;
   }
-
-  .logo-badge {
-    @apply inline-flex items-center justify-center rounded-full bg-white p-1 ring-1 ring-white/20;
-  }
 }
 
 ::selection {
