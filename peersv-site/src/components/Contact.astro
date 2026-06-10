@@ -127,8 +127,7 @@ const club = {
           id="form-status"
           role="alert"
           aria-live="polite"
-          hidden
-          class="flex items-start gap-3 rounded-xl border border-club-red/60 bg-club-red/20 p-4 text-sm text-white"
+          class="hidden items-start gap-3 rounded-xl border border-club-red/60 bg-club-red/20 p-4 text-sm text-white"
         >
           <svg class="mt-0.5 h-5 w-5 flex-none text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10" />
@@ -270,13 +269,15 @@ const club = {
     const loadingLabel = submitBtn.querySelector<HTMLSpanElement>('[data-state="loading"]');
 
     const clearError = () => {
-      errorPanel.hidden = true;
+      errorPanel.classList.add('hidden');
+      errorPanel.classList.remove('flex');
       errorText.textContent = '';
     };
 
     const showError = (message: string) => {
       errorText.textContent = message;
-      errorPanel.hidden = false;
+      errorPanel.classList.remove('hidden');
+      errorPanel.classList.add('flex');
     };
 
     const showSuccess = () => {
