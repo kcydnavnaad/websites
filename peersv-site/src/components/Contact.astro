@@ -18,6 +18,29 @@ const club = {
     </div>
 
     <div class="mt-14 grid gap-10 lg:grid-cols-2">
+      <div class="relative">
+      <div
+        id="form-success"
+        role="status"
+        aria-live="polite"
+        hidden
+        class="rounded-2xl border-2 border-emerald-400/60 bg-emerald-500/15 p-8 sm:p-10 text-center shadow-2xl shadow-black/40"
+      >
+        <span
+          class="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white"
+          aria-hidden="true"
+        >
+          <svg class="h-7 w-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5 9-11" />
+          </svg>
+        </span>
+        <h3 class="mt-5 text-2xl font-extrabold tracking-tight text-white">
+          Bedankt!
+        </h3>
+        <p class="mt-2 text-base text-white/85">
+          Je bericht is verstuurd. We nemen snel contact op.
+        </p>
+      </div>
       <form
         id="contact-form"
         novalidate
@@ -99,15 +122,22 @@ const club = {
           <span data-state="loading" class="hidden">Verzenden…</span>
         </button>
 
-        <p
+        <div
           id="form-status"
-          role="status"
+          role="alert"
           aria-live="polite"
-          class="text-sm text-white/80"
-          data-status="idle"
+          hidden
+          class="flex items-start gap-3 rounded-xl border border-club-red/60 bg-club-red/20 p-4 text-sm text-white"
         >
-        </p>
+          <svg class="mt-0.5 h-5 w-5 flex-none text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4" />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 16h.01" />
+          </svg>
+          <span id="form-status-text" class="font-medium"></span>
+        </div>
       </form>
+      </div>
 
       <aside class="flex flex-col gap-6">
         <div class="rounded-2xl border border-white/10 bg-anthracite p-7 sm:p-8">
@@ -218,19 +248,30 @@ const club = {
 
 <script>
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = document.getElementById('form-status') as HTMLParagraphElement | null;
+  const successPanel = document.getElementById('form-success') as HTMLDivElement | null;
+  const errorPanel = document.getElementById('form-status') as HTMLDivElement | null;
+  const errorText = document.getElementById('form-status-text') as HTMLSpanElement | null;
   const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement | null;
 
-  if (form && status && submitBtn) {
+  if (form && successPanel && errorPanel && errorText && submitBtn) {
     const idleLabel = submitBtn.querySelector<HTMLSpanElement>('[data-state="idle"]');
     const loadingLabel = submitBtn.querySelector<HTMLSpanElement>('[data-state="loading"]');
 
-    const setStatus = (state: 'idle' | 'success' | 'error', message: string) => {
-      status.dataset.status = state;
-      status.textContent = message;
-      status.classList.remove('text-emerald-400', 'text-club-yellow');
-      if (state === 'success') status.classList.add('text-emerald-400');
-      if (state === 'error') status.classList.add('text-club-yellow');
+    const clearError = () => {
+      errorPanel.hidden = true;
+      errorText.textContent = '';
+    };
+
+    const showError = (message: string) => {
+      errorText.textContent = message;
+      errorPanel.hidden = false;
+    };
+
+    const showSuccess = () => {
+      form.hidden = true;
+      successPanel.hidden = false;
+      successPanel.focus?.();
+      successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     const setLoading = (loading: boolean) => {
@@ -241,7 +282,7 @@ const club = {
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      setStatus('idle', '');
+      clearError();
 
       const data = new FormData(form);
       const payload = {
@@ -253,7 +294,7 @@ const club = {
       };
 
       if (!payload.naam || !payload.email || !payload.bericht) {
-        setStatus('error', 'Vul alstublieft alle verplichte velden in.');
+        showError('Vul alstublieft alle verplichte velden in.');
         return;
       }
 
@@ -267,22 +308,13 @@ const club = {
 
         if (response.ok) {
           form.reset();
-          setStatus(
-            'success',
-            'Bedankt! Je bericht is verstuurd. We nemen snel contact op.',
-          );
+          showSuccess();
         } else {
           const body = (await response.json().catch(() => ({}))) as { error?: string };
-          setStatus(
-            'error',
-            body.error ?? 'Er ging iets mis. Probeer het opnieuw.',
-          );
+          showError(body.error ?? 'Er ging iets mis. Probeer het opnieuw.');
         }
       } catch {
-        setStatus(
-          'error',
-          'Er ging iets mis met de verbinding. Probeer het opnieuw.',
-        );
+        showError('Er ging iets mis met de verbinding. Probeer het opnieuw.');
       } finally {
         setLoading(false);
       }
