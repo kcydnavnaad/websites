@@ -1,10 +1,11 @@
 ---
-// TODO: telefoonnummer invullen zodra het bestuur het doorgeeft
 const club = {
   address: 'Deusterstraat 74C, 3990 Peer',
   email: 'info@kpeersv.be',
-  phone: '+32 000 00 00 00',
-  phoneHref: 'tel:+3200000000',
+  phones: [
+    { label: 'Tel', display: '011 63 15 52', href: 'tel:+3211631552' },
+    { label: 'GSM', display: '0472 39 16 64', href: 'tel:+32472391664' },
+  ],
   resultsUrl: 'https://www.voetbal-limburg.be/clubs/peer-sv',
 };
 ---
@@ -206,12 +207,23 @@ const club = {
               </svg>
               <div>
                 <p class="font-semibold text-white">Telefoon</p>
-                <a
-                  href={club.phoneHref}
-                  class="text-white/70 transition hover:text-club-red"
-                >
-                  {club.phone}
-                </a>
+                <ul class="mt-1 space-y-1">
+                  {
+                    club.phones.map((p) => (
+                      <li class="flex items-baseline gap-2">
+                        <span class="w-9 shrink-0 text-xs font-bold uppercase tracking-[0.18em] text-club-yellow">
+                          {p.label}
+                        </span>
+                        <a
+                          href={p.href}
+                          class="text-white/70 transition hover:text-club-red"
+                        >
+                          {p.display}
+                        </a>
+                      </li>
+                    ))
+                  }
+                </ul>
               </div>
             </li>
           </ul>
