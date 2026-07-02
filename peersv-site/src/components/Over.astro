@@ -1,18 +1,4 @@
 ---
-const facts: ReadonlyArray<{
-  label: string;
-  value: string;
-  accent: 'red' | 'yellow' | 'ink';
-}> = [
-  { label: 'Opgericht', value: '1943', accent: 'red' },
-  { label: 'Thuishaven', value: 'Sportcentrum de Deuster', accent: 'yellow' },
-];
-
-const accentClass: Record<'red' | 'yellow' | 'ink', string> = {
-  red: '',
-  yellow: 'is-yellow',
-  ink: 'is-ink',
-};
 ---
 
 <section id="over" class="section bg-paper">
@@ -25,25 +11,11 @@ const accentClass: Record<'red' | 'yellow' | 'ink', string> = {
       <span class="accent-bar mt-6"></span>
 
       <p class="mt-8 text-lg leading-relaxed text-muted">
-        {/* TODO: bijschaven naar definitieve clubtekst zodra het bestuur die aanlevert */}
-        K. Peer SV is opgericht in <strong class="text-ink">1943</strong> en speelt al sinds dag één
-        op <strong class="text-ink">Sportcentrum de Deuster</strong>. We zijn een
-        vrijwilligersclub met aandacht voor sport, plezier en sociale verbondenheid.
-        Van jeugd tot veteranen: bij ons mag iedereen meevoetballen.
+        K. Peer SV is opgericht in <strong class="text-ink">1943</strong> en speelt
+        zijn thuiswedstrijden op <strong class="text-ink">Sportcentrum de Deuster</strong>.
+        We zijn een vrijwilligersclub met aandacht voor sport, plezier en sociale
+        verbondenheid. Van jeugd tot veteranen: bij ons mag iedereen meevoetballen.
       </p>
     </div>
-
-    <dl class="mx-auto mt-14 grid max-w-2xl gap-6 sm:grid-cols-2">
-      {
-        facts.map((fact) => (
-          <div class={`stat-card ${accentClass[fact.accent]}`}>
-            <dt class="text-xs font-semibold uppercase tracking-[0.22em] text-club-red">
-              {fact.label}
-            </dt>
-            <dd class="mt-3 text-2xl font-bold text-ink">{fact.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
   </div>
 </section>
