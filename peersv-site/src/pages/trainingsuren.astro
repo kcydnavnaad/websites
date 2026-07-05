@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+/*
+  Vul per leeftijdscategorie de trainingsdagen en het uur in.
+  `dagen` is een array: één item per trainingsmoment. Bij twee trainingen per week
+  zet je gewoon twee strings in de array — die worden dan onder elkaar getoond.
+  Trainer is optioneel; gebruik null zolang die nog niet bekend is.
+  Volgorde in de array = volgorde op de pagina.
+*/
+const categories: ReadonlyArray<{
+  categorie: string;
+  dagen: ReadonlyArray<string>;
+  trainer: string | null;
+}> = [
+  { categorie: 'U6 - U7', dagen: ['Woensdag 15u00 - 16u00'], trainer: null },
+  {
+    categorie: 'U8',
+    dagen: [
+      'Donderdag om 17u30',
+      'Tweede training is techniektraining op maandag (enkel voor ingeschreven leden)',
+    ],
+    trainer: null,
+  },
+  {
+    categorie: 'U10',
+    dagen: [
+      'Vrijdag 18u45 - 20u00',
+      'Tweede training is techniektraining op maandag (enkel voor ingeschreven leden)',
+    ],
+    trainer: null,
+  },
+  {
+    categorie: 'U11',
+    dagen: [
+      'Vrijdag 16u45 - 18u00',
+      'Tweede training is techniektraining op maandag (enkel voor ingeschreven leden)',
+    ],
+    trainer: null,
+  },
+  {
+    categorie: 'U12',
+    dagen: [
+      'Donderdag 18u30 - 20u00',
+      'Tweede training is techniektraining op maandag (enkel voor ingeschreven leden)',
+    ],
+    trainer: null,
+  },
+  {
+    categorie: 'U14',
+    dagen: ['Maandag 18u30 - 20u00', 'Donderdag 18u30 - 20u00'],
+    trainer: null,
+  },
+  {
+    categorie: 'U17',
+    dagen: ['Dinsdag 18u00 - 19u30', 'Donderdag 18u00 - 19u30'],
+    trainer: null,
+  },
+];
+
+// TODO: aanpassen zodra de jeugdwerking de definitieve startdatum doorgeeft
+const startdatum = 'Eerste week van augustus';
+const locatie = 'Sportcentrum de Deuster, Deusterstraat 74C, 3990 Peer';
+const jeugdEmail = 'jeugd@kpeersv.be';
+---
+
+<Layout
+  title="Trainingsuren jeugd 2025-2026 — K. Peer SV"
+  description="Overzicht van de jeugd-trainingsuren bij K. Peer SV. Trainingsdagen en -uren per leeftijdscategorie voor het seizoen 2025-2026."
+  canonical="https://kpeersv.be/trainingsuren"
+>
+  <Header />
+  <main id="main" class="bg-ink-deep text-white">
+    <section class="relative isolate overflow-hidden bg-ink-deep">
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 -z-10 h-[420px] w-[420px] rounded-full bg-club-yellow/10 blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -left-24 top-40 -z-10 h-72 w-[120%] -rotate-3 bg-gradient-to-r from-club-red/25 via-club-red/5 to-transparent blur-2xl"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="container-x pt-40 pb-16 sm:pt-48 sm:pb-20">
+        <div class="max-w-3xl">
+          <span
+            class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.32em] text-club-yellow"
+          >
+            <span class="h-px w-8 bg-club-yellow"></span>
+            Jeugd
+          </span>
+
+          <h1 class="display mt-6 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+            Trainingsuren 2025-2026
+          </h1>
+
+          <span class="mt-6 block h-1.5 w-24 rounded-full bg-club-yellow"></span>
+
+          <p class="mt-8 max-w-2xl text-lg text-white/80">
+            Hieronder vind je de trainingsdagen en -uren per leeftijdscategorie. De
+            trainingen starten in de eerste week van augustus. Iedereen welkom om
+            mee te komen trainen!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-20 sm:pb-28">
+      <div class="container-x">
+        <ul class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {
+            categories.map((cat) => (
+              <li class="team-card is-jeugd flex flex-col">
+                <span class="text-[11px] font-bold uppercase tracking-[0.22em] text-club-yellow">
+                  Leeftijd
+                </span>
+                <span class="mt-2 text-3xl font-extrabold tracking-display text-white">
+                  {cat.categorie}
+                </span>
+
+                <dl class="mt-6 space-y-4 text-sm">
+                  <div>
+                    <dt class="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">
+                      Training
+                    </dt>
+                    <dd class="mt-1 space-y-1.5">
+                      {cat.dagen.map((moment) => {
+                        const isNote = moment.startsWith('Tweede training');
+                        return (
+                          <div
+                            class={
+                              isNote
+                                ? 'text-sm leading-relaxed text-white/70'
+                                : 'text-base font-semibold text-white'
+                            }
+                          >
+                            {moment}
+                          </div>
+                        );
+                      })}
+                    </dd>
+                  </div>
+                  {cat.trainer && (
+                    <div>
+                      <dt class="text-[11px] font-bold uppercase tracking-[0.22em] text-white/50">
+                        Trainer
+                      </dt>
+                      <dd class="mt-1 text-base text-white/85">{cat.trainer}</dd>
+                    </div>
+                  )}
+                </dl>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="border-t border-white/10 bg-anthracite py-20 sm:py-24">
+      <div class="container-x">
+        <div class="max-w-3xl">
+          <span class="eyebrow text-club-yellow">Praktisch</span>
+          <h2 class="section-title mt-4 text-white">Goed om te weten.</h2>
+          <span class="accent-bar mt-6"></span>
+        </div>
+
+        <dl class="mt-12 grid gap-6 sm:grid-cols-2">
+          <div class="rounded-2xl border border-white/10 bg-ink-deep p-7">
+            <dt class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow">
+              Startdatum
+            </dt>
+            <dd class="mt-3 text-lg font-semibold text-white">{startdatum}</dd>
+          </div>
+
+          <div class="rounded-2xl border border-white/10 bg-ink-deep p-7">
+            <dt class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow">
+              Locatie
+            </dt>
+            <dd class="mt-3 text-lg font-semibold text-white">{locatie}</dd>
+          </div>
+
+          <div class="rounded-2xl border border-club-red/40 bg-gradient-to-br from-club-red/20 via-anthracite to-anthracite p-7 sm:col-span-2">
+            <dt class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow">
+              Inschrijven of vragen?
+            </dt>
+            <dd class="mt-3 text-lg text-white">
+              Mail naar{' '}
+              <a
+                href={`mailto:${jeugdEmail}`}
+                class="font-semibold text-white underline decoration-club-yellow decoration-2 underline-offset-4 transition hover:text-club-yellow"
+              >
+                {jeugdEmail}
+              </a>
+            </dd>
+          </div>
+        </dl>
+
+        <div class="mt-14">
+          <a href="/" class="btn-outline-light">
+            <span aria-hidden="true">←</span>
+            Terug naar home
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
