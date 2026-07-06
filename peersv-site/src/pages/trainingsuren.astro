@@ -183,17 +183,31 @@ const jeugdEmail = 'jeugd@kpeersv.be';
             <dd class="mt-3 text-lg font-semibold text-white">{locatie}</dd>
           </div>
 
-          <div class="rounded-2xl border border-club-red/40 bg-gradient-to-br from-club-red/20 via-anthracite to-anthracite p-7 sm:col-span-2">
+          <div class="rounded-2xl border border-club-red/40 bg-gradient-to-br from-club-red/20 via-anthracite to-anthracite p-7 sm:col-span-2 sm:p-8">
             <dt class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow">
               Inschrijven of vragen?
             </dt>
-            <dd class="mt-3 text-lg text-white">
-              Mail naar{' '}
+            <dd class="mt-4 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-8">
+              <div>
+                <p class="text-lg font-semibold text-white">
+                  Mail ons met de naam en leeftijd van je kind, dan nemen we contact op.
+                </p>
+                <p class="mt-2 text-sm text-white/70">
+                  Rechtstreeks mailen kan ook naar{' '}
+                  <a
+                    href={`mailto:${jeugdEmail}`}
+                    class="font-semibold text-white underline decoration-club-yellow decoration-2 underline-offset-4 transition hover:text-club-yellow"
+                  >
+                    {jeugdEmail}
+                  </a>
+                </p>
+              </div>
               <a
-                href={`mailto:${jeugdEmail}`}
-                class="font-semibold text-white underline decoration-club-yellow decoration-2 underline-offset-4 transition hover:text-club-yellow"
+                href={`mailto:${jeugdEmail}?subject=Inschrijving%20jeugd%20K.%20Peer%20SV`}
+                class="btn-primary w-full shrink-0 sm:w-auto"
               >
-                {jeugdEmail}
+                Schrijf je kind in
+                <span aria-hidden="true">→</span>
               </a>
             </dd>
           </div>
