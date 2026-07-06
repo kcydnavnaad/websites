@@ -87,14 +87,19 @@ export const POST: APIRoute = async ({ request }) => {
   const safeEmail = escapeHtml(email);
   const safeTelefoon = escapeHtml(telefoon);
 
+  const from = {
+    name: 'K. Peer SV website',
+    address: process.env.MAIL_FROM ?? '',
+  };
+
   try {
     await transporter.sendMail({
-      from: process.env.MAIL_FROM,
+      from,
       to: jeugdRecipient,
       replyTo: email,
       subject: `Nieuwe inschrijving jeugd - ${naamKind}`,
-      text: `Naam kind: ${naamKind}\nGeboortejaar: ${geboortejaar}\nLeeftijdscategorie: ${categorie}\nNaam ouder/voogd: ${naamOuder}\nEmail: ${email}\nTelefoon: ${telefoon}`,
-      html: `<h2>Nieuwe inschrijving jeugd — K. Peer SV</h2>
+      text: `Nieuwe inschrijving via de K. Peer SV website.\n\nNaam kind: ${naamKind}\nGeboortejaar: ${geboortejaar}\nLeeftijdscategorie: ${categorie}\nNaam ouder/voogd: ${naamOuder}\nEmail: ${email}\nTelefoon: ${telefoon}`,
+      html: `<h2>Nieuwe inschrijving jeugd — via K. Peer SV website</h2>
 <p><strong>Naam kind:</strong> ${safeNaamKind}</p>
 <p><strong>Geboortejaar:</strong> ${safeGeboortejaar}</p>
 <p><strong>Leeftijdscategorie:</strong> ${safeCategorie}</p>
@@ -112,13 +117,13 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     await transporter.sendMail({
-      from: process.env.MAIL_FROM,
+      from,
       to: email,
       replyTo: jeugdRecipient,
       subject: 'Bevestiging inschrijving - K. Peer SV',
       text: `Beste ${naamOuder},
 
-Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van ${naamKind} goed ontvangen.
+Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van ${naamKind} goed ontvangen via onze website.
 
 Ingevulde gegevens:
 - Naam kind: ${naamKind}
@@ -132,9 +137,11 @@ Praktisch:
 We kijken ernaar uit je kind op de training te zien!
 
 Sportieve groeten,
-K. Peer SV`,
+K. Peer SV
+
+— Deze bevestiging werd automatisch verstuurd via de K. Peer SV website.`,
       html: `<p>Beste ${safeNaamOuder},</p>
-<p>Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van <strong>${safeNaamKind}</strong> goed ontvangen.</p>
+<p>Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van <strong>${safeNaamKind}</strong> goed ontvangen via onze website.</p>
 <h3>Ingevulde gegevens</h3>
 <ul>
   <li><strong>Naam kind:</strong> ${safeNaamKind}</li>
@@ -147,7 +154,8 @@ K. Peer SV`,
   <li><strong>Locatie:</strong> Sportcentrum de Deuster, Deusterstraat 74C, 3990 Peer.</li>
 </ul>
 <p>We kijken ernaar uit je kind op de training te zien!</p>
-<p>Sportieve groeten,<br>K. Peer SV</p>`,
+<p>Sportieve groeten,<br>K. Peer SV</p>
+<p style="color:#666;font-size:12px;margin-top:24px;">— Deze bevestiging werd automatisch verstuurd via de K. Peer SV website.</p>`,
     });
   } catch (error) {
     console.error('Bevestigingsmail naar ouder faalde:', error);

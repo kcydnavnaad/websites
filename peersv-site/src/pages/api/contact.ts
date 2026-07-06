@@ -59,11 +59,11 @@ export const POST: APIRoute = async ({ request }) => {
     const safeBericht = escapeHtml(bericht).replace(/\n/g, '<br>');
 
     await transporter.sendMail({
-      from: process.env.MAIL_FROM,
+      from: { name: 'K. Peer SV website', address: process.env.MAIL_FROM ?? '' },
       to: process.env.MAIL_TO,
       replyTo: email,
       subject: `Nieuw bericht via Peer SV website van ${naam}`,
-      text: `Naam: ${naam}\nEmail: ${email}\nTelefoon: ${telefoon || '-'}\n\nBericht:\n${bericht}`,
+      text: `Nieuw bericht via de K. Peer SV website.\n\nNaam: ${naam}\nEmail: ${email}\nTelefoon: ${telefoon || '-'}\n\nBericht:\n${bericht}`,
       html: `<h2>Nieuw bericht via Peer SV website</h2><p><strong>Naam:</strong> ${safeNaam}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Telefoon:</strong> ${safeTelefoon}</p><p><strong>Bericht:</strong></p><p>${safeBericht}</p>`,
     });
 
