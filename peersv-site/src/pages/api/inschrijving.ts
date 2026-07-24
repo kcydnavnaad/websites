@@ -4,12 +4,14 @@ import nodemailer from 'nodemailer';
 export const prerender = false;
 
 interface InschrijvingPayload {
-  naamKind?: string;
-  geboortejaar?: string;
-  categorie?: string;
+  voornaamKind?: string;
+  achternaamKind?: string;
+  geboortedatum?: string;
   naamOuder?: string;
   email?: string;
   telefoon?: string;
+  opmerkingen?: string;
+  privacyAkkoord?: unknown;
   website_url?: string;
 }
 
@@ -20,6 +22,14 @@ const escapeHtml = (input: string): string =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+
+const isTruthy = (value: unknown): boolean =>
+  value === true ||
+  value === 'true' ||
+  value === 'on' ||
+  value === 'ja' ||
+  value === '1' ||
+  value === 1;
 
 export const POST: APIRoute = async ({ request }) => {
   let data: InschrijvingPayload;
@@ -33,12 +43,14 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const {
-    naamKind,
-    geboortejaar,
-    categorie,
+    voornaamKind,
+    achternaamKind,
+    geboortedatum,
     naamOuder,
     email,
     telefoon,
+    opmerkingen,
+    privacyAkkoord,
     website_url,
   } = data;
 
@@ -47,15 +59,22 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (
-    !naamKind ||
-    !geboortejaar ||
-    !categorie ||
+    !voornaamKind ||
+    !achternaamKind ||
+    !geboortedatum ||
     !naamOuder ||
     !email ||
     !telefoon
   ) {
     return new Response(
       JSON.stringify({ error: 'Verplichte velden ontbreken' }),
+      { status: 400 },
+    );
+  }
+
+  if (!isTruthy(privacyAkkoord)) {
+    return new Response(
+      JSON.stringify({ error: 'Akkoord met het privacybeleid is verplicht.' }),
       { status: 400 },
     );
   }
@@ -80,12 +99,17 @@ export const POST: APIRoute = async ({ request }) => {
 
   const jeugdRecipient = process.env.MAIL_JEUGD ?? process.env.MAIL_TO;
 
-  const safeNaamKind = escapeHtml(naamKind);
-  const safeGeboortejaar = escapeHtml(geboortejaar);
-  const safeCategorie = escapeHtml(categorie);
+  const volledigeNaamKind = `${voornaamKind} ${achternaamKind}`.trim();
+  const opmerkingenText = opmerkingen?.trim() ? opmerkingen.trim() : '-';
+
+  const safeVoornaamKind = escapeHtml(voornaamKind);
+  const safeAchternaamKind = escapeHtml(achternaamKind);
+  const safeVolledigeNaamKind = escapeHtml(volledigeNaamKind);
+  const safeGeboortedatum = escapeHtml(geboortedatum);
   const safeNaamOuder = escapeHtml(naamOuder);
   const safeEmail = escapeHtml(email);
   const safeTelefoon = escapeHtml(telefoon);
+  const safeOpmerkingen = escapeHtml(opmerkingenText).replace(/\n/g, '<br>');
 
   const from = {
     name: 'K. Peer SV website',
@@ -97,15 +121,26 @@ export const POST: APIRoute = async ({ request }) => {
       from,
       to: jeugdRecipient,
       replyTo: email,
-      subject: `Nieuwe inschrijving jeugd - ${naamKind}`,
-      text: `Nieuwe inschrijving via de K. Peer SV website.\n\nNaam kind: ${naamKind}\nGeboortejaar: ${geboortejaar}\nLeeftijdscategorie: ${categorie}\nNaam ouder/voogd: ${naamOuder}\nEmail: ${email}\nTelefoon: ${telefoon}`,
+      subject: `Nieuwe inschrijving jeugd - ${volledigeNaamKind}`,
+      text: `Nieuwe inschrijving via de K. Peer SV website.
+
+Voornaam kind: ${voornaamKind}
+Achternaam kind: ${achternaamKind}
+Geboortedatum: ${geboortedatum}
+Naam ouder/voogd: ${naamOuder}
+E-mail: ${email}
+Telefoon: ${telefoon}
+Opmerkingen: ${opmerkingenText}
+Privacybeleid geaccepteerd: ja`,
       html: `<h2>Nieuwe inschrijving jeugd — via K. Peer SV website</h2>
-<p><strong>Naam kind:</strong> ${safeNaamKind}</p>
-<p><strong>Geboortejaar:</strong> ${safeGeboortejaar}</p>
-<p><strong>Leeftijdscategorie:</strong> ${safeCategorie}</p>
+<p><strong>Voornaam kind:</strong> ${safeVoornaamKind}</p>
+<p><strong>Achternaam kind:</strong> ${safeAchternaamKind}</p>
+<p><strong>Geboortedatum:</strong> ${safeGeboortedatum}</p>
 <p><strong>Naam ouder/voogd:</strong> ${safeNaamOuder}</p>
-<p><strong>Email:</strong> ${safeEmail}</p>
-<p><strong>Telefoon:</strong> ${safeTelefoon}</p>`,
+<p><strong>E-mail:</strong> ${safeEmail}</p>
+<p><strong>Telefoon:</strong> ${safeTelefoon}</p>
+<p><strong>Opmerkingen:</strong><br>${safeOpmerkingen}</p>
+<p><strong>Privacybeleid geaccepteerd:</strong> ja</p>`,
     });
   } catch (error) {
     console.error('Inschrijving form error:', error);
@@ -123,12 +158,11 @@ export const POST: APIRoute = async ({ request }) => {
       subject: 'Bevestiging inschrijving - K. Peer SV',
       text: `Beste ${naamOuder},
 
-Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van ${naamKind} goed ontvangen via onze website.
+Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van ${volledigeNaamKind} goed ontvangen via onze website.
 
 Ingevulde gegevens:
-- Naam kind: ${naamKind}
-- Geboortejaar: ${geboortejaar}
-- Leeftijdscategorie: ${categorie}
+- Naam kind: ${volledigeNaamKind}
+- Geboortedatum: ${geboortedatum}
 
 Praktisch:
 - Startdatum: de trainingen starten in de eerste week van augustus.
@@ -141,12 +175,11 @@ K. Peer SV
 
 — Deze bevestiging werd automatisch verstuurd via de K. Peer SV website.`,
       html: `<p>Beste ${safeNaamOuder},</p>
-<p>Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van <strong>${safeNaamKind}</strong> goed ontvangen via onze website.</p>
+<p>Bedankt om je kind in te schrijven bij K. Peer SV! We hebben de inschrijving van <strong>${safeVolledigeNaamKind}</strong> goed ontvangen via onze website.</p>
 <h3>Ingevulde gegevens</h3>
 <ul>
-  <li><strong>Naam kind:</strong> ${safeNaamKind}</li>
-  <li><strong>Geboortejaar:</strong> ${safeGeboortejaar}</li>
-  <li><strong>Leeftijdscategorie:</strong> ${safeCategorie}</li>
+  <li><strong>Naam kind:</strong> ${safeVolledigeNaamKind}</li>
+  <li><strong>Geboortedatum:</strong> ${safeGeboortedatum}</li>
 </ul>
 <h3>Praktisch</h3>
 <ul>

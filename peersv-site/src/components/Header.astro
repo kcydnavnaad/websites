@@ -1,8 +1,9 @@
 ---
 const navItems: ReadonlyArray<{ label: string; href: string }> = [
-  { label: 'Home', href: '#home' },
-  { label: 'Over', href: '#over' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Home', href: '/#home' },
+  { label: 'Over', href: '/#over' },
+  { label: 'Lid worden', href: '/lid-worden' },
+  { label: 'Contact', href: '/#contact' },
 ];
 ---
 
@@ -42,7 +43,7 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
       </nav>
 
       <div class="hidden lg:block">
-        <a href="#contact" class="btn-primary">Lid worden</a>
+        <a href="/lid-worden" class="btn-primary">Lid worden</a>
       </div>
 
       <button
@@ -89,7 +90,7 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
           ))
         }
         <li class="px-3 pt-3">
-          <a href="#contact" class="btn-primary w-full" data-nav-link>Lid worden</a>
+          <a href="/lid-worden" class="btn-primary w-full" data-nav-link>Lid worden</a>
         </li>
       </ul>
     </div>
