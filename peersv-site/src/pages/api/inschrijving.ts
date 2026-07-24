@@ -97,7 +97,7 @@ export const POST: APIRoute = async ({ request }) => {
     },
   });
 
-  const jeugdRecipient = process.env.MAIL_JEUGD ?? process.env.MAIL_TO;
+  const clubRecipient = process.env.MAIL_TO ?? process.env.MAIL_JEUGD;
 
   const volledigeNaamKind = `${voornaamKind} ${achternaamKind}`.trim();
   const opmerkingenText = opmerkingen?.trim() ? opmerkingen.trim() : '-';
@@ -119,9 +119,9 @@ export const POST: APIRoute = async ({ request }) => {
   try {
     await transporter.sendMail({
       from,
-      to: jeugdRecipient,
+      to: clubRecipient,
       replyTo: email,
-      subject: `Nieuwe inschrijving jeugd - ${volledigeNaamKind}`,
+      subject: `[INSCHRIJVING] Nieuwe inschrijving jeugd - ${volledigeNaamKind}`,
       text: `Nieuwe inschrijving via de K. Peer SV website.
 
 Voornaam kind: ${voornaamKind}
@@ -154,7 +154,7 @@ Privacybeleid geaccepteerd: ja`,
     await transporter.sendMail({
       from,
       to: email,
-      replyTo: jeugdRecipient,
+      replyTo: process.env.MAIL_TO,
       subject: 'Bevestiging inschrijving - K. Peer SV',
       text: `Beste ${naamOuder},
 
