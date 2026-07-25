@@ -1,0 +1,354 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Kom eens meetrainen — K. Peer SV"
+  description="Schrijf je kind vrijblijvend in voor een proeftraining bij K. Peer SV. Geen lidmaatschap vereist."
+  canonical="https://kpeersv.be/proeftraining"
+>
+  <Header />
+  <main id="main" class="bg-ink-deep text-white">
+    <section class="relative isolate overflow-hidden bg-ink-deep">
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 -z-10 h-[420px] w-[420px] rounded-full bg-club-yellow/10 blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -left-24 top-40 -z-10 h-72 w-[120%] -rotate-3 bg-gradient-to-r from-club-red/25 via-club-red/5 to-transparent blur-2xl"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="container-x pt-40 pb-12 sm:pt-48 sm:pb-16">
+        <div class="max-w-3xl">
+          <span
+            class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.32em] text-club-yellow"
+          >
+            <span class="h-px w-8 bg-club-yellow"></span>
+            Jeugd
+          </span>
+
+          <h1 class="display mt-6 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+            Kom eens meetrainen
+          </h1>
+
+          <span class="mt-6 block h-1.5 w-24 rounded-full bg-club-yellow"></span>
+
+          <p class="mt-8 max-w-2xl text-lg text-white/80">
+            Kom vanaf augustus vrijblijvend een keer meetrainen bij K. Peer SV.
+            Geen lidmaatschap vereist, geen verplichtingen — laat je kind gewoon eens
+            proeven van onze jeugdwerking. Vul het formulier in en tot op de training!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24 sm:pb-32">
+      <div class="container-x">
+        <div class="mx-auto max-w-2xl">
+          <div
+            id="signup-success"
+            role="status"
+            aria-live="polite"
+            hidden
+            class="rounded-2xl border-2 border-emerald-400/60 bg-emerald-500/15 p-8 text-center shadow-2xl shadow-black/40 sm:p-10"
+          >
+            <span
+              class="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-white"
+              aria-hidden="true"
+            >
+              <svg
+                class="h-7 w-7"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="m5 12 5 5 9-11" />
+              </svg>
+            </span>
+            <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-white">
+              Bedankt!
+            </h2>
+            <p class="mt-3 text-base text-white/85">
+              We hebben je aanvraag goed ontvangen. Tot op de training!
+            </p>
+            <a href="/" class="btn-outline-light mt-7 inline-flex">
+              Terug naar home
+            </a>
+          </div>
+
+          <form
+            id="signup-form"
+            novalidate
+            class="rounded-2xl border border-white/10 bg-anthracite p-6 shadow-2xl shadow-black/40 ring-1 ring-club-yellow/10 sm:p-8"
+            aria-describedby="signup-error"
+          >
+            <div class="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label
+                  for="signup-voornaam-kind"
+                  class="mb-1.5 block text-sm font-medium text-white"
+                >
+                  Voornaam kind <span class="text-club-yellow" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="signup-voornaam-kind"
+                  name="voornaamKind"
+                  type="text"
+                  autocomplete="off"
+                  required
+                  class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+                />
+              </div>
+
+              <div>
+                <label
+                  for="signup-achternaam-kind"
+                  class="mb-1.5 block text-sm font-medium text-white"
+                >
+                  Achternaam kind <span class="text-club-yellow" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="signup-achternaam-kind"
+                  name="achternaamKind"
+                  type="text"
+                  autocomplete="off"
+                  required
+                  class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+                />
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <label
+                for="signup-geboortedatum"
+                class="mb-1.5 block text-sm font-medium text-white"
+              >
+                Geboortedatum <span class="text-club-yellow" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="signup-geboortedatum"
+                name="geboortedatum"
+                type="date"
+                required
+                class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red [color-scheme:dark]"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label
+                for="signup-naam-ouder"
+                class="mb-1.5 block text-sm font-medium text-white"
+              >
+                Naam ouder/voogd <span class="text-club-yellow" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="signup-naam-ouder"
+                name="naamOuder"
+                type="text"
+                autocomplete="name"
+                required
+                class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label for="signup-email" class="mb-1.5 block text-sm font-medium text-white">
+                E-mail ouder/voogd <span class="text-club-yellow" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="signup-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                required
+                class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+              />
+            </div>
+
+            <div class="mt-4">
+              <label
+                for="signup-telefoon"
+                class="mb-1.5 block text-sm font-medium text-white"
+              >
+                Telefoon ouder/voogd <span class="text-club-yellow" aria-hidden="true">*</span>
+              </label>
+              <input
+                id="signup-telefoon"
+                name="telefoon"
+                type="tel"
+                autocomplete="tel"
+                required
+                class="w-full rounded-lg border border-white/15 bg-ink-deep px-4 py-2.5 text-sm text-white placeholder-white/40 outline-none transition focus:border-club-red focus:ring-1 focus:ring-club-red"
+              />
+            </div>
+
+            <div class="mt-6 rounded-xl border border-white/10 bg-ink-deep/60 p-4">
+              <label for="signup-privacy" class="flex items-start gap-3 text-sm text-white/85">
+                <input
+                  id="signup-privacy"
+                  name="privacyAkkoord"
+                  type="checkbox"
+                  required
+                  value="ja"
+                  class="mt-0.5 h-5 w-5 flex-none cursor-pointer rounded border-white/25 bg-ink-deep text-club-red accent-club-red focus:ring-2 focus:ring-club-red focus:ring-offset-2 focus:ring-offset-anthracite"
+                />
+                <span>
+                  Ik ga akkoord met het verwerken van deze gegevens volgens het{' '}
+                  <a
+                    href="/privacybeleid"
+                    class="font-semibold text-white underline decoration-club-yellow decoration-2 underline-offset-4 transition hover:text-club-yellow"
+                  >
+                    privacybeleid
+                  </a>
+                  . <span class="text-club-yellow" aria-hidden="true">*</span>
+                </span>
+              </label>
+            </div>
+
+            <div class="absolute -left-[9999px]" aria-hidden="true">
+              <label for="signup-website-url">Website URL</label>
+              <input
+                id="signup-website-url"
+                name="website_url"
+                type="text"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </div>
+
+            <button
+              id="signup-submit"
+              type="submit"
+              class="btn-primary mt-8 w-full disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <span data-state="idle">Aanvraag versturen</span>
+              <span data-state="loading" class="hidden">Verzenden…</span>
+            </button>
+
+            <div
+              id="signup-error"
+              role="alert"
+              aria-live="polite"
+              class="mt-4 hidden items-start gap-3 rounded-xl border border-club-red/60 bg-club-red/20 p-4 text-sm text-white"
+            >
+              <svg
+                class="mt-0.5 h-5 w-5 flex-none text-white"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 16h.01" />
+              </svg>
+              <span id="signup-error-text" class="font-medium"></span>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+
+  <script>
+    const form = document.getElementById('signup-form') as HTMLFormElement | null;
+    const successPanel = document.getElementById('signup-success') as HTMLDivElement | null;
+    const errorPanel = document.getElementById('signup-error') as HTMLDivElement | null;
+    const errorText = document.getElementById('signup-error-text') as HTMLSpanElement | null;
+    const submitBtn = document.getElementById('signup-submit') as HTMLButtonElement | null;
+    const privacyCheckbox = document.getElementById('signup-privacy') as HTMLInputElement | null;
+
+    if (form && successPanel && errorPanel && errorText && submitBtn && privacyCheckbox) {
+      const idleLabel = submitBtn.querySelector<HTMLSpanElement>('[data-state="idle"]');
+      const loadingLabel = submitBtn.querySelector<HTMLSpanElement>('[data-state="loading"]');
+
+      const clearError = () => {
+        errorPanel.classList.add('hidden');
+        errorPanel.classList.remove('flex');
+        errorText.textContent = '';
+      };
+
+      const showError = (message: string) => {
+        errorText.textContent = message;
+        errorPanel.classList.remove('hidden');
+        errorPanel.classList.add('flex');
+      };
+
+      const showSuccess = () => {
+        form.hidden = true;
+        successPanel.hidden = false;
+        successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      };
+
+      const setLoading = (loading: boolean) => {
+        submitBtn.disabled = loading;
+        idleLabel?.classList.toggle('hidden', loading);
+        loadingLabel?.classList.toggle('hidden', !loading);
+      };
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        clearError();
+
+        const data = new FormData(form);
+        const payload = {
+          voornaamKind: String(data.get('voornaamKind') ?? '').trim(),
+          achternaamKind: String(data.get('achternaamKind') ?? '').trim(),
+          geboortedatum: String(data.get('geboortedatum') ?? '').trim(),
+          naamOuder: String(data.get('naamOuder') ?? '').trim(),
+          email: String(data.get('email') ?? '').trim(),
+          telefoon: String(data.get('telefoon') ?? '').trim(),
+          privacyAkkoord: privacyCheckbox.checked,
+          website_url: String(data.get('website_url') ?? ''),
+        };
+
+        if (
+          !payload.voornaamKind ||
+          !payload.achternaamKind ||
+          !payload.geboortedatum ||
+          !payload.naamOuder ||
+          !payload.email ||
+          !payload.telefoon
+        ) {
+          showError('Vul alstublieft alle verplichte velden in.');
+          return;
+        }
+
+        if (!payload.privacyAkkoord) {
+          showError('Je moet akkoord gaan met het privacybeleid om verder te gaan.');
+          return;
+        }
+
+        setLoading(true);
+        try {
+          const response = await fetch('/api/proeftraining', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            showSuccess();
+          } else {
+            const body = (await response.json().catch(() => ({}))) as {
+              error?: string;
+            };
+            showError(body.error ?? 'Er ging iets mis. Probeer het opnieuw.');
+          }
+        } catch {
+          showError('Er ging iets mis met de verbinding. Probeer het opnieuw.');
+        } finally {
+          setLoading(false);
+        }
+      });
+    }
+  </script>
+</Layout>
