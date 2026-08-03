@@ -1,0 +1,480 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="VDK-Consulting, IT partner voor moderne ondernemingen">
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <span class="eyebrow">IT partner</span>
+        <h1>
+          IT die je bedrijf<br />
+          <span class="highlight">vooruit</span> helpt<span class="cursor"></span>
+        </h1>
+        <p class="lead">
+          We nemen technische complexiteit weg zodat ondernemers zich kunnen
+          focussen op wat écht telt: hun business laten groeien. Van websites
+          tot netwerkinfrastructuur, pragmatische oplossingen op maat.
+        </p>
+        <div class="hero-actions">
+          <a href="/diensten" class="btn btn-primary btn-arrow">Bekijk onze diensten</a>
+          <a href="/contact" class="btn btn-ghost">Neem contact op</a>
+        </div>
+      </div>
+
+      <aside class="terminal-window" aria-hidden="true">
+        <div class="terminal-header">
+          <div class="terminal-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <span class="terminal-title mono">vdk-consulting / about</span>
+        </div>
+        <div class="terminal-body">
+          <div class="term-line"><span class="term-prompt">$</span> whoami</div>
+          <div class="term-line term-output">vdk-consulting :: IT partner</div>
+          <div class="term-line"><span class="term-prompt">$</span> uptime</div>
+          <div class="term-line term-output">actief sinds <span class="term-hl">2022</span>, België</div>
+          <div class="term-line"><span class="term-prompt">$</span> ls services/</div>
+          <div class="term-line term-output">
+            <span class="term-file">webdesign/</span>
+            <span class="term-file">network/</span>
+            <span class="term-file">consultancy/</span>
+            <span class="term-file">automation/</span>
+          </div>
+          <div class="term-line"><span class="term-prompt">$</span> cat languages.txt</div>
+          <div class="term-line term-output">nl, en</div>
+          <div class="term-line"><span class="term-prompt">$</span> status</div>
+          <div class="term-line term-output">
+            <span class="term-ok">●</span> beschikbaar voor nieuwe projecten
+          </div>
+          <div class="term-line">
+            <span class="term-prompt">$</span> <span class="cursor"></span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="expertise">
+    <div class="container">
+      <span class="eyebrow">Onze expertise</span>
+      <h2>Vier kerndiensten. Één aanspreekpunt.</h2>
+      <p class="section-intro">
+        Gespecialiseerde IT-diensten voor moderne bedrijven. Elke dienst staat
+        op zichzelf en werkt beter samen.
+      </p>
+
+      <div class="expertise-grid">
+        <a href="/diensten#webdesign" class="service-block">
+          <div class="service-header">
+            <span class="service-num mono">01</span>
+            <span class="service-arrow">→</span>
+          </div>
+          <h3>Webdesign</h3>
+          <p>
+            Moderne, responsive websites en webshops die uw merk vertegenwoordigen
+            en resultaat opleveren.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Astro</span>
+            <span class="tag">React</span>
+            <span class="tag">Mollie</span>
+          </div>
+        </a>
+
+        <a href="/diensten#netwerk" class="service-block">
+          <div class="service-header">
+            <span class="service-num mono">02</span>
+            <span class="service-arrow">→</span>
+          </div>
+          <h3>Netwerkinfrastructuur</h3>
+          <p>
+            Betrouwbare en veilige netwerkoplossingen voor bedrijven van elke
+            omvang.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Ubiquiti</span>
+            <span class="tag">Linux</span>
+            <span class="tag">VPN</span>
+          </div>
+        </a>
+
+        <a href="/diensten#consultancy" class="service-block">
+          <div class="service-header">
+            <span class="service-num mono">03</span>
+            <span class="service-arrow">→</span>
+          </div>
+          <h3>IT Consultancy</h3>
+          <p>
+            Strategisch advies om uw IT-infrastructuur te optimaliseren en
+            kosten te besparen.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Strategy</span>
+            <span class="tag">Migratie</span>
+            <span class="tag">Training</span>
+          </div>
+        </a>
+
+        <a href="/diensten#automatisering" class="service-block">
+          <div class="service-header">
+            <span class="service-num mono">04</span>
+            <span class="service-arrow">→</span>
+          </div>
+          <h3>Automatisering</h3>
+          <p>
+            Repetitief werk laten verdwijnen door slimme processen en
+            integraties.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Microsoft 365</span>
+            <span class="tag">Azure</span>
+            <span class="tag">APIs</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach">
+    <div class="container">
+      <span class="eyebrow">Werkwijze</span>
+      <h2>Van gesprek naar oplevering.</h2>
+      <div class="approach-grid">
+        <div class="approach-step">
+          <div class="step-num mono">01</div>
+          <h3>Kennismaking</h3>
+          <p>Vrijblijvend gesprek om uw situatie en doelen te begrijpen.</p>
+        </div>
+        <div class="approach-step">
+          <div class="step-num mono">02</div>
+          <h3>Voorstel</h3>
+          <p>Concreet plan met scope, timeline en heldere prijs.</p>
+        </div>
+        <div class="approach-step">
+          <div class="step-num mono">03</div>
+          <h3>Uitvoering</h3>
+          <p>Iteratief werken met korte feedback loops.</p>
+        </div>
+        <div class="approach-step">
+          <div class="step-num mono">04</div>
+          <h3>Support</h3>
+          <p>Nazorg en doorontwikkeling wanneer nodig.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta-inner">
+      <div>
+        <span class="eyebrow">Klaar om te starten?</span>
+        <h2>Laten we uw <span class="highlight">IT-uitdaging</span><br />in kansen omzetten.</h2>
+        <p>
+          Van een gesprek naar een concreet plan. Wij denken mee, adviseren
+          eerlijk en leveren wat we beloven.
+        </p>
+      </div>
+      <a href="/contact" class="btn btn-primary btn-arrow">Start uw project</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 20%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    filter: blur(80px);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.05;
+  }
+
+  .lead {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    margin: 1.5rem 0 2.5rem;
+    max-width: 55ch;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  /* Terminal window */
+  .terminal-window {
+    background: var(--surface);
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(0, 212, 255, 0.05);
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+  }
+
+  .terminal-header {
+    background: var(--surface-2);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .terminal-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .terminal-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-bright);
+  }
+
+  .terminal-dots span:nth-child(1) { background: #FF5F56; }
+  .terminal-dots span:nth-child(2) { background: #FFBD2E; }
+  .terminal-dots span:nth-child(3) { background: #27C93F; }
+
+  .terminal-title {
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+
+  .terminal-body {
+    padding: 1.5rem;
+    line-height: 1.8;
+  }
+
+  .term-line {
+    color: var(--muted);
+  }
+
+  .term-prompt {
+    color: var(--accent);
+    font-weight: 600;
+    margin-right: 0.5rem;
+  }
+
+  .term-output {
+    color: var(--text);
+    padding-left: 1.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .term-hl {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .term-file {
+    display: inline-block;
+    color: var(--accent);
+    margin-right: 1rem;
+  }
+
+  .term-ok {
+    color: var(--success);
+    margin-right: 0.35rem;
+  }
+
+  /* Expertise */
+  .section-intro {
+    font-size: 1rem;
+    max-width: 55ch;
+    margin-bottom: 3rem;
+  }
+
+  .expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .service-block {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-block::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .service-block:hover {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.03);
+    transform: translateY(-2px);
+  }
+
+  .service-block:hover::before {
+    opacity: 1;
+  }
+
+  .service-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .service-num {
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .service-arrow {
+    color: var(--muted);
+    font-family: var(--font-mono);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .service-block:hover .service-arrow {
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .service-block h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  .service-block p {
+    font-size: 0.9375rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 2px;
+  }
+
+  /* Approach */
+  .approach-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .approach-step {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .step-num {
+    color: var(--accent);
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    display: block;
+    letter-spacing: 0.05em;
+  }
+
+  .approach-step h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.125rem;
+  }
+
+  .approach-step p {
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  .cta {
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.03) 100%);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .cta h2 {
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+    .expertise-grid {
+      grid-template-columns: 1fr;
+    }
+    .approach-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .cta-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .approach-grid {
+      grid-template-columns: 1fr;
+    }
+    .terminal-body {
+      padding: 1rem;
+      font-size: 0.75rem;
+    }
+  }
+</style>

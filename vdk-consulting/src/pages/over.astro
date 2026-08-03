@@ -1,0 +1,364 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const values = [
+  {
+    title: "Doelgericht",
+    body: "We focussen op wat écht telt: jouw bedrijfsdoelen. Onze IT-oplossingen zijn geen doel op zich, maar een middel om jouw succes te versterken.",
+  },
+  {
+    title: "Betrouwbaar",
+    body: "Vertrouwen is de basis van elke samenwerking. We communiceren helder, leveren wat we beloven en bouwen aan langdurige relaties.",
+  },
+  {
+    title: "Innovatief",
+    body: "Technologie staat nooit stil, en wij ook niet. We blijven scherp op de nieuwste ontwikkelingen en vertalen die naar haalbare oplossingen.",
+  },
+  {
+    title: "Veilig",
+    body: "Jouw data en systemen verdienen de hoogste vorm van bescherming. Cyberveiligheid is een integraal onderdeel van alles wat we bouwen.",
+  },
+];
+
+const timeline = [
+  {
+    year: "2022",
+    title: "Fundament gelegd",
+    body: "Afgestudeerd met een passie voor technologie en een duidelijke missie: IT toegankelijk maken voor ondernemers.",
+    status: "milestone",
+  },
+  {
+    year: "2023",
+    title: "Eerste projecten",
+    body: "Opstart als bijberoep. Realisatie van de eerste projecten voor kleine ondernemingen, met focus op hands-on IT-oplossingen.",
+    status: "milestone",
+  },
+  {
+    year: "2025",
+    title: "Schaalvergroting",
+    body: "Grotere, complexere projecten voor kmo's in diverse sectoren. Uitbreiding richting proces automatisering en cloud infrastructuur.",
+    status: "current",
+  },
+];
+---
+
+<Layout title="Over ons, VDK-Consulting">
+  <section class="page-header">
+    <div class="container">
+      <span class="eyebrow">Over ons</span>
+      <h1>IT maken we <span class="highlight">begrijpelijk</span>.<br />Punt.</h1>
+    </div>
+  </section>
+
+  <section class="mission">
+    <div class="container mission-grid">
+      <div class="mission-block">
+        <h4>Onze Missie</h4>
+        <p class="mission-text">
+          Bij VDK maken we IT begrijpelijk en toegankelijk voor elke onderneming.
+          We nemen technische complexiteit weg zodat ondernemers zich kunnen
+          focussen op wat écht telt: hun business laten groeien.
+        </p>
+        <p>
+          Onze missie is om via duidelijke communicatie en doelgerichte
+          ondersteuning duurzame groei te realiseren bij elke klant.
+        </p>
+      </div>
+
+      <div class="mission-block">
+        <h4>Onze Visie</h4>
+        <p class="mission-text">
+          We bouwen aan langdurige partnerships gebaseerd op vertrouwen,
+          expertise en transparante communicatie.
+        </p>
+        <p>
+          Onze visie is om elk bedrijf digitaal sterker te maken door slimme,
+          mensgerichte IT-oplossingen.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="container">
+      <span class="eyebrow">Onze waarden</span>
+      <h2>Vier principes.<br />Elk gesprek. <span class="highlight">Elke oplevering.</span></h2>
+
+      <div class="values-grid">
+        {values.map((value, idx) => (
+          <article class="value-block">
+            <div class="value-header">
+              <span class="value-num mono">0{idx + 1}</span>
+            </div>
+            <h3>{value.title}</h3>
+            <p>{value.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="container">
+      <span class="eyebrow">Ons verhaal</span>
+      <h2>Van eerste stappen tot <span class="highlight">strategische partner</span>.</h2>
+      <p class="lead">
+        De weg die VDK-Consulting aflegt. Iteratief, doordacht en met blijvende
+        focus op de klant.
+      </p>
+
+      <ol class="timeline">
+        {timeline.map((entry) => (
+          <li class="timeline-entry">
+            <div class="timeline-marker">
+              <div class={`timeline-dot ${entry.status}`}></div>
+              <span class="timeline-year mono">{entry.year}</span>
+            </div>
+            <div class="timeline-content">
+              <div class="timeline-badge">
+                {entry.status === "current" ? (
+                  <span class="badge-current mono">Nu</span>
+                ) : (
+                  <span class="badge-done mono">Voltooid</span>
+                )}
+              </div>
+              <h3>{entry.title}</h3>
+              <p>{entry.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container cta-inner">
+      <div>
+        <span class="eyebrow">Zin in een gesprek?</span>
+        <h2>Laten we <span class="highlight">kennismaken</span>.</h2>
+      </div>
+      <a href="/contact" class="btn btn-primary btn-arrow">Neem contact op</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: 5rem 0 3rem;
+  }
+
+  .page-header h1 {
+    line-height: 1.05;
+  }
+
+  .mission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .mission-block {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .mission-block::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    width: 30px;
+    height: 30px;
+    border-top: 2px solid var(--accent);
+    border-left: 2px solid var(--accent);
+  }
+
+  .mission-block h4 {
+    color: var(--accent);
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 1.25rem;
+    font-size: 0.8125rem;
+    font-family: var(--font-mono);
+  }
+
+  .mission-text {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--text-bright);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 3rem;
+  }
+
+  .value-block {
+    padding: 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  }
+
+  .value-block:hover {
+    border-color: var(--accent);
+    background: rgba(0, 212, 255, 0.03);
+  }
+
+  .value-header {
+    margin-bottom: 1rem;
+  }
+
+  .value-num {
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .value-block h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  .value-block p {
+    font-size: 0.9375rem;
+    margin: 0;
+  }
+
+  .story .lead {
+    font-size: 1rem;
+    max-width: 55ch;
+    margin: 1.5rem 0 3.5rem;
+  }
+
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 800px;
+  }
+
+  .timeline-entry {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    position: relative;
+  }
+
+  .timeline-entry:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    top: 4.5rem;
+    bottom: -1rem;
+    width: 1px;
+    background: var(--border);
+  }
+
+  .timeline-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0.375rem;
+  }
+
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border-bright);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+
+  .timeline-dot.current {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent-glow-strong);
+  }
+
+  .timeline-dot.milestone {
+    background: var(--muted);
+  }
+
+  .timeline-year {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-bright);
+  }
+
+  .timeline-badge {
+    margin-bottom: 0.5rem;
+  }
+
+  .badge-current {
+    display: inline-block;
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+    background: rgba(0, 212, 255, 0.1);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .badge-done {
+    display: inline-block;
+    font-size: 0.6875rem;
+    padding: 0.25rem 0.5rem;
+    background: var(--surface-2);
+    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .timeline-content h3 {
+    margin-bottom: 0.5rem;
+  }
+
+  .cta {
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.03) 100%);
+    border-top: 1px solid var(--border);
+  }
+
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1.4fr auto;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  @media (max-width: 900px) {
+    .mission-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+    .values-grid {
+      grid-template-columns: 1fr;
+    }
+    .timeline-entry {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 1.5rem 0;
+    }
+    .timeline-entry:not(:last-child)::after {
+      display: none;
+    }
+    .cta-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>
