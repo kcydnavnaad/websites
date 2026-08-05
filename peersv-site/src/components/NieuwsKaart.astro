@@ -1,0 +1,64 @@
+---
+import type { FacebookPost } from '../lib/facebook';
+
+interface Props {
+  post: FacebookPost;
+}
+
+const { post } = Astro.props;
+
+const dateFormatter = new Intl.DateTimeFormat('nl-BE', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<li
+  class="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-anthracite transition-all duration-200 hover:-translate-y-0.5 hover:border-white/25"
+>
+  {
+    post.full_picture && (
+      <a
+        href={post.permalink_url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="relative block aspect-[16/10] overflow-hidden bg-ink-deep"
+        aria-label={`Facebook-post: ${post.title}`}
+      >
+        <img
+          src={post.full_picture}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          class="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+        />
+      </a>
+    )
+  }
+  <div class="flex flex-1 flex-col p-6">
+    <time
+      datetime={post.created_time}
+      class="text-xs font-bold uppercase tracking-[0.22em] text-club-yellow"
+    >
+      {dateFormatter.format(new Date(post.created_time))}
+    </time>
+    <h3 class="mt-3 text-lg font-extrabold tracking-tight text-white">
+      {post.title}
+    </h3>
+    {
+      post.excerpt !== post.title && (
+        <p class="mt-3 text-sm leading-relaxed text-white/70">{post.excerpt}</p>
+      )
+    }
+    <a
+      href={post.permalink_url}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-auto inline-flex items-center gap-2 pt-6 text-sm font-semibold text-white transition hover:text-club-red"
+    >
+      Lees meer op Facebook
+      <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</li>

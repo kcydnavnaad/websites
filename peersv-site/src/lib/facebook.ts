@@ -70,7 +70,7 @@ export async function getFacebookPosts(): Promise<FacebookPost[]> {
     'fields',
     'id,message,created_time,full_picture,permalink_url',
   );
-  url.searchParams.set('limit', '8');
+  url.searchParams.set('limit', '18');
   url.searchParams.set('access_token', token);
 
   try {

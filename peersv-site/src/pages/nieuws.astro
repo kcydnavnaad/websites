@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import NieuwsKaart from '../components/NieuwsKaart.astro';
+import { getFacebookPosts } from '../lib/facebook';
+
+const posts = await getFacebookPosts();
+---
+
+<Layout
+  title="Clubnieuws — K. Peer SV"
+  description="Al onze recente updates van K. Peer SV, rechtstreeks van onze Facebook-pagina."
+  canonical="https://kpeersv.be/nieuws"
+>
+  <Header />
+  <main id="main" class="bg-ink-deep text-white">
+    <section class="relative isolate overflow-hidden bg-ink-deep">
+      <div
+        class="pointer-events-none absolute -right-24 -top-24 -z-10 h-[420px] w-[420px] rounded-full bg-club-yellow/10 blur-3xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -left-24 top-40 -z-10 h-72 w-[120%] -rotate-3 bg-gradient-to-r from-club-red/25 via-club-red/5 to-transparent blur-2xl"
+        aria-hidden="true"
+      >
+      </div>
+
+      <div class="container-x pt-40 pb-12 sm:pt-48 sm:pb-16">
+        <div class="max-w-3xl">
+          <span
+            class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.32em] text-club-yellow"
+          >
+            <span class="h-px w-8 bg-club-yellow"></span>
+            Nieuws
+          </span>
+
+          <h1 class="display mt-6 text-4xl leading-tight text-white sm:text-5xl lg:text-6xl">
+            Clubnieuws
+          </h1>
+
+          <span class="mt-6 block h-1.5 w-24 rounded-full bg-club-yellow"></span>
+
+          <p class="mt-8 max-w-2xl text-lg text-white/80">
+            Onze recente updates, rechtstreeks van de Facebook-pagina van K. Peer SV.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="pb-24 sm:pb-32">
+      <div class="container-x">
+        {
+          posts.length > 0 ? (
+            <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {posts.map((post) => (
+                <NieuwsKaart post={post} />
+              ))}
+            </ul>
+          ) : (
+            <div class="mx-auto max-w-lg rounded-2xl border border-white/10 bg-anthracite p-8 text-center sm:p-10">
+              <p class="text-lg text-white/85">
+                Er is momenteel geen nieuws beschikbaar. Volg ons op Facebook.
+              </p>
+              <a
+                href="https://www.facebook.com/kpeersv"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn-primary mt-6 inline-flex"
+              >
+                Naar Facebook
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          )
+        }
+
+        <div class="mt-14">
+          <a href="/" class="btn-outline-light">
+            <span aria-hidden="true">←</span>
+            Terug naar home
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
