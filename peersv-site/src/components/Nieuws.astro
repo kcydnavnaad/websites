@@ -1,0 +1,44 @@
+---
+const fbSrc =
+  'https://www.facebook.com/plugins/page.php?' +
+  'href=' +
+  encodeURIComponent('https://www.facebook.com/kpeersv') +
+  '&tabs=timeline' +
+  '&width=500' +
+  '&height=700' +
+  '&small_header=false' +
+  '&adapt_container_width=true' +
+  '&hide_cover=false' +
+  '&show_facepile=true';
+---
+
+<section id="nieuws" class="section section-dark">
+  <div class="container-x">
+    <div class="mx-auto max-w-2xl text-center">
+      <span class="eyebrow text-club-yellow">Nieuws</span>
+      <h2 class="section-title mt-4 text-white">Van de club.</h2>
+      <span class="accent-bar mx-auto mt-6"></span>
+      <p class="mt-6 text-lg text-white/80">
+        Onze laatste updates, rechtstreeks van onze Facebook-pagina.
+      </p>
+    </div>
+
+    <div class="mt-12 flex justify-center">
+      <div
+        class="w-full max-w-[532px] overflow-hidden rounded-2xl border border-white/10 bg-white p-2 shadow-2xl shadow-black/40 sm:p-3"
+      >
+        <iframe
+          src={fbSrc}
+          title="Facebook-pagina K. Peer SV"
+          width="500"
+          height="700"
+          class="block h-[700px] w-full"
+          style="border:none;overflow:hidden;max-width:100%;"
+          loading="lazy"
+          allow="encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
