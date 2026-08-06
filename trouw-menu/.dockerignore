@@ -1,7 +1,0 @@
-.git
-.github
-README.md
-.dockerignore
-Dockerfile
-*.md
-.DS_Store
