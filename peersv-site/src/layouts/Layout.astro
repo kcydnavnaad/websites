@@ -5,6 +5,7 @@ interface Props {
   title?: string;
   description?: string;
   canonical?: string;
+  noindex?: boolean;
 }
 
 const {
@@ -12,6 +13,7 @@ const {
   description = 'K. Peer SV is een Belgische voetbalclub uit Peer. Bekijk onze ploegen, vind ons contact en wedstrijduitslagen.',
   // TODO: vervang door definitieve domeinnaam
   canonical = 'https://kpeersv.be/',
+  noindex = false,
 } = Astro.props;
 
 // TODO: vervang og-image door echte afbeelding zodra beschikbaar
@@ -27,6 +29,7 @@ const ogImage = 'https://kpeersv.be/og-image.png';
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/png" href="/logo.png" />
     <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <title>{title}</title>
     <meta name="description" content={description} />

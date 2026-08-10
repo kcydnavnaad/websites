@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="nl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tornooi — K Peer SV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0d0f; --anthra:#1a1a1d; --anthra2:#202024;
+  --red:#d72638; --yellow:#f9c80e;
+  --txt:#f4f4f5; --muted:#a1a1aa; --line:#2c2c31;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--txt);
+  font-family:'Readex Pro',system-ui,-apple-system,Segoe UI,Arial,sans-serif;
+  line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.container{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* HERO */
+.hero{padding:64px 0 34px;border-bottom:1px solid var(--line);
+  background:radial-gradient(1200px 400px at 50% -120px, rgba(215,38,56,.18), transparent 70%)}
+.hero .kicker{display:inline-flex;align-items:center;gap:8px;
+  font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);font-weight:600}
+.hero h1{font-size:clamp(34px,7vw,58px);line-height:1.02;margin:14px 0 6px;font-weight:700}
+.hero h1 .accent{color:var(--red)}
+.hero .date{font-size:clamp(17px,3vw,22px);color:var(--txt);font-weight:600}
+.hero .lede{color:var(--muted);max-width:640px;margin:16px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.fact{background:var(--anthra);border:1px solid var(--line);border-radius:999px;
+  padding:8px 15px;font-size:13.5px;color:var(--txt)}
+.fact b{color:var(--yellow);font-weight:600}
+
+/* NAV CHIPS */
+.catnav{position:sticky;top:0;z-index:20;background:rgba(13,13,15,.86);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:11px 0}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;text-decoration:none;
+  background:var(--anthra);border:1px solid var(--line);border-radius:999px;
+  padding:7px 14px;font-size:14px;font-weight:600;color:var(--txt);transition:.15s}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--acc);flex:0 0 auto}
+.chip:hover{border-color:var(--acc);transform:translateY(-1px)}
+
+/* SESSIONS */
+.sess{padding:38px 0 4px}
+.sess-h{font-size:14px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;display:flex;align-items:baseline;gap:12px;margin:0 0 4px;
+  border-left:3px solid var(--red);padding-left:12px}
+.sess-h small{font-size:13px;letter-spacing:0;text-transform:none;color:var(--muted);font-weight:400}
+
+/* CATEGORY CARDS */
+.cat{background:var(--anthra);border:1px solid var(--line);border-radius:16px;
+  padding:18px 18px 8px;margin:20px 0;scroll-margin-top:74px;
+  border-top:3px solid var(--acc)}
+.cat-head{display:flex;gap:14px;align-items:flex-start;margin-bottom:12px}
+.badge{flex:0 0 auto;background:var(--acc);color:#fff;font-weight:700;font-size:18px;
+  border-radius:10px;padding:8px 14px;min-width:54px;text-align:center;letter-spacing:.02em}
+.cat-meta{display:flex;flex-direction:column;gap:3px;padding-top:1px}
+.cat-meta .fmt{font-weight:600;font-size:15px}
+.cat-meta .deeln{color:var(--muted);font-size:13.5px}
+
+.tablewrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -4px}
+table.sched{width:100%;border-collapse:collapse;min-width:420px}
+table.sched th{text-align:left;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;padding:6px 10px;border-bottom:1px solid var(--line)}
+table.sched td{padding:9px 10px;font-size:14.5px;border-bottom:1px solid rgba(255,255,255,.04)}
+table.sched tr.slot td{border-top:1px solid var(--line)}
+td.u{font-variant-numeric:tabular-nums;font-weight:600;color:var(--yellow);white-space:nowrap}
+td.t{color:var(--muted);font-size:13px;white-space:nowrap}
+td.h{text-align:right;font-weight:500}
+td.vs{text-align:center;color:var(--muted);padding:9px 4px}
+td.a{font-weight:500}
+tr.hl td.h, tr.hl td.a{color:#fff}
+tr.hl{background:linear-gradient(90deg, rgba(215,38,56,.10), transparent)}
+
+/* SECTION TITLES */
+.block{padding:46px 0 10px}
+.block > h2{font-size:clamp(24px,4.5vw,34px);margin:0 0 4px;font-weight:700}
+.block > .sub{color:var(--muted);margin:0 0 20px}
+
+/* VELDSCHEMA (dark restyle, scoped) */
+#veldschema{background:var(--anthra);border:1px solid var(--line);border-radius:16px;padding:16px}
+#veldschema .legend{display:flex;flex-wrap:wrap;gap:8px 14px;margin:0 0 16px;font-size:13px;color:var(--txt)}
+#veldschema .legend span{display:inline-flex;align-items:center;gap:6px}
+#veldschema .dot{width:13px;height:13px;border-radius:3px;display:inline-block}
+#veldschema .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+#veldschema .chart{position:relative;display:flex;background:var(--anthra2);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden;width:max-content}
+#veldschema .timecol{width:52px;flex:0 0 52px;border-right:2px solid var(--line);background:#161619}
+#veldschema .group{flex:0 0 auto;border-right:2px solid var(--line)}
+#veldschema .ghead{height:28px;line-height:28px;text-align:center;font-weight:700;font-size:12.5px;
+  background:var(--red);color:#fff}
+#veldschema .cols{display:flex}
+#veldschema .col{width:150px;position:relative;border-right:1px solid var(--line);height:1116px;background:#161619}
+#veldschema .col:last-child{border-right:none}
+#veldschema .chead{height:38px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:700;font-size:13px;border-bottom:1px solid var(--line);background:#26262b;color:var(--txt)}
+#veldschema .chead small{font-weight:500;color:var(--muted);font-size:10.5px}
+#veldschema .canvas{position:relative;height:1116px}
+#veldschema .hline{position:absolute;left:0;right:0;border-top:1px dashed rgba(255,255,255,.08)}
+#veldschema .tlabel{position:absolute;left:0;width:52px;text-align:right;padding-right:6px;font-size:11.5px;
+  color:var(--muted);transform:translateY(-8px);font-variant-numeric:tabular-nums}
+#veldschema .blk{position:absolute;left:3px;right:3px;border-radius:5px;color:#fff;padding:3px 5px;
+  overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+#veldschema .blk b{font-size:11px;display:block;line-height:1.15}
+#veldschema .blk span{font-size:10.5px;line-height:1.15;opacity:.97}
+#veldschema .pauze{position:absolute;left:0;right:0;
+  background:repeating-linear-gradient(45deg,rgba(249,200,14,.10),rgba(249,200,14,.10) 8px,rgba(249,200,14,.04) 8px,rgba(249,200,14,.04) 16px);
+  border-top:1px solid rgba(249,200,14,.35);border-bottom:1px solid rgba(249,200,14,.35)}
+#veldschema .pauze i{position:sticky;left:6px;font-style:normal;font-size:11px;color:var(--yellow);font-weight:600}
+#veldschema .wrap{padding:0}
+.veldnote{color:var(--muted);font-size:13.5px;margin:12px 2px 0}
+
+/* REGLEMENT */
+details.regl{background:var(--anthra);border:1px solid var(--line);border-radius:16px;padding:4px 18px;margin-top:14px}
+details.regl summary{cursor:pointer;font-weight:600;font-size:16px;padding:14px 0;list-style:none;
+  display:flex;align-items:center;justify-content:space-between}
+details.regl summary::-webkit-details-marker{display:none}
+details.regl summary::after{content:'+';color:var(--red);font-size:22px;font-weight:400}
+details.regl[open] summary::after{content:'–'}
+details.regl ul{margin:0 0 16px;padding-left:20px;color:var(--muted)}
+details.regl li{margin:7px 0}
+
+footer{border-top:1px solid var(--line);margin-top:50px;padding:26px 0 60px;color:var(--muted);font-size:13.5px}
+</style></head>
+<body>
+
+<header class="hero"><div class="container">
+  <span class="kicker">● Jeugdtornooi K Peer SV · stamnr 3888</span>
+  <h1>Tornooi <span class="accent">K Peer SV</span></h1>
+  <div class="date">Zaterdag 29 augustus 2026</div>
+  <p class="lede">Een dag vol jeugdvoetbal op onze terreinen. Acht leeftijdscategorieën van U6 tot U13, gespeeld zonder klassement of eindrangschikking. Elke deelnemende speler krijgt een herinneringsmedaille.</p>
+  <div class="facts">
+    <span class="fact"><b>8</b> categorieën · U6 – U13</span>
+    <span class="fact">Inkom <b>3 €</b></span>
+    <span class="fact">Voormiddag <b>10u00</b> · Namiddag <b>13u30</b></span>
+    <span class="fact">Medaille voor <b>elke speler</b></span>
+  </div>
+</div></header>
+
+<nav class="catnav"><div class="container"><div class="chips"><a class='chip' href='#cat-U6' style='--acc:#E76F51'><i></i>U6</a><a class='chip' href='#cat-U7' style='--acc:#F4A261'><i></i>U7</a><a class='chip' href='#cat-U8' style='--acc:#2A9D8F'><i></i>U8</a><a class='chip' href='#cat-U9' style='--acc:#1D9A6C'><i></i>U9</a><a class='chip' href='#cat-U10' style='--acc:#3D5AF1'><i></i>U10</a><a class='chip' href='#cat-U11' style='--acc:#4895EF'><i></i>U11</a><a class='chip' href='#cat-U12' style='--acc:#7B2CBF'><i></i>U12</a><a class='chip' href='#cat-U13' style='--acc:#B15EDB'><i></i>U13</a></div></div></nav>
+
+<main class="container">
+  <div class='sess'><h2 class='sess-h'>Voormiddag<small>10u00 – 12u55</small></h2>
+    <section class="cat" id="cat-U6" style="--acc:#E76F51">
+      <div class="cat-head">
+        <span class="badge">U6</span>
+        <div class="cat-meta">
+          <span class="fmt">3 × 3′ per wedstrijd — elk duo tegen elk duo</span>
+          <span class="deeln">K Opitter FC 1  –  Kadijk SK 3  –  K Opitter FC 2  –  Kadijk SK 2  –  K Opitter FC 3  –  Kadijk SK 1</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot '><td class='u'>10u00</td><td class='t'>A2</td><td class='h'>K Opitter FC 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr><tr class=' '><td class='u'>10u00</td><td class='t'>A3</td><td class='h'>K Opitter FC 2</td><td class='vs'>–</td><td class='a'>Kadijk SK 2</td></tr><tr class='slot '><td class='u'>10u15</td><td class='t'>A2</td><td class='h'>K Opitter FC 3</td><td class='vs'>–</td><td class='a'>Kadijk SK 1</td></tr><tr class=' '><td class='u'>10u15</td><td class='t'>A3</td><td class='h'>K Opitter FC 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 2</td></tr><tr class='slot '><td class='u'>10u30</td><td class='t'>A2</td><td class='h'>Kadijk SK 3</td><td class='vs'>–</td><td class='a'>K Opitter FC 2</td></tr><tr class='slot '><td class='u'>10u45</td><td class='t'>A2</td><td class='h'>K Opitter FC 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 1</td></tr><tr class=' '><td class='u'>10u45</td><td class='t'>A3</td><td class='h'>Kadijk SK 2</td><td class='vs'>–</td><td class='a'>K Opitter FC 3</td></tr><tr class='slot '><td class='u'>11u00</td><td class='t'>A2</td><td class='h'>Kadijk SK 3</td><td class='vs'>–</td><td class='a'>Kadijk SK 1</td></tr><tr class=' '><td class='u'>11u00</td><td class='t'>A3</td><td class='h'>K Opitter FC 2</td><td class='vs'>–</td><td class='a'>K Opitter FC 3</td></tr><tr class='slot '><td class='u'>11u15</td><td class='t'>A2</td><td class='h'>Kadijk SK 2</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr><tr class=' '><td class='u'>11u15</td><td class='t'>A3</td><td class='h'>K Opitter FC 1</td><td class='vs'>–</td><td class='a'>K Opitter FC 2</td></tr><tr class='slot '><td class='u'>11u30</td><td class='t'>A2</td><td class='h'>K Opitter FC 1</td><td class='vs'>–</td><td class='a'>K Opitter FC 3</td></tr><tr class=' '><td class='u'>11u30</td><td class='t'>A3</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 2</td></tr><tr class='slot '><td class='u'>11u45</td><td class='t'>A2</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>K Opitter FC 2</td></tr><tr class=' '><td class='u'>11u45</td><td class='t'>A3</td><td class='h'>K Opitter FC 3</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U8" style="--acc:#2A9D8F">
+      <div class="cat-head">
+        <span class="badge">U8</span>
+        <div class="cat-meta">
+          <span class="fmt">2 × 15 minuten</span>
+          <span class="deeln">K.Hechtel FC  –  Kadijk SK  –  K.Kaulille FC  –  K.Peer.sv  –  K.Verbroedering Balen</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot '><td class='u'>10u00</td><td class='t'>D1</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr><tr class=' hl'><td class='u'>10u00</td><td class='t'>D2</td><td class='h'>K.Kaulille FC</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class='slot '><td class='u'>10u35</td><td class='t'>D1</td><td class='h'>K.Verbroedering Balen</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr><tr class=' '><td class='u'>10u35</td><td class='t'>D2</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>K.Kaulille FC</td></tr><tr class='slot hl'><td class='u'>11u10</td><td class='t'>D1</td><td class='h'>K.Verbroedering Balen</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class=' '><td class='u'>11u10</td><td class='t'>D2</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Kaulille FC</td></tr><tr class='slot '><td class='u'>11u45</td><td class='t'>D1</td><td class='h'>K.Verbroedering Balen</td><td class='vs'>–</td><td class='a'>K.Kaulille FC</td></tr><tr class=' hl'><td class='u'>11u45</td><td class='t'>D2</td><td class='h'>K.Peer.sv</td><td class='vs'>–</td><td class='a'>K.Hechtel FC</td></tr><tr class='slot '><td class='u'>12u20</td><td class='t'>D1</td><td class='h'>K.Verbroedering Balen</td><td class='vs'>–</td><td class='a'>K.Hechtel FC</td></tr><tr class=' hl'><td class='u'>12u20</td><td class='t'>D2</td><td class='h'>K.Peer.sv</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U10" style="--acc:#3D5AF1">
+      <div class="cat-head">
+        <span class="badge">U10</span>
+        <div class="cat-meta">
+          <span class="fmt">1 × 15 minuten</span>
+          <span class="deeln">Kadijk SK  –  K.Peer.sv  –  K Opitter FC  –  Meeuwen SK  –  K.Hechtel FC  –  K.Achel V.V.</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot hl'><td class='u'>10u00</td><td class='t'>B1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class=' '><td class='u'>10u00</td><td class='t'>B2</td><td class='h'>K Opitter FC</td><td class='vs'>–</td><td class='a'>Meeuwen SK</td></tr><tr class='slot '><td class='u'>10u20</td><td class='t'>B1</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>K.Achel V.V.</td></tr><tr class=' '><td class='u'>10u20</td><td class='t'>B2</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>Meeuwen SK</td></tr><tr class='slot hl'><td class='u'>10u40</td><td class='t'>B1</td><td class='h'>K.Peer.sv</td><td class='vs'>–</td><td class='a'>K Opitter FC</td></tr><tr class='slot '><td class='u'>11u00</td><td class='t'>B1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Achel V.V.</td></tr><tr class=' '><td class='u'>11u00</td><td class='t'>B2</td><td class='h'>Meeuwen SK</td><td class='vs'>–</td><td class='a'>K.Hechtel FC</td></tr><tr class='slot hl'><td class='u'>11u20</td><td class='t'>B1</td><td class='h'>K.Peer.sv</td><td class='vs'>–</td><td class='a'>K.Achel V.V.</td></tr><tr class=' '><td class='u'>11u20</td><td class='t'>B2</td><td class='h'>K Opitter FC</td><td class='vs'>–</td><td class='a'>K.Hechtel FC</td></tr><tr class='slot hl'><td class='u'>11u40</td><td class='t'>B1</td><td class='h'>Meeuwen SK</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class=' '><td class='u'>11u40</td><td class='t'>B2</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K Opitter FC</td></tr><tr class='slot '><td class='u'>12u00</td><td class='t'>B1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Hechtel FC</td></tr><tr class=' '><td class='u'>12u00</td><td class='t'>B2</td><td class='h'>K.Achel V.V.</td><td class='vs'>–</td><td class='a'>Meeuwen SK</td></tr><tr class='slot '><td class='u'>12u20</td><td class='t'>B1</td><td class='h'>K.Achel V.V.</td><td class='vs'>–</td><td class='a'>K Opitter FC</td></tr><tr class=' hl'><td class='u'>12u20</td><td class='t'>B2</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U12" style="--acc:#7B2CBF">
+      <div class="cat-head">
+        <span class="badge">U12</span>
+        <div class="cat-meta">
+          <span class="fmt">1 wedstrijd van 4 × 15 minuten</span>
+          <span class="deeln">Kadijk SK  –  K.Peer.sv</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot hl'><td class='u'>10u00</td><td class='t'>A1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr></tbody>
+      </table>
+      </div>
+    </section></div>
+  <div class='sess'><h2 class='sess-h'>Namiddag<small>13u30 – 16u00</small></h2>
+    <section class="cat" id="cat-U7" style="--acc:#F4A261">
+      <div class="cat-head">
+        <span class="badge">U7</span>
+        <div class="cat-meta">
+          <span class="fmt">2 × 5 minuten</span>
+          <span class="deeln">Kadijk SK 2  –  K.Hechtel FC 2  –  Kadijk SK 3  –  K.Hechtel FC 1  –  Kadijk SK 1</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot '><td class='u'>13u30</td><td class='t'>A2</td><td class='h'>Kadijk SK 2</td><td class='vs'>–</td><td class='a'>K.Hechtel FC 2</td></tr><tr class=' '><td class='u'>13u30</td><td class='t'>A3</td><td class='h'>Kadijk SK 3</td><td class='vs'>–</td><td class='a'>K.Hechtel FC 1</td></tr><tr class='slot '><td class='u'>13u45</td><td class='t'>A2</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>K.Hechtel FC 2</td></tr><tr class=' '><td class='u'>13u45</td><td class='t'>A3</td><td class='h'>Kadijk SK 2</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr><tr class='slot '><td class='u'>14u00</td><td class='t'>A2</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>K.Hechtel FC 1</td></tr><tr class='slot '><td class='u'>14u15</td><td class='t'>A2</td><td class='h'>K.Hechtel FC 2</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr><tr class=' '><td class='u'>14u15</td><td class='t'>A3</td><td class='h'>K.Hechtel FC 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 2</td></tr><tr class='slot '><td class='u'>14u30</td><td class='t'>A2</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 3</td></tr><tr class='slot '><td class='u'>14u45</td><td class='t'>A2</td><td class='h'>K.Hechtel FC 1</td><td class='vs'>–</td><td class='a'>K.Hechtel FC 2</td></tr><tr class=' '><td class='u'>14u45</td><td class='t'>A3</td><td class='h'>Kadijk SK 1</td><td class='vs'>–</td><td class='a'>Kadijk SK 2</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U9" style="--acc:#1D9A6C">
+      <div class="cat-head">
+        <span class="badge">U9</span>
+        <div class="cat-meta">
+          <span class="fmt">2 × 10 minuten</span>
+          <span class="deeln">K.Kaulille FC  –  Kadijk SK  –  KFC Hamont 99 1  –  KFC Hamont 99 2  –  K.Hechtel FC</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot '><td class='u'>13u30</td><td class='t'>D1</td><td class='h'>K.Kaulille FC</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr><tr class=' '><td class='u'>13u30</td><td class='t'>D2</td><td class='h'>KFC Hamont 99 1</td><td class='vs'>–</td><td class='a'>KFC Hamont 99 2</td></tr><tr class='slot '><td class='u'>13u55</td><td class='t'>D1</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr><tr class=' '><td class='u'>13u55</td><td class='t'>D2</td><td class='h'>K.Kaulille FC</td><td class='vs'>–</td><td class='a'>KFC Hamont 99 1</td></tr><tr class='slot '><td class='u'>14u20</td><td class='t'>D1</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>KFC Hamont 99 2</td></tr><tr class='slot '><td class='u'>14u45</td><td class='t'>D1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>KFC Hamont 99 1</td></tr><tr class=' '><td class='u'>14u45</td><td class='t'>D2</td><td class='h'>KFC Hamont 99 2</td><td class='vs'>–</td><td class='a'>K.Kaulille FC</td></tr><tr class='slot '><td class='u'>15u10</td><td class='t'>D1</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>KFC Hamont 99 1</td></tr><tr class='slot '><td class='u'>15u35</td><td class='t'>D1</td><td class='h'>KFC Hamont 99 2</td><td class='vs'>–</td><td class='a'>Kadijk SK</td></tr><tr class=' '><td class='u'>15u35</td><td class='t'>D2</td><td class='h'>K.Hechtel FC</td><td class='vs'>–</td><td class='a'>K.Kaulille FC</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U11" style="--acc:#4895EF">
+      <div class="cat-head">
+        <span class="badge">U11</span>
+        <div class="cat-meta">
+          <span class="fmt">2 × 10 minuten</span>
+          <span class="deeln">KFC Eksel  –  K.Peer.sv  –  Kadijk SK</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot hl'><td class='u'>13u30</td><td class='t'>B1</td><td class='h'>KFC Eksel</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class='slot hl'><td class='u'>13u55</td><td class='t'>B1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Peer.sv</td></tr><tr class='slot '><td class='u'>14u20</td><td class='t'>B1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>KFC Eksel</td></tr></tbody>
+      </table>
+      </div>
+    </section>
+    <section class="cat" id="cat-U13" style="--acc:#B15EDB">
+      <div class="cat-head">
+        <span class="badge">U13</span>
+        <div class="cat-meta">
+          <span class="fmt">1 × 20 minuten</span>
+          <span class="deeln">Kadijk SK  –  K.Achel V.V.  –  SP. Nevok Gruitrode  –  K Opitter FC</span>
+        </div>
+      </div>
+      <div class="tablewrap">
+      <table class="sched">
+        <thead><tr><th>Uur</th><th>Veld</th><th>Thuis</th><th></th><th>Uit</th></tr></thead>
+        <tbody><tr class='slot '><td class='u'>13u30</td><td class='t'>A1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K.Achel V.V.</td></tr><tr class='slot '><td class='u'>13u55</td><td class='t'>A1</td><td class='h'>SP. Nevok Gruitrode</td><td class='vs'>–</td><td class='a'>K Opitter FC</td></tr><tr class='slot '><td class='u'>14u20</td><td class='t'>A1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>K Opitter FC</td></tr><tr class='slot '><td class='u'>14u45</td><td class='t'>A1</td><td class='h'>K.Achel V.V.</td><td class='vs'>–</td><td class='a'>SP. Nevok Gruitrode</td></tr><tr class='slot '><td class='u'>15u10</td><td class='t'>A1</td><td class='h'>Kadijk SK</td><td class='vs'>–</td><td class='a'>SP. Nevok Gruitrode</td></tr><tr class='slot '><td class='u'>15u35</td><td class='t'>A1</td><td class='h'>K Opitter FC</td><td class='vs'>–</td><td class='a'>K.Achel V.V.</td></tr></tbody>
+      </table>
+      </div>
+    </section></div>
+
+  <div class="block" id="veld">
+    <h2>Veldschema</h2>
+    <p class="sub">Overzicht van alle veldjes over de dag. Elke kolom is één speelveld. Sleep zijwaarts om alles te zien.</p>
+    <div id="veldschema">
+      <div class="legend">
+        <span><i class="dot" style="background:#E76F51"></i>U6</span>
+        <span><i class="dot" style="background:#F4A261"></i>U7</span>
+        <span><i class="dot" style="background:#2A9D8F"></i>U8</span>
+        <span><i class="dot" style="background:#1D9A6C"></i>U9</span>
+        <span><i class="dot" style="background:#3D5AF1"></i>U10</span>
+        <span><i class="dot" style="background:#4895EF"></i>U11</span>
+        <span><i class="dot" style="background:#7B2CBF"></i>U12</span>
+        <span><i class="dot" style="background:#B15EDB"></i>U13</span>
+      </div>
+      <div class="scroll"><div class='wrap'><div class='chart'><div class='timecol'><div style='height:64px;border-bottom:1px solid #e6ebf2;background:#eef2f8'></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='tlabel' style='top:0px'>10u00</div><div class='hline' style='top:186px'></div><div class='tlabel' style='top:186px'>11u00</div><div class='hline' style='top:372px'></div><div class='tlabel' style='top:372px'>12u00</div><div class='hline' style='top:558px'></div><div class='tlabel' style='top:558px'>13u00</div><div class='hline' style='top:744px'></div><div class='tlabel' style='top:744px'>14u00</div><div class='hline' style='top:930px'></div><div class='tlabel' style='top:930px'>15u00</div><div class='hline' style='top:1116px'></div><div class='tlabel' style='top:1116px'>16u00</div><div class='pauze' style='top:542px;height:109px'></div></div></div><div class='group'><div class='ghead'>Zone D — links</div><div class='cols'><div class='col'><div class='chead'>D1<small>5v5</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:105px;background:#2A9D8F'><b>10u00 · U8</b><span>Hechtel – Kadijk</span></div><div class='blk' style='top:108px;height:105px;background:#2A9D8F'><b>10u35 · U8</b><span>Balen – Kadijk</span></div><div class='blk' style='top:217px;height:105px;background:#2A9D8F'><b>11u10 · U8</b><span>Balen – Peer SV</span></div><div class='blk' style='top:325px;height:105px;background:#2A9D8F'><b>11u45 · U8</b><span>Balen – Kaulille</span></div><div class='blk' style='top:434px;height:105px;background:#2A9D8F'><b>12u20 · U8</b><span>Balen – Hechtel</span></div><div class='blk' style='top:651px;height:74px;background:#1D9A6C'><b>13u30 · U9</b><span>Kaulille – Kadijk</span></div><div class='blk' style='top:728px;height:74px;background:#1D9A6C'><b>13u55 · U9</b><span>Hechtel – Kadijk</span></div><div class='blk' style='top:806px;height:74px;background:#1D9A6C'><b>14u20 · U9</b><span>Hechtel – Hamont 2</span></div><div class='blk' style='top:883px;height:74px;background:#1D9A6C'><b>14u45 · U9</b><span>Kadijk – Hamont 1</span></div><div class='blk' style='top:961px;height:74px;background:#1D9A6C'><b>15u10 · U9</b><span>Hechtel – Hamont 1</span></div><div class='blk' style='top:1038px;height:74px;background:#1D9A6C'><b>15u35 · U9</b><span>Hamont 2 – Kadijk</span></div></div></div><div class='col'><div class='chead'>D2<small>5v5</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:105px;background:#2A9D8F'><b>10u00 · U8</b><span>Kaulille – Peer SV</span></div><div class='blk' style='top:108px;height:105px;background:#2A9D8F'><b>10u35 · U8</b><span>Hechtel – Kaulille</span></div><div class='blk' style='top:217px;height:105px;background:#2A9D8F'><b>11u10 · U8</b><span>Kadijk – Kaulille</span></div><div class='blk' style='top:325px;height:105px;background:#2A9D8F'><b>11u45 · U8</b><span>Peer SV – Hechtel</span></div><div class='blk' style='top:434px;height:105px;background:#2A9D8F'><b>12u20 · U8</b><span>Peer SV – Kadijk</span></div><div class='blk' style='top:651px;height:74px;background:#1D9A6C'><b>13u30 · U9</b><span>Hamont 1 – Hamont 2</span></div><div class='blk' style='top:728px;height:74px;background:#1D9A6C'><b>13u55 · U9</b><span>Kaulille – Hamont 1</span></div><div class='blk' style='top:883px;height:74px;background:#1D9A6C'><b>14u45 · U9</b><span>Hamont 2 – Kaulille</span></div><div class='blk' style='top:1038px;height:74px;background:#1D9A6C'><b>15u35 · U9</b><span>Hechtel – Kaulille</span></div></div></div></div></div><div class='group'><div class='ghead'>Veld B — midden</div><div class='cols'><div class='col'><div class='chead'>B1<small>8v8</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:59px;background:#3D5AF1'><b>10u00 · U10</b><span>Kadijk – Peer SV</span></div><div class='blk' style='top:62px;height:59px;background:#3D5AF1'><b>10u20 · U10</b><span>Hechtel – Achel</span></div><div class='blk' style='top:124px;height:59px;background:#3D5AF1'><b>10u40 · U10</b><span>Peer SV – Opitter</span></div><div class='blk' style='top:186px;height:59px;background:#3D5AF1'><b>11u00 · U10</b><span>Kadijk – Achel</span></div><div class='blk' style='top:248px;height:59px;background:#3D5AF1'><b>11u20 · U10</b><span>Peer SV – Achel</span></div><div class='blk' style='top:310px;height:59px;background:#3D5AF1'><b>11u40 · U10</b><span>Meeuwen – Peer SV</span></div><div class='blk' style='top:372px;height:59px;background:#3D5AF1'><b>12u00 · U10</b><span>Kadijk – Hechtel</span></div><div class='blk' style='top:434px;height:59px;background:#3D5AF1'><b>12u20 · U10</b><span>Achel – Opitter</span></div><div class='blk' style='top:651px;height:74px;background:#4895EF'><b>13u30 · U11</b><span>Eksel – Peer SV</span></div><div class='blk' style='top:728px;height:74px;background:#4895EF'><b>13u55 · U11</b><span>Kadijk – Peer SV</span></div><div class='blk' style='top:806px;height:74px;background:#4895EF'><b>14u20 · U11</b><span>Kadijk – Eksel</span></div></div></div><div class='col'><div class='chead'>B2<small>8v8</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:59px;background:#3D5AF1'><b>10u00 · U10</b><span>Opitter – Meeuwen</span></div><div class='blk' style='top:62px;height:59px;background:#3D5AF1'><b>10u20 · U10</b><span>Kadijk – Meeuwen</span></div><div class='blk' style='top:186px;height:59px;background:#3D5AF1'><b>11u00 · U10</b><span>Meeuwen – Hechtel</span></div><div class='blk' style='top:248px;height:59px;background:#3D5AF1'><b>11u20 · U10</b><span>Opitter – Hechtel</span></div><div class='blk' style='top:310px;height:59px;background:#3D5AF1'><b>11u40 · U10</b><span>Kadijk – Opitter</span></div><div class='blk' style='top:372px;height:59px;background:#3D5AF1'><b>12u00 · U10</b><span>Achel – Meeuwen</span></div><div class='blk' style='top:434px;height:59px;background:#3D5AF1'><b>12u20 · U10</b><span>Hechtel – Peer SV</span></div></div></div></div></div><div class='group'><div class='ghead'>Veld A — rechts</div><div class='cols'><div class='col'><div class='chead'>A1<small>8v8</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:183px;background:#7B2CBF'><b>10u00 · U12</b><span>Kadijk – Peer SV</span></div><div class='blk' style='top:651px;height:74px;background:#B15EDB'><b>13u30 · U13</b><span>Kadijk – Achel</span></div><div class='blk' style='top:728px;height:74px;background:#B15EDB'><b>13u55 · U13</b><span>Nevok – Opitter</span></div><div class='blk' style='top:806px;height:74px;background:#B15EDB'><b>14u20 · U13</b><span>Kadijk – Opitter</span></div><div class='blk' style='top:883px;height:74px;background:#B15EDB'><b>14u45 · U13</b><span>Achel – Nevok</span></div><div class='blk' style='top:961px;height:74px;background:#B15EDB'><b>15u10 · U13</b><span>Kadijk – Nevok</span></div><div class='blk' style='top:1038px;height:74px;background:#B15EDB'><b>15u35 · U13</b><span>Opitter – Achel</span></div></div></div><div class='col'><div class='chead'>A2·1<small>mini</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:43px;background:#E76F51'><b>10u00 · U6</b><span>Opitter 1 – Kadijk 3</span></div><div class='blk' style='top:46px;height:43px;background:#E76F51'><b>10u15 · U6</b><span>Opitter 3 – Kadijk 1</span></div><div class='blk' style='top:93px;height:43px;background:#E76F51'><b>10u30 · U6</b><span>Kadijk 3 – Opitter 2</span></div><div class='blk' style='top:139px;height:43px;background:#E76F51'><b>10u45 · U6</b><span>Opitter 1 – Kadijk 1</span></div><div class='blk' style='top:186px;height:43px;background:#E76F51'><b>11u00 · U6</b><span>Kadijk 3 – Kadijk 1</span></div><div class='blk' style='top:232px;height:43px;background:#E76F51'><b>11u15 · U6</b><span>Kadijk 2 – Kadijk 3</span></div><div class='blk' style='top:279px;height:43px;background:#E76F51'><b>11u30 · U6</b><span>Opitter 1 – Opitter 3</span></div><div class='blk' style='top:325px;height:43px;background:#E76F51'><b>11u45 · U6</b><span>Kadijk 1 – Opitter 2</span></div><div class='blk' style='top:651px;height:43px;background:#F4A261'><b>13u30 · U7</b><span>Kadijk 2 – Hechtel 2</span></div><div class='blk' style='top:697px;height:43px;background:#F4A261'><b>13u45 · U7</b><span>Kadijk 1 – Hechtel 2</span></div><div class='blk' style='top:744px;height:43px;background:#F4A261'><b>14u00 · U7</b><span>Kadijk 1 – Hechtel 1</span></div><div class='blk' style='top:790px;height:43px;background:#F4A261'><b>14u15 · U7</b><span>Hechtel 2 – Kadijk 3</span></div><div class='blk' style='top:837px;height:43px;background:#F4A261'><b>14u30 · U7</b><span>Kadijk 1 – Kadijk 3</span></div><div class='blk' style='top:883px;height:43px;background:#F4A261'><b>14u45 · U7</b><span>Hechtel 1 – Hechtel 2</span></div></div></div><div class='col'><div class='chead'>A2·2<small>mini</small></div><div class='canvas'><div class='hline' style='top:0px'></div><div class='hline' style='top:186px'></div><div class='hline' style='top:372px'></div><div class='hline' style='top:558px'></div><div class='hline' style='top:744px'></div><div class='hline' style='top:930px'></div><div class='hline' style='top:1116px'></div><div class='pauze' style='top:542px;height:109px'></div><div class='blk' style='top:0px;height:43px;background:#E76F51'><b>10u00 · U6</b><span>Opitter 2 – Kadijk 2</span></div><div class='blk' style='top:46px;height:43px;background:#E76F51'><b>10u15 · U6</b><span>Opitter 1 – Kadijk 2</span></div><div class='blk' style='top:139px;height:43px;background:#E76F51'><b>10u45 · U6</b><span>Kadijk 2 – Opitter 3</span></div><div class='blk' style='top:186px;height:43px;background:#E76F51'><b>11u00 · U6</b><span>Opitter 2 – Opitter 3</span></div><div class='blk' style='top:232px;height:43px;background:#E76F51'><b>11u15 · U6</b><span>Opitter 1 – Opitter 2</span></div><div class='blk' style='top:279px;height:43px;background:#E76F51'><b>11u30 · U6</b><span>Kadijk 1 – Kadijk 2</span></div><div class='blk' style='top:325px;height:43px;background:#E76F51'><b>11u45 · U6</b><span>Opitter 3 – Kadijk 3</span></div><div class='blk' style='top:651px;height:43px;background:#F4A261'><b>13u30 · U7</b><span>Kadijk 3 – Hechtel 1</span></div><div class='blk' style='top:697px;height:43px;background:#F4A261'><b>13u45 · U7</b><span>Kadijk 2 – Kadijk 3</span></div><div class='blk' style='top:790px;height:43px;background:#F4A261'><b>14u15 · U7</b><span>Hechtel 1 – Kadijk 2</span></div><div class='blk' style='top:883px;height:43px;background:#F4A261'><b>14u45 · U7</b><span>Kadijk 1 – Kadijk 2</span></div></div></div></div></div></div></div></div>
+    </div>
+    <p class="veldnote">Voormiddag 10u00 – 12u55 · middagpauze · namiddag 13u30 – 16u00.</p>
+  </div>
+
+  <div class="block" id="reglement">
+    <h2>Reglement</h2>
+    <p class="sub">Het volledige tornooireglement voor deelnemende clubs.</p>
+    <details class="regl">
+      <summary>Toon reglement</summary>
+      <ul><li>Het tornooi vindt plaats op de terreinen van K Peer SV op zaterdag 29 augustus 2026.</li><li>De wedstrijden worden gespeeld volgens de reglementen van de KBVB. Bij betwistingen beslist de inrichtende club.</li><li>De leeftijd van de spelers is deze die toegelaten is door de KBVB voor het seizoen 2026 - 2027.</li><li>Iedere club dient 30&#x27; voor aanvang van haar eerste wedstrijd zich aan te melden op het secretariaat “ in de kantine” met het ingevuld scheidsrechters formulier.</li><li>De wedstrijden staan onder leiding van scheidsrechters aangeduid door de inrichtende club.</li><li>Inkom tornooi is 3€.</li><li>Van elke ploeg mag er 1 trainer en 1 begeleider gratis binnen.</li><li>Er wordt gespeeld zonder klassement of eindrangschikking.</li><li>Iedere club moet voorzien zijn van een stel reserve shirts van een andere kleur. De thuisploeg dient desgevallend van shirt te wisselen.</li><li>Iedere ploeg zorgt voor eigen opwarmingsballen en drinkbussen.</li><li>Er worden geen strafschoppen getrapt.</li><li>De inrichtende club is niet verantwoordelijk voor diefstal en gebeurlijke ongevallen van welke aard ze ook mogen zijn.</li><li>Voor iedere deelnemende speler is er een herinneringsmedaille.</li></ul>
+    </details>
+  </div>
+</main>
+
+<footer><div class="container">
+  K Peer SV · Tornooi 29 augustus 2026 · Er wordt gespeeld zonder klassement of eindrangschikking.
+</div></footer>
+
+</body></html>
