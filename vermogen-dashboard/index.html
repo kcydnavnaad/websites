@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vermogensdashboard — Daan &amp; Rhyana</title>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --midnight:#050543;--violet:#951CF3;--carmine:#FF575D;--orange:#FF7759;--tangerine:#FF7E23;
+  --deep:#030330;--surface:#0C0C63;--surface2:#12126e;
+  --grad:linear-gradient(45deg,var(--violet) 0%,var(--carmine) 52%,var(--orange) 100%);
+  --grad-h:linear-gradient(90deg,var(--violet) 0%,var(--carmine) 52%,var(--orange) 100%);
+  --ok:#4ADE80;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{background:#050543;font-size:16px}
+body{font-family:'Readex Pro',system-ui,sans-serif;background:var(--midnight);color:#fff;-webkit-font-smoothing:antialiased;line-height:1.55;min-height:100vh}
+.wrap{max-width:940px;margin:0 auto;padding:1.5rem 1.4rem 4rem}
+header{padding:1.5rem 0 1rem;position:relative}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;color:var(--tangerine);font-weight:600;margin-bottom:.6rem}
+h1{font-size:1.7rem;font-weight:600;letter-spacing:-.02em}
+.updated{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.4rem}
+/* total hero */
+.hero{background:var(--surface);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:1.8rem;margin:1.4rem 0;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-40%;right:-10%;width:50%;height:160%;background:var(--grad);opacity:.15;filter:blur(70px);border-radius:50%}
+.hero .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.5);font-weight:500}
+.hero .total{font-size:2.8rem;font-weight:600;letter-spacing:-.03em;margin:.2rem 0;font-variant-numeric:tabular-nums}
+.hero .split{display:flex;gap:1.6rem;flex-wrap:wrap;font-size:.85rem;color:rgba(255,255,255,.65);margin-top:.4rem}
+.hero .split b{color:#fff;font-weight:600}
+h2{font-size:.95rem;font-weight:600;margin:1.8rem 0 .8rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55)}
+/* input rows */
+.accounts{display:grid;gap:.55rem}
+.arow{display:flex;align-items:center;gap:.8rem;background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.7rem 1rem}
+.arow .nm{flex:1;font-size:.92rem;font-weight:300;color:rgba(255,255,255,.85)}
+.arow .nm small{display:block;font-size:.72rem;color:rgba(255,255,255,.4);font-weight:300}
+.arow .cat{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:5px;font-weight:600}
+.cat-b{background:rgba(149,28,243,.22);color:#C9A8FF}
+.cat-c{background:rgba(255,126,35,.18);color:#FFB98A}
+.arow input{width:120px;background:var(--midnight);border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:inherit;font-size:.95rem;padding:.5rem .7rem;text-align:right;font-variant-numeric:tabular-nums}
+.arow input:focus{outline:none;border-color:var(--tangerine)}
+/* milestones */
+.ms{display:grid;gap:1rem;margin-top:.4rem}
+.mcard{background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.1rem 1.2rem}
+.mcard.done{border-color:rgba(74,222,128,.4)}
+.mtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.15rem}
+.mtop .goal{font-size:1.15rem;font-weight:600}
+.mtop .yr{font-size:.78rem;color:var(--tangerine);font-weight:600}
+.mlabel{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:.7rem}
+.track{height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
+.fill{height:100%;border-radius:6px;background:var(--grad-h);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.fill.done{background:linear-gradient(90deg,#22C55E,#4ADE80)}
+.mfoot{display:flex;justify-content:space-between;font-size:.78rem;margin-top:.5rem}
+.mfoot .pct{font-weight:600;color:#fff}
+.mfoot .rem{color:rgba(255,255,255,.5)}
+.mfoot .rem.done{color:var(--ok)}
+/* buttons */
+.actions{display:flex;gap:.7rem;margin-top:1.4rem;flex-wrap:wrap}
+button{font-family:inherit;font-size:.85rem;font-weight:500;border:none;border-radius:9px;padding:.7rem 1.2rem;cursor:pointer;transition:transform .1s}
+button:active{transform:scale(.97)}
+.btn-primary{background:var(--grad);color:#fff}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8)}
+.hint{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:1.5rem;padding:.9rem 1.1rem;border:1px dashed rgba(255,255,255,.15);border-radius:10px;line-height:1.6}
+.snapshot-note{font-size:.72rem;color:var(--ok);margin-top:.6rem;height:1rem;transition:opacity .3s}
+/* history */
+.hist{margin-top:.6rem;font-size:.82rem;color:rgba(255,255,255,.55)}
+.hist table{width:100%;border-collapse:collapse;margin-top:.5rem}
+.hist th,.hist td{text-align:right;padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
+.hist th:first-child,.hist td:first-child{text-align:left}
+.hist th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);font-weight:600}
+@media(max-width:560px){.hero .total{font-size:2.1rem}.arow{flex-wrap:wrap}.arow input{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Vermogensdashboard · intern</div>
+    <h1>Waar staan we vandaag?</h1>
+    <div class="updated" id="updated">Nog geen momentopname opgeslagen</div>
+  </header>
+
+  <div class="hero">
+    <div class="lbl">Totaal bruto vermogen</div>
+    <div class="total" id="totalDisplay">€0</div>
+    <div class="split">
+      <span>Belegd: <b id="investedDisplay">€0</b></span>
+      <span>Cash: <b id="cashDisplay">€0</b></span>
+    </div>
+  </div>
+
+  <h2>Belegd (Saxo &amp; crypto)</h2>
+  <div class="accounts" id="investedAccounts"></div>
+
+  <h2>Cash &amp; sparen</h2>
+  <div class="accounts" id="cashAccounts"></div>
+
+  <div class="actions">
+    <button class="btn-primary" onclick="saveSnapshot()">Momentopname opslaan</button>
+    <button class="btn-ghost" onclick="resetInputs()">Velden leegmaken</button>
+  </div>
+  <div class="snapshot-note" id="snapNote"></div>
+
+  <h2>Voortgang naar onze doelen</h2>
+  <p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:-.3rem 0 1rem">Op basis van belegd vermogen — het zuiverste beeld van onze FIRE-voortgang.</p>
+  <div class="ms" id="milestones"></div>
+
+  <h2>Historiek</h2>
+  <div class="hist" id="history">Nog geen opgeslagen momentopnames. Vul je saldi in en klik "Momentopname opslaan".</div>
+
+  <div class="hint">
+    <strong style="color:rgba(255,255,255,.7)">Hoe dit werkt.</strong> Vul elk kwartaal je saldi in en sla een momentopname op. Je gegevens blijven lokaal in deze browser op dit toestel — er wordt niets naar een server gestuurd. De doelen zijn onze eigen mijlpalen (eigen kracht, ~6%). Dit is geen live koppeling met Saxo; het bedrag tik je zelf over uit je broker of uit een tracker.
+  </div>
+</div>
+
+<script>
+const ACCOUNTS = {
+  invested: [
+    {id:'saxo_gez', name:'Saxo gezamenlijk', sub:'ACWI', cat:'b'},
+    {id:'saxo_daan', name:'Saxo Daan', sub:'ACWI', cat:'b'},
+    {id:'saxo_rhyana', name:'Saxo Rhyana', sub:'ACWI', cat:'b'},
+    {id:'goud', name:'Goud', sub:'ETC / fysiek', cat:'b'},
+    {id:'bitcoin', name:'Bitcoin', sub:'crypto', cat:'c'},
+  ],
+  cash: [
+    {id:'belfius', name:'Belfius', sub:'spaar'},
+    {id:'fortis_spaar', name:'Fortis spaar', sub:'incl. noodbuffer'},
+    {id:'fortis_buffer', name:'Fortis buffer', sub:'uitgavenpot'},
+    {id:'geldmarkt', name:'Geldmarkt-ETF', sub:'cash-comfort'},
+  ]
+};
+const MILESTONES = [
+  {goal:50000, year:2027, label:'Eerste serieuze mijlpaal'},
+  {goal:100000, year:2029, label:'Zes cijfers'},
+  {goal:250000, year:2038, label:'Vermogen begint te werken'},
+  {goal:500000, year:2046, label:'Basis voor Coast FIRE'},
+];
+const LS_KEY='vermogen_dashboard_v1';
+const fmt = n => '€'+Math.round(n).toLocaleString('nl-BE');
+
+function loadState(){
+  try{ return JSON.parse(localStorage.getItem(LS_KEY)) || {current:{},history:[]}; }
+  catch(e){ return {current:{},history:[]}; }
+}
+function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
+let state = loadState();
+
+function buildInputs(){
+  const inv = document.getElementById('investedAccounts');
+  const csh = document.getElementById('cashAccounts');
+  inv.innerHTML=''; csh.innerHTML='';
+  ACCOUNTS.invested.forEach(a=>inv.appendChild(row(a)));
+  ACCOUNTS.cash.forEach(a=>csh.appendChild(row(a)));
+}
+function row(a){
+  const d=document.createElement('div'); d.className='arow';
+  const catHtml = a.cat ? `<span class="cat cat-${a.cat}">${a.cat==='b'?'belegd':'crypto'}</span>` : '';
+  d.innerHTML=`<div class="nm">${a.name}<small>${a.sub}</small></div>${catHtml}
+    <input type="number" inputmode="decimal" placeholder="0" data-id="${a.id}" value="${state.current[a.id]??''}">`;
+  d.querySelector('input').addEventListener('input', recalc);
+  return d;
+}
+function recalc(){
+  let invested=0, cash=0;
+  document.querySelectorAll('input[data-id]').forEach(inp=>{
+    const v=parseFloat(inp.value)||0;
+    state.current[inp.dataset.id]=inp.value;
+    if(ACCOUNTS.invested.some(a=>a.id===inp.dataset.id)) invested+=v; else cash+=v;
+  });
+  const total=invested+cash;
+  document.getElementById('totalDisplay').textContent=fmt(total);
+  document.getElementById('investedDisplay').textContent=fmt(invested);
+  document.getElementById('cashDisplay').textContent=fmt(cash);
+  renderMilestones(invested);
+  saveState(state);
+}
+function renderMilestones(invested){
+  const box=document.getElementById('milestones'); box.innerHTML='';
+  MILESTONES.forEach(m=>{
+    const pct=Math.min(100, invested/m.goal*100);
+    const done=invested>=m.goal;
+    const rem=m.goal-invested;
+    const c=document.createElement('div'); c.className='mcard'+(done?' done':'');
+    c.innerHTML=`
+      <div class="mtop"><span class="goal">${fmt(m.goal)}</span><span class="yr">tegen ${m.year}</span></div>
+      <div class="mlabel">${m.label}</div>
+      <div class="track"><div class="fill${done?' done':''}" style="width:${pct}%"></div></div>
+      <div class="mfoot">
+        <span class="pct">${pct.toFixed(1)}%</span>
+        <span class="rem${done?' done':''}">${done?'✓ Bereikt!':'Nog '+fmt(rem)}</span>
+      </div>`;
+    box.appendChild(c);
+  });
+}
+function saveSnapshot(){
+  recalc();
+  let invested=0,cash=0;
+  ACCOUNTS.invested.forEach(a=>invested+=parseFloat(state.current[a.id])||0);
+  ACCOUNTS.cash.forEach(a=>cash+=parseFloat(state.current[a.id])||0);
+  const now=new Date();
+  state.history.unshift({date:now.toISOString().slice(0,10), invested, cash, total:invested+cash});
+  state.history=state.history.slice(0,40);
+  saveState(state);
+  renderHistory(); renderUpdated();
+  const note=document.getElementById('snapNote');
+  note.textContent='✓ Momentopname opgeslagen op '+now.toLocaleDateString('nl-BE');
+  setTimeout(()=>note.textContent='',4000);
+}
+function renderHistory(){
+  const h=document.getElementById('history');
+  if(!state.history.length){h.textContent='Nog geen opgeslagen momentopnames.';return;}
+  let rows=state.history.map(s=>`<tr><td>${s.date}</td><td>${fmt(s.invested)}</td><td>${fmt(s.cash)}</td><td>${fmt(s.total)}</td></tr>`).join('');
+  h.innerHTML=`<table><thead><tr><th>Datum</th><th>Belegd</th><th>Cash</th><th>Totaal</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function renderUpdated(){
+  const u=document.getElementById('updated');
+  if(state.history.length) u.textContent='Laatste momentopname: '+state.history[0].date;
+}
+function resetInputs(){
+  if(!confirm('Alle ingevulde velden leegmaken? Je opgeslagen historiek blijft behouden.'))return;
+  state.current={}; saveState(state); buildInputs(); recalc();
+}
+buildInputs(); recalc(); renderHistory(); renderUpdated();
+</script>
+</body>
+</html>
