@@ -1,0 +1,106 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Tornooi K Peer SV — scherm"
+  description="Live veldjes-overzicht van het jeugdtornooi."
+  canonical="https://kpeersv.be/toernooi/scherm"
+  noindex
+>
+  <div class="kiosk">
+    <div class="top">
+      <div class="brand"><div class="t">TORNOOI <span class="r">K PEER SV</span></div><div class="d">zaterdag 29 augustus 2026</div></div>
+      <div class="clock"><span id="clk">--:--</span><small>Live · veldjes</small></div>
+    </div>
+    <div class="main" id="main"></div>
+    <div class="bar" id="bar" hidden><div class="fill" id="fill"></div><div class="lbls"><span>10u00</span><span>13u00</span><span>16u00</span></div></div>
+    <div class="foot"><span>NU OP HET VELD · automatisch</span><span id="fcount"></span></div>
+  </div>
+</Layout>
+
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700;800&display=swap');
+  :root{--ink:#0d0d0f;--anthra:#1a1a1d;--anthra2:#202024;--red:#d72638;--yellow:#f9c80e;--txt:#f4f4f5;--muted:#a1a1aa;--line:#2c2c31;
+  --U6:#E76F51;--U7:#F4A261;--U8:#2A9D8F;--U9:#1D9A6C;--U10:#3D5AF1;--U11:#4895EF;--U12:#7B2CBF;--U13:#B15EDB;}
+  .kiosk{position:fixed;inset:0;z-index:9999;background:var(--ink);color:var(--txt);
+    font-family:'Readex Pro',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+    overflow:hidden;display:flex;flex-direction:column;padding:2.2vmin 2.6vmin}
+  .kiosk *{box-sizing:border-box;margin:0;padding:0}
+  .kiosk .top{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid var(--line);padding-bottom:1.4vmin}
+  .kiosk .brand{display:flex;align-items:baseline;gap:1.2vmin}
+  .kiosk .brand .t{font-size:3.4vmin;font-weight:800;letter-spacing:.01em}
+  .kiosk .brand .t .r{color:var(--red)}
+  .kiosk .brand .d{font-size:1.8vmin;color:var(--muted);font-weight:500}
+  .kiosk .clock{font-size:4.4vmin;font-weight:800;font-variant-numeric:tabular-nums;color:var(--yellow);line-height:1}
+  .kiosk .clock small{display:block;text-align:right;font-size:1.5vmin;color:var(--muted);font-weight:500;letter-spacing:.18em;text-transform:uppercase}
+  .kiosk .main{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2vmin;min-height:0}
+  .kiosk .sec-h{display:flex;align-items:center;gap:1.4vmin;font-size:2vmin;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .kiosk .dot{width:1.4vmin;height:1.4vmin;border-radius:50%;background:#ff3b4e;box-shadow:0 0 0 0 rgba(255,59,78,.6);animation:kpulse 1.6s infinite}
+  @keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(255,59,78,.55)}70%{box-shadow:0 0 0 2.4vmin rgba(255,59,78,0)}100%{box-shadow:0 0 0 0 rgba(255,59,78,0)}}
+  .kiosk .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(30vmin,1fr));gap:1.6vmin;margin-top:1.2vmin}
+  .kiosk .card{background:var(--anthra);border:1px solid var(--line);border-left:.7vmin solid var(--acc,#666);border-radius:1.4vmin;padding:1.8vmin 2vmin}
+  .kiosk .card .r1{display:flex;align-items:center;gap:1.2vmin;margin-bottom:1vmin}
+  .kiosk .card .veld{background:var(--acc,#666);color:#fff;font-weight:800;font-size:2vmin;border-radius:.8vmin;padding:.5vmin 1.4vmin}
+  .kiosk .card .cat{font-size:1.9vmin;font-weight:700;color:var(--muted)}
+  .kiosk .card .m{font-size:3vmin;font-weight:700;line-height:1.1}
+  .kiosk .card .m .vs{color:var(--muted);font-weight:500;margin:0 1vmin}
+  .kiosk .next{margin-top:1vmin}
+  .kiosk .next .row{display:flex;flex-wrap:wrap;gap:1.2vmin;margin-top:1vmin}
+  .kiosk .chip{background:var(--anthra2);border:1px solid var(--line);border-radius:999px;padding:.9vmin 1.8vmin;font-size:1.9vmin}
+  .kiosk .chip .cc{color:var(--acc,#aaa);font-weight:700;margin-right:.6vmin}
+  .kiosk .muted{color:var(--muted)}
+  .kiosk .center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:2vmin}
+  .kiosk .center .big{font-size:11vmin;font-weight:800;color:var(--yellow);font-variant-numeric:tabular-nums;line-height:1}
+  .kiosk .center .lab{font-size:3vmin;color:var(--muted);letter-spacing:.06em}
+  .kiosk .center .thanks{font-size:5vmin;font-weight:800;max-width:60vw;line-height:1.15}
+  .kiosk .bar{margin-top:1.6vmin;height:1.2vmin;background:var(--anthra);border:1px solid var(--line);border-radius:999px;position:relative;overflow:hidden}
+  .kiosk .bar .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--red),var(--yellow));border-radius:999px}
+  .kiosk .bar .lbls{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 1.4vmin;font-size:1.2vmin;color:#000;font-weight:700;mix-blend-mode:difference}
+  .kiosk .foot{display:flex;justify-content:space-between;font-size:1.5vmin;color:var(--muted);margin-top:1vmin}
+</style>
+
+<script>
+  const DATA = [{"uur": "10u00", "cat": "U8", "veld": "D1", "thuis": "Peer SV 1", "uit": "Balen"}, {"uur": "10u35", "cat": "U8", "veld": "D1", "thuis": "Peer SV 1", "uit": "Hechtel"}, {"uur": "11u10", "cat": "U8", "veld": "D1", "thuis": "Balen", "uit": "Hechtel"}, {"uur": "11u45", "cat": "U8", "veld": "D1", "thuis": "Peer SV 1", "uit": "Kaulille"}, {"uur": "12u20", "cat": "U8", "veld": "D1", "thuis": "Hechtel", "uit": "Peer SV 2"}, {"uur": "13u30", "cat": "U9", "veld": "D1", "thuis": "Kaulille", "uit": "Kadijk"}, {"uur": "13u55", "cat": "U9", "veld": "D1", "thuis": "Hechtel", "uit": "Kadijk"}, {"uur": "14u20", "cat": "U9", "veld": "D1", "thuis": "Hechtel", "uit": "Hamont 2"}, {"uur": "14u45", "cat": "U9", "veld": "D1", "thuis": "Kadijk", "uit": "Hamont 1"}, {"uur": "15u10", "cat": "U9", "veld": "D1", "thuis": "Hechtel", "uit": "Hamont 1"}, {"uur": "15u35", "cat": "U9", "veld": "D1", "thuis": "Hamont 2", "uit": "Kadijk"}, {"uur": "10u00", "cat": "U8", "veld": "D2", "thuis": "Peer SV 2", "uit": "Kaulille"}, {"uur": "10u35", "cat": "U8", "veld": "D2", "thuis": "Peer SV 2", "uit": "Kadijk"}, {"uur": "11u10", "cat": "U8", "veld": "D2", "thuis": "Kaulille", "uit": "Kadijk"}, {"uur": "11u45", "cat": "U8", "veld": "D2", "thuis": "Balen", "uit": "Kadijk"}, {"uur": "13u30", "cat": "U9", "veld": "D2", "thuis": "Hamont 1", "uit": "Hamont 2"}, {"uur": "13u55", "cat": "U9", "veld": "D2", "thuis": "Kaulille", "uit": "Hamont 1"}, {"uur": "14u45", "cat": "U9", "veld": "D2", "thuis": "Hamont 2", "uit": "Kaulille"}, {"uur": "15u35", "cat": "U9", "veld": "D2", "thuis": "Hechtel", "uit": "Kaulille"}, {"uur": "10u00", "cat": "U10", "veld": "B1", "thuis": "Kadijk", "uit": "Peer SV"}, {"uur": "10u20", "cat": "U10", "veld": "B1", "thuis": "Hechtel", "uit": "Achel"}, {"uur": "10u40", "cat": "U10", "veld": "B1", "thuis": "Peer SV", "uit": "Opitter"}, {"uur": "11u00", "cat": "U10", "veld": "B1", "thuis": "Kadijk", "uit": "Achel"}, {"uur": "11u20", "cat": "U10", "veld": "B1", "thuis": "Peer SV", "uit": "Achel"}, {"uur": "11u40", "cat": "U10", "veld": "B1", "thuis": "Meeuwen", "uit": "Peer SV"}, {"uur": "12u00", "cat": "U10", "veld": "B1", "thuis": "Kadijk", "uit": "Hechtel"}, {"uur": "12u20", "cat": "U10", "veld": "B1", "thuis": "Achel", "uit": "Opitter"}, {"uur": "13u30", "cat": "U11", "veld": "B1", "thuis": "Eksel", "uit": "Peer SV"}, {"uur": "13u55", "cat": "U11", "veld": "B1", "thuis": "Kadijk", "uit": "Peer SV"}, {"uur": "14u20", "cat": "U11", "veld": "B1", "thuis": "Kadijk", "uit": "Eksel"}, {"uur": "10u00", "cat": "U10", "veld": "B2", "thuis": "Opitter", "uit": "Meeuwen"}, {"uur": "10u20", "cat": "U10", "veld": "B2", "thuis": "Kadijk", "uit": "Meeuwen"}, {"uur": "11u00", "cat": "U10", "veld": "B2", "thuis": "Meeuwen", "uit": "Hechtel"}, {"uur": "11u20", "cat": "U10", "veld": "B2", "thuis": "Opitter", "uit": "Hechtel"}, {"uur": "11u40", "cat": "U10", "veld": "B2", "thuis": "Kadijk", "uit": "Opitter"}, {"uur": "12u00", "cat": "U10", "veld": "B2", "thuis": "Achel", "uit": "Meeuwen"}, {"uur": "12u20", "cat": "U10", "veld": "B2", "thuis": "Hechtel", "uit": "Peer SV"}, {"uur": "10u00", "cat": "U12", "veld": "A1", "thuis": "Kadijk", "uit": "Peer SV"}, {"uur": "13u30", "cat": "U13", "veld": "A1", "thuis": "Kadijk", "uit": "Achel"}, {"uur": "13u55", "cat": "U13", "veld": "A1", "thuis": "Nevok", "uit": "Opitter"}, {"uur": "14u20", "cat": "U13", "veld": "A1", "thuis": "Kadijk", "uit": "Opitter"}, {"uur": "14u45", "cat": "U13", "veld": "A1", "thuis": "Achel", "uit": "Nevok"}, {"uur": "15u10", "cat": "U13", "veld": "A1", "thuis": "Kadijk", "uit": "Nevok"}, {"uur": "15u35", "cat": "U13", "veld": "A1", "thuis": "Opitter", "uit": "Achel"}, {"uur": "10u00", "cat": "U6", "veld": "A2", "thuis": "Opitter 1", "uit": "Kadijk 3"}, {"uur": "10u15", "cat": "U6", "veld": "A2", "thuis": "Opitter 3", "uit": "Kadijk 1"}, {"uur": "10u30", "cat": "U6", "veld": "A2", "thuis": "Kadijk 3", "uit": "Opitter 2"}, {"uur": "10u45", "cat": "U6", "veld": "A2", "thuis": "Opitter 1", "uit": "Kadijk 1"}, {"uur": "11u00", "cat": "U6", "veld": "A2", "thuis": "Kadijk 3", "uit": "Kadijk 1"}, {"uur": "11u15", "cat": "U6", "veld": "A2", "thuis": "Kadijk 2", "uit": "Kadijk 3"}, {"uur": "11u30", "cat": "U6", "veld": "A2", "thuis": "Opitter 1", "uit": "Opitter 3"}, {"uur": "11u45", "cat": "U6", "veld": "A2", "thuis": "Kadijk 1", "uit": "Opitter 2"}, {"uur": "13u30", "cat": "U7", "veld": "A2", "thuis": "Kadijk 1", "uit": "Peer SV"}, {"uur": "13u45", "cat": "U7", "veld": "A2", "thuis": "Kadijk 3", "uit": "Hechtel 1"}, {"uur": "14u00", "cat": "U7", "veld": "A2", "thuis": "Peer SV", "uit": "Kadijk 2"}, {"uur": "14u15", "cat": "U7", "veld": "A2", "thuis": "Kadijk 1", "uit": "Hechtel 1"}, {"uur": "14u30", "cat": "U7", "veld": "A2", "thuis": "Peer SV", "uit": "Hechtel 1"}, {"uur": "14u45", "cat": "U7", "veld": "A2", "thuis": "Hechtel 2", "uit": "Peer SV"}, {"uur": "15u00", "cat": "U7", "veld": "A2", "thuis": "Kadijk 1", "uit": "Kadijk 3"}, {"uur": "15u15", "cat": "U7", "veld": "A2", "thuis": "Hechtel 1", "uit": "Kadijk 2"}, {"uur": "10u00", "cat": "U6", "veld": "A3", "thuis": "Opitter 2", "uit": "Kadijk 2"}, {"uur": "10u15", "cat": "U6", "veld": "A3", "thuis": "Opitter 1", "uit": "Kadijk 2"}, {"uur": "10u45", "cat": "U6", "veld": "A3", "thuis": "Kadijk 2", "uit": "Opitter 3"}, {"uur": "11u00", "cat": "U6", "veld": "A3", "thuis": "Opitter 2", "uit": "Opitter 3"}, {"uur": "11u15", "cat": "U6", "veld": "A3", "thuis": "Opitter 1", "uit": "Opitter 2"}, {"uur": "11u30", "cat": "U6", "veld": "A3", "thuis": "Kadijk 1", "uit": "Kadijk 2"}, {"uur": "11u45", "cat": "U6", "veld": "A3", "thuis": "Opitter 3", "uit": "Kadijk 3"}, {"uur": "13u30", "cat": "U7", "veld": "A3", "thuis": "Kadijk 2", "uit": "Hechtel 2"}, {"uur": "13u45", "cat": "U7", "veld": "A3", "thuis": "Kadijk 1", "uit": "Hechtel 2"}, {"uur": "14u15", "cat": "U7", "veld": "A3", "thuis": "Hechtel 2", "uit": "Kadijk 3"}, {"uur": "14u30", "cat": "U7", "veld": "A3", "thuis": "Kadijk 2", "uit": "Kadijk 3"}, {"uur": "14u45", "cat": "U7", "veld": "A3", "thuis": "Kadijk 1", "uit": "Kadijk 2"}, {"uur": "15u00", "cat": "U7", "veld": "A3", "thuis": "Hechtel 1", "uit": "Hechtel 2"}, {"uur": "15u15", "cat": "U7", "veld": "A3", "thuis": "Kadijk 3", "uit": "Peer SV"}];
+  const TZ='Europe/Brussels'; const DUR={U6:15,U7:12,U8:30,U9:20,U10:15,U11:20,U12:60,U13:20};
+  const Y=2026, MO=7, D=29;
+  function nowBE(){return new Date(new Date().toLocaleString('en-US',{timeZone:TZ}));}
+  function mk(h,m){return new Date(Y,MO,D,h,m,0,0);}
+  function pu(t){const m=t.match(/(\d{1,2})u(\d{2})/);return [+m[1],+m[2]];}
+  function pad(n){return String(n).padStart(2,'0');}
+  const M=DATA.map(function(x){const hm=pu(x.uur);const s=mk(hm[0],hm[1]);
+    return Object.assign({},x,{start:s,end:new Date(s.getTime()+(DUR[x.cat]||15)*60000)});});
+  const dayStart=mk(10,0), dayEnd=mk(16,30);
+  const main=document.getElementById('main'),clk=document.getElementById('clk'),
+    bar=document.getElementById('bar'),fill=document.getElementById('fill'),fcount=document.getElementById('fcount');
+  function render(){
+    const now=nowBE();
+    clk.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
+    if(now<dayStart){
+      const ms=dayStart-now,s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;
+      main.innerHTML='<div class="center"><div class="lab">Het toernooi begint over</div><div class="big">'+
+        (d>0?(d+' d '+h+' u'):(pad(h)+':'+pad(m)+':'+pad(ss)))+'</div><div class="lab">Welkom op de terreinen van K Peer SV</div></div>';
+      bar.hidden=true;fcount.textContent='';return;
+    }
+    if(now>dayEnd){
+      main.innerHTML='<div class="center"><div class="thanks">Bedankt aan alle clubs, spelers en supporters!</div><div class="lab">Tot volgend jaar</div></div>';
+      bar.hidden=true;fcount.textContent='';return;
+    }
+    const live=M.filter(function(x){return now>=x.start&&now<=x.end;}).sort(function(a,b){return a.veld<b.veld?-1:1;});
+    const next=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
+    let html='<div class="sec-h"><span class="dot"></span>Nu op het veld</div>';
+    if(live.length){
+      html+='<div class="grid">'+live.map(function(x){return '<div class="card" style="--acc:var(--'+x.cat+')"><div class="r1"><span class="veld">'+x.veld+'</span><span class="cat">'+x.cat+'</span></div><div class="m">'+x.thuis+'<span class="vs">-</span>'+x.uit+'</div></div>';}).join('')+'</div>';
+    } else { html+='<div class="muted" style="font-size:2.4vmin;margin-top:1vmin">Even geen wedstrijd bezig - volgende reeks komt eraan.</div>'; }
+    if(next.length){
+      const t=next[0].start.getTime();const grp=next.filter(function(x){return x.start.getTime()===t;});
+      html+='<div class="next"><div class="sec-h" style="color:var(--muted)">Straks · '+grp[0].uur+'</div><div class="row">'+
+        grp.map(function(x){return '<span class="chip" style="--acc:var(--'+x.cat+')"><span class="cc">'+x.cat+' '+x.veld+'</span>'+x.thuis+' - '+x.uit+'</span>';}).join('')+'</div></div>';
+    }
+    main.innerHTML=html;
+    const frac=Math.max(0,Math.min(1,(now-mk(10,0))/(mk(16,0)-mk(10,0))));
+    bar.hidden=false;fill.style.width=(frac*100)+'%';
+    fcount.textContent=live.length+' bezig · '+next.length+' te gaan';
+  }
+  render();setInterval(render,1000);
+</script>

@@ -25,11 +25,15 @@ import Footer from '../components/Footer.astro';
       <span class="fact">Voormiddag <b>10u00</b> · Namiddag <b>13u30</b></span>
       <span class="fact">Medaille voor <b>elke speler</b></span>
     </div>
+    <div class="live-hero">
+      <div id="tCountdown" class="countdown" hidden></div>
+    </div>
   </div></header>
 
   <nav class="catnav"><div class="container"><div class="chips"><a class="chip" href="#cat-U6" style="--acc:#E76F51"><i></i>U6</a><a class="chip" href="#cat-U7" style="--acc:#F4A261"><i></i>U7</a><a class="chip" href="#cat-U8" style="--acc:#2A9D8F"><i></i>U8</a><a class="chip" href="#cat-U9" style="--acc:#1D9A6C"><i></i>U9</a><a class="chip" href="#cat-U10" style="--acc:#3D5AF1"><i></i>U10</a><a class="chip" href="#cat-U11" style="--acc:#4895EF"><i></i>U11</a><a class="chip" href="#cat-U12" style="--acc:#7B2CBF"><i></i>U12</a><a class="chip" href="#cat-U13" style="--acc:#B15EDB"><i></i>U13</a></div></div></nav>
 
   <main class="container">
+    <div id="liveBar" class="livebar" hidden></div>
     <div class="sess"><h2 class="sess-h">Voormiddag<small>10u00 – 12u55</small></h2>
       <section class="cat" id="cat-U6" style="--acc:#E76F51">
         <div class="cat-head">
@@ -608,4 +612,146 @@ import Footer from '../components/Footer.astro';
     color: var(--muted);
     font-size: 13.5px;
   }
+  /* LIVE — automatisch, klok-gebaseerd (Europe/Brussels) */
+  .toernooi .live-hero { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 20px; }
+  .toernooi .countdown {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--anthra); border: 1px solid var(--line); border-radius: 12px;
+    padding: 12px 18px; font-size: 15px;
+  }
+  .toernooi .countdown b { color: var(--yellow); font-weight: 700; font-variant-numeric: tabular-nums; }
+  .toernooi .countdown.done { border-color: var(--red); }
+  .toernooi .countdown[hidden], .toernooi .livebar[hidden] { display: none !important; }
+
+  .toernooi .livebar {
+    background: linear-gradient(90deg, rgba(215, 38, 56, 0.16), var(--anthra));
+    border: 1px solid var(--line); border-left: 3px solid var(--red);
+    border-radius: 12px; padding: 12px 16px; margin: 18px 0 4px;
+  }
+  .toernooi .livebar .lb-h {
+    display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 13px;
+    letter-spacing: 0.08em; text-transform: uppercase; color: #fff; margin-bottom: 8px;
+  }
+  .toernooi .livebar .lb-dot {
+    width: 9px; height: 9px; border-radius: 50%; background: #ff3b4e;
+    box-shadow: 0 0 0 0 rgba(255, 59, 78, 0.6); animation: lbpulse 1.6s infinite;
+  }
+  @keyframes lbpulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 59, 78, 0.6); }
+    70% { box-shadow: 0 0 0 8px rgba(255, 59, 78, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 59, 78, 0); }
+  }
+  .toernooi .livebar .lb-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toernooi .livebar .lb-item {
+    background: rgba(0, 0, 0, 0.25); border: 1px solid var(--line);
+    border-radius: 999px; padding: 5px 12px; font-size: 13.5px;
+  }
+  .toernooi .livebar .lb-item b { color: var(--yellow); font-weight: 600; }
+  .toernooi .livebar .lb-next { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+  .toernooi tr.is-live { background: linear-gradient(90deg, rgba(34, 197, 94, 0.14), transparent); }
+  .toernooi tr.is-live td.u::after { content: ' • bezig'; color: #22c55e; font-size: 11px; font-weight: 600; }
+  .toernooi tr.is-done { opacity: 0.42; }
+
+  .toernooi #veldschema .chart { position: relative; }
+  .toernooi #veldschema .nowline {
+    position: absolute; left: 0; right: 0; height: 0; border-top: 2px solid #ff3b4e;
+    z-index: 5; pointer-events: none;
+  }
+  .toernooi #veldschema .nowline span {
+    position: absolute; left: 4px; top: -9px; background: #ff3b4e; color: #fff;
+    font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 999px;
+  }
 </style>
+
+
+<script>
+  (function () {
+    const TZ = 'Europe/Brussels';
+    const DUR = { U6: 15, U7: 12, U8: 30, U9: 20, U10: 15, U11: 20, U12: 60, U13: 20 };
+    const Y = 2026, MO = 7, D = 29; // 29 augustus 2026
+    function nowBE() { return new Date(new Date().toLocaleString('en-US', { timeZone: TZ })); }
+    function mk(h, m) { return new Date(Y, MO, D, h, m, 0, 0); }
+    function parseU(t) { const m = (t || '').match(/(\d{1,2})u(\d{2})/); return m ? [+m[1], +m[2]] : null; }
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    const root = document.querySelector('.toernooi');
+    if (!root) return;
+    const dayStart = mk(10, 0), dayEnd = mk(16, 30);
+
+    const rows = [...root.querySelectorAll('table.sched tbody tr')].map(function (tr) {
+      const ut = tr.querySelector('td.u'); const sec = tr.closest('section.cat');
+      const cat = sec ? sec.id.replace('cat-', '') : ''; const hm = parseU(ut && ut.textContent);
+      if (!hm) return null;
+      const start = mk(hm[0], hm[1]); const end = new Date(start.getTime() + (DUR[cat] || 15) * 60000);
+      return { tr, cat, start, end,
+        veld: tr.querySelector('td.t').textContent,
+        thuis: tr.querySelector('td.h').textContent,
+        uit: tr.querySelector('td.a').textContent,
+        uur: ut.textContent };
+    }).filter(Boolean);
+
+    const cd = root.querySelector('#tCountdown');
+    const lb = root.querySelector('#liveBar');
+    const chart = root.querySelector('#veldschema .chart');
+    let nowline = null;
+
+    function fmtDur(ms) {
+      const s = Math.floor(ms / 1000);
+      const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600),
+        m = Math.floor((s % 3600) / 60), ss = s % 60;
+      if (d > 0) return d + ' dag' + (d > 1 ? 'en' : '') + ' ' + h + ' u';
+      return pad(h) + ':' + pad(m) + ':' + pad(ss);
+    }
+
+    function tick() {
+      const now = nowBE();
+      rows.forEach(function (r) {
+        r.tr.classList.remove('is-live', 'is-done');
+        if (now >= r.start && now <= r.end) r.tr.classList.add('is-live');
+        else if (now > r.end) r.tr.classList.add('is-done');
+      });
+      const during = now >= dayStart && now <= dayEnd;
+
+      if (cd) {
+        if (now < dayStart) { cd.hidden = false; cd.classList.remove('done');
+          cd.innerHTML = 'Het toernooi begint over <b>' + fmtDur(dayStart - now) + '</b>'; }
+        else if (now > dayEnd) { cd.hidden = false; cd.classList.add('done');
+          cd.textContent = 'Het toernooi is afgelopen — bedankt aan alle clubs, spelers en supporters.'; }
+        else { cd.hidden = true; }
+      }
+
+      if (lb) {
+        if (during) {
+          const live = rows.filter(function (r) { return now >= r.start && now <= r.end; });
+          const next = rows.filter(function (r) { return r.start > now; }).sort(function (a, b) { return a.start - b.start; });
+          let html = '<div class="lb-h"><span class="lb-dot"></span>Nu op het veld</div>';
+          if (live.length) {
+            html += '<div class="lb-list">' + live.map(function (r) {
+              return '<span class="lb-item"><b>' + r.veld + '</b> · ' + r.cat + ' · ' + r.thuis + ' – ' + r.uit + '</span>';
+            }).join('') + '</div>';
+          } else { html += '<div class="lb-next">Even geen wedstrijd bezig.</div>'; }
+          if (next.length) {
+            const t = next[0].start.getTime();
+            const grp = next.filter(function (r) { return r.start.getTime() === t; });
+            html += '<div class="lb-next">Straks (' + grp[0].uur + '): ' +
+              grp.map(function (r) { return r.cat + ' ' + r.veld + ' ' + r.thuis + ' – ' + r.uit; }).join(' · ') + '</div>';
+          }
+          lb.hidden = false; lb.innerHTML = html;
+        } else { lb.hidden = true; }
+      }
+
+      if (chart) {
+        const mins = (now - mk(10, 0)) / 60000;
+        if (mins >= 0 && mins <= 360) {
+          if (!nowline) { nowline = document.createElement('div'); nowline.className = 'nowline';
+            nowline.innerHTML = '<span>nu</span>'; chart.appendChild(nowline); }
+          nowline.style.top = (64 + mins * (186 / 60)) + 'px'; nowline.hidden = false;
+        } else if (nowline) { nowline.hidden = true; }
+      }
+    }
+    tick();
+    setInterval(tick, 1000);
+
+  })();
+</script>
