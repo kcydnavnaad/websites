@@ -678,6 +678,7 @@ import Footer from '../components/Footer.astro';
     const root = document.querySelector('.toernooi');
     if (!root) return;
     const dayStart = mk(10, 0), dayEnd = mk(16, 30);
+    const preStart = new Date(dayStart.getTime() - 30 * 60000); // 30 min aanloop
 
     const rows = [...root.querySelectorAll('table.sched tbody tr')].map(function (tr) {
       const ut = tr.querySelector('td.u'); const sec = tr.closest('section.cat');
@@ -711,7 +712,7 @@ import Footer from '../components/Footer.astro';
         if (now >= r.start && now <= r.end) r.tr.classList.add('is-live');
         else if (now > r.end) r.tr.classList.add('is-done');
       });
-      const during = now >= dayStart && now <= dayEnd;
+      const during = now >= preStart && now <= dayEnd; // livebar al 30 min voor start
 
       if (cd) {
         if (now < dayStart) { cd.hidden = false; cd.classList.remove('done');

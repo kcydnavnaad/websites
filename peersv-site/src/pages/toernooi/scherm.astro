@@ -71,12 +71,13 @@ import Layout from '../../layouts/Layout.astro';
   const M=DATA.map(function(x){const hm=pu(x.uur);const s=mk(hm[0],hm[1]);
     return Object.assign({},x,{start:s,end:new Date(s.getTime()+(DUR[x.cat]||15)*60000)});});
   const dayStart=mk(10,0), dayEnd=mk(16,30);
+  const preStart=new Date(dayStart.getTime()-30*60000); // 30 min aanloop
   const main=document.getElementById('main'),clk=document.getElementById('clk'),
     bar=document.getElementById('bar'),fill=document.getElementById('fill'),fcount=document.getElementById('fcount');
   function render(){
     const now=nowBE();
     clk.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-    if(now<dayStart){
+    if(now<preStart){
       const ms=dayStart-now,s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;
       main.innerHTML='<div class="center"><div class="lab">Het toernooi begint over</div><div class="big">'+
         (d>0?(d+' d '+h+' u'):(pad(h)+':'+pad(m)+':'+pad(ss)))+'</div><div class="lab">Welkom op de terreinen van K Peer SV</div></div>';
@@ -88,10 +89,11 @@ import Layout from '../../layouts/Layout.astro';
     }
     const live=M.filter(function(x){return now>=x.start&&now<=x.end;}).sort(function(a,b){return a.veld<b.veld?-1:1;});
     const next=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
-    let html='<div class="sec-h"><span class="dot"></span>Nu op het veld</div>';
+    const preMatch = now<dayStart;
+    let html='<div class="sec-h"><span class="dot"></span>'+(preMatch?'Zo dadelijk':'Nu op het veld')+'</div>';
     if(live.length){
       html+='<div class="grid">'+live.map(function(x){return '<div class="card" style="--acc:var(--'+x.cat+')"><div class="r1"><span class="veld">'+x.veld+'</span><span class="cat">'+x.cat+'</span></div><div class="m">'+x.thuis+'<span class="vs">-</span>'+x.uit+'</div></div>';}).join('')+'</div>';
-    } else { html+='<div class="muted" style="font-size:2.4vmin;margin-top:1vmin">Even geen wedstrijd bezig - volgende reeks komt eraan.</div>'; }
+    } else { html+='<div class="muted" style="font-size:2.4vmin;margin-top:1vmin">'+(preMatch?'Het toernooi start om 10u00. Eerste wedstrijden:':'Even geen wedstrijd bezig - volgende reeks komt eraan.')+'</div>'; }
     if(next.length){
       const t=next[0].start.getTime();const grp=next.filter(function(x){return x.start.getTime()===t;});
       html+='<div class="next"><div class="sec-h" style="color:var(--muted)">Straks · '+grp[0].uur+'</div><div class="row">'+
