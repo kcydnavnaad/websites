@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="WGED — product design and engineering studio by Wim Geerits, Peer, Belgium. We GED it done — turning your ideas into reality.">
+<title>WGED — Product Design & Engineering</title>
+<style>
+  :root {
+    --bg: #ECEEF0;
+    --surface: #FFFFFF;
+    --surface-2: #F5F6F7;
+    --ink: #14171A;
+    --muted: #565C63;
+    --faint: #878E96;
+    --line: #D7DADD;
+    --accent: #7A5C3E;
+    --accent-ink: #FFFFFF;
+    --grid: rgba(20, 23, 26, 0.05);
+
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+
+    --maxw: 1160px;
+    --pad: clamp(20px, 5vw, 64px);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #101317;
+      --surface: #171B20;
+      --surface-2: #1C2127;
+      --ink: #E9EBEE;
+      --muted: #98A0A8;
+      --faint: #6C747C;
+      --line: #262B31;
+      --accent: #B4915F;
+      --accent-ink: #14171A;
+      --grid: rgba(233, 235, 238, 0.05);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #ECEEF0; --surface: #FFFFFF; --surface-2: #F5F6F7;
+    --ink: #14171A; --muted: #565C63; --faint: #878E96; --line: #D7DADD;
+    --accent: #7A5C3E; --accent-ink: #FFFFFF; --grid: rgba(20, 23, 26, 0.05);
+  }
+  :root[data-theme="dark"] {
+    --bg: #101317; --surface: #171B20; --surface-2: #1C2127;
+    --ink: #E9EBEE; --muted: #98A0A8; --faint: #6C747C; --line: #262B31;
+    --accent: #B4915F; --accent-ink: #14171A; --grid: rgba(233, 235, 238, 0.05);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding-inline: var(--pad); }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0;
+  }
+  .eyebrow .idx { color: var(--faint); }
+
+  h1, h2, h3 { text-wrap: balance; margin: 0; font-weight: 800; letter-spacing: -0.03em; line-height: 1.02; }
+
+  a { color: inherit; }
+
+  /* ---------- Nav ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 86%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+  }
+  .brand {
+    font-weight: 800; font-size: 20px; letter-spacing: 0.02em;
+    text-decoration: none; display: flex; align-items: baseline; gap: 2px;
+  }
+  .brand .ged { color: var(--accent); }
+  .brand .dot { color: var(--accent); }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.04em;
+    text-decoration: none; color: var(--muted);
+    text-transform: uppercase; transition: color .15s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-cta {
+    font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em;
+    text-decoration: none; padding: 9px 16px; border: 1px solid var(--ink);
+    color: var(--ink); transition: all .15s;
+  }
+  .nav-cta:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .theme-toggle {
+    background: none; border: 1px solid var(--line); color: var(--muted);
+    font-family: var(--mono); font-size: 12px; cursor: pointer;
+    width: 34px; height: 34px; display: grid; place-items: center; padding: 0;
+    transition: all .15s;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--ink); }
+  @media (max-width: 720px) { .nav-links { display: none; } }
+
+  /* ---------- Hero ---------- */
+  .hero { position: relative; padding-top: clamp(56px, 9vw, 110px); padding-bottom: clamp(56px, 9vw, 104px); overflow: hidden; }
+  .hero::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+    -webkit-mask-image: radial-gradient(120% 90% at 78% 8%, #000 0%, transparent 72%);
+            mask-image: radial-gradient(120% 90% at 78% 8%, #000 0%, transparent 72%);
+  }
+  .hero .wrap { position: relative; z-index: 1; }
+  .hero h1 {
+    font-size: clamp(46px, 9vw, 108px);
+    text-transform: uppercase;
+    max-width: 15ch;
+  }
+  .hero h1 .accent { color: var(--accent); }
+  .hero-lead {
+    max-width: 52ch; color: var(--muted); font-size: clamp(17px, 1.6vw, 20px);
+    margin-top: 26px;
+  }
+  .hero-lead strong { color: var(--ink); font-weight: 700; }
+  .rotor {
+    margin-top: 34px; font-family: var(--mono); font-size: 14px; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink);
+    display: flex; align-items: center; gap: 12px; min-height: 22px;
+  }
+  .rotor .tick { color: var(--accent); }
+  .rotor .word { transition: opacity .4s ease; }
+  .hero-actions { margin-top: 40px; display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn {
+    font-family: var(--mono); font-size: 14px; letter-spacing: 0.03em; text-transform: uppercase;
+    text-decoration: none; padding: 14px 26px; display: inline-flex; align-items: center; gap: 10px;
+    transition: all .15s; border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-primary:hover { transform: translateY(-2px); }
+  .btn-ghost { border-color: var(--line); color: var(--ink); }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  .hero-meta {
+    margin-top: 64px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    background: var(--line); border: 1px solid var(--line);
+  }
+  .hero-meta .cell { background: var(--bg); padding: 20px 22px; }
+  .hero-meta .num { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
+  .hero-meta .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-top: 6px; }
+  @media (max-width: 720px) { .hero-meta { grid-template-columns: repeat(2, 1fr); } }
+
+  /* ---------- Section shell ---------- */
+  section { padding-block: clamp(64px, 9vw, 120px); }
+  .section-head { display: flex; flex-direction: column; gap: 14px; max-width: 60ch; margin-bottom: 52px; }
+  .section-head h2 { font-size: clamp(30px, 4.6vw, 52px); }
+  .section-head p { color: var(--muted); margin: 0; }
+
+  .band { border-top: 1px solid var(--line); }
+  .band.alt { background: var(--surface); }
+
+  /* ---------- About ---------- */
+  .about-grid { display: grid; grid-template-columns: 320px 1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
+  .portrait {
+    position: relative; aspect-ratio: 4/5; border: 1px solid var(--line);
+    background:
+      radial-gradient(120% 90% at 50% 18%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 60%),
+      var(--surface-2);
+    display: grid; place-items: center; overflow: hidden;
+  }
+  .portrait .mono { font-size: 92px; font-weight: 800; letter-spacing: -0.05em; color: color-mix(in srgb, var(--ink) 82%, var(--accent)); }
+  .portrait img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; display: block; filter: grayscale(0.12) contrast(1.02); }
+  .portrait::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--ink) 55%, transparent)); pointer-events: none; }
+  .portrait .tag { z-index: 2; color: #F3F1ED; }
+  .portrait .tag {
+    position: absolute; left: 12px; bottom: 12px; font-family: var(--mono);
+    font-size: 10.5px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint);
+  }
+  .portrait .corner { position: absolute; width: 14px; height: 14px; border: 2px solid var(--accent); z-index: 2; }
+  .portrait .corner.tl { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+  .portrait .corner.br { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+  .about-body p { color: var(--muted); }
+  .about-body p:first-child { color: var(--ink); font-size: clamp(19px, 2.2vw, 24px); line-height: 1.4; font-weight: 500; }
+  .about-body p strong { color: var(--ink); font-weight: 650; }
+  .signature { margin-top: 30px; display: flex; align-items: center; gap: 14px; }
+  .signature .sig-name { font-weight: 800; letter-spacing: -0.02em; }
+  .signature .sig-role { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+  .signature .rule { flex: 1; height: 1px; background: var(--line); }
+
+  /* ---------- Process ---------- */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  @media (max-width: 860px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 480px) { .steps { grid-template-columns: 1fr; } }
+  .step { background: var(--bg); padding: 30px 26px 34px; min-height: 210px; display: flex; flex-direction: column; }
+  .band.alt .step { background: var(--surface); }
+  .step .no { font-family: var(--mono); font-size: 13px; color: var(--accent); letter-spacing: 0.1em; }
+  .step h3 { font-size: 23px; margin-top: 18px; letter-spacing: -0.02em; }
+  .step p { color: var(--muted); font-size: 15px; margin: 12px 0 0; }
+  .step .no::after { content: ""; display: block; width: 30px; height: 2px; background: var(--accent); margin-top: 14px; }
+
+  /* ---------- Tools ---------- */
+  .tools-grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(28px, 5vw, 64px); align-items: start; }
+  @media (max-width: 860px) { .tools-grid { grid-template-columns: 1fr; } }
+  .tool-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .tool-list li { display: flex; align-items: baseline; gap: 18px; padding: 20px 4px; border-bottom: 1px solid var(--line); }
+  .tool-list .k { font-family: var(--mono); font-size: 12px; color: var(--faint); letter-spacing: 0.1em; width: 42px; flex: none; }
+  .tool-list .n { font-weight: 650; font-size: 19px; letter-spacing: -0.01em; }
+  .tool-list .d { color: var(--muted); font-size: 14px; margin-left: auto; text-align: right; font-family: var(--mono); letter-spacing: 0.02em; }
+  @media (max-width: 560px) { .tool-list .d { display: none; } }
+  .tech-card { border: 1px solid var(--line); background: var(--surface-2); padding: 30px; }
+  .tech-card h3 { font-size: 18px; text-transform: uppercase; letter-spacing: 0.04em; font-family: var(--mono); font-weight: 700; }
+  .tech-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .tech-tags span {
+    font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.02em;
+    padding: 7px 12px; border: 1px solid var(--line); color: var(--muted); background: var(--bg);
+  }
+
+  /* ---------- Contact ---------- */
+  .contact-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: clamp(32px, 5vw, 72px); align-items: start; }
+  @media (max-width: 860px) { .contact-grid { grid-template-columns: 1fr; } }
+  .info-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; }
+  .info-list li { padding: 18px 0; border-top: 1px solid var(--line); }
+  .info-list li:last-child { border-bottom: 1px solid var(--line); }
+  .info-list .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); }
+  .info-list .val { display: block; margin-top: 5px; font-weight: 600; font-size: 18px; text-decoration: none; color: var(--ink); }
+  .info-list a.val:hover { color: var(--accent); }
+
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field.full { grid-column: 1 / -1; }
+  label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+  input, textarea {
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; padding: 13px 14px; border-radius: 0;
+    transition: border-color .15s;
+  }
+  input:focus, textarea:focus { outline: none; border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 130px; }
+  .form-submit { grid-column: 1 / -1; display: flex; align-items: center; gap: 18px; }
+  button.btn { border: none; cursor: pointer; font-family: var(--mono); }
+  .form-note { font-family: var(--mono); font-size: 12px; color: var(--faint); letter-spacing: 0.03em; }
+  .form-ok { color: var(--accent); }
+
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    border-top: 1px solid var(--line); background: var(--surface);
+    padding-block: 56px;
+  }
+  .foot-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+  .foot-brand { font-size: 40px; font-weight: 800; letter-spacing: -0.02em; }
+  .foot-brand .ged { color: var(--accent); }
+  .foot-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+  .foot-cols { display: flex; gap: 60px; flex-wrap: wrap; }
+  .foot-cols .col { display: flex; flex-direction: column; gap: 10px; }
+  .foot-cols .col .h { font-family: var(--mono); font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--faint); margin-bottom: 4px; }
+  .foot-cols a { text-decoration: none; color: var(--muted); font-size: 15px; }
+  .foot-cols a:hover { color: var(--ink); }
+  .foot-bottom {
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint);
+  }
+  .test-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); border: 1px dashed var(--accent); padding: 5px 10px; margin-bottom: 26px;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top">W<span class="ged">GED</span><span class="dot">.</span></a>
+    <nav class="nav-links">
+      <a href="#top">Home</a>
+      <a href="#about">About</a>
+      <a href="#tools">Tools</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <a class="nav-cta" href="#contact">Let's talk</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light and dark theme" title="Toggle theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow"><span class="idx">01 /</span> Product Design &amp; Engineering — Peer, Belgium</p>
+      <h1>We <span class="accent">GED</span> it done.</h1>
+      <p class="hero-lead">
+        A young, hands-on engineering studio turning ideas into reality. Founded by
+        <strong>Wim Geerits</strong>, WGED brings 18+ years of product-design expertise —
+        from concept and technical design to full production support.
+      </p>
+
+      <div class="rotor" aria-hidden="true">
+        <span class="tick">▸</span>
+        <span class="word" id="rotorWord">From concept to creation</span>
+      </div>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#contact">Start a project →</a>
+        <a class="btn btn-ghost" href="#about">Meet Wim</a>
+      </div>
+
+      <div class="hero-meta">
+        <div class="cell"><div class="num">18<span style="color:var(--accent)">+</span></div><div class="lbl">Years of experience</div></div>
+        <div class="cell"><div class="num">2006</div><div class="lbl">Automotive engineer</div></div>
+        <div class="cell"><div class="num">7+</div><div class="lbl">Industries served</div></div>
+        <div class="cell"><div class="num">1:1</div><div class="lbl">Direct with the maker</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="band alt" id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><span class="idx">02 /</span> About</p>
+        <h2>One engineer, a broad network, and a direct approach.</h2>
+      </div>
+
+      <div class="about-grid">
+        <div class="portrait">
+          <img src="assets/wim-geerits.jpg" alt="Portrait of Wim Geerits, founder of WGED" width="800" height="800" loading="lazy">
+          <span class="corner tl"></span>
+          <span class="corner br"></span>
+          <span class="tag">Wim Geerits · Founder</span>
+        </div>
+
+        <div class="about-body">
+          <p>Hello, I'm Wim Geerits — founder of WGED, based in Peer, Belgium. I graduated in 2006 as an automotive engineer specialising in product design.</p>
+          <p>My journey began in the RV industry, followed by <strong>17 years as a design engineer at Hegge ID (2007–2024)</strong>, working across machine construction, agriculture, transport, festival equipment, healthcare, interior design, and wood &amp; gas heating systems.</p>
+          <p>At WGED I combine that broad industry experience with deep technical know-how to offer customised engineering. I work with a wide network of trusted suppliers — from prototyping partners to full-scale production — so I can guide projects efficiently from <strong>concept to manufacturing</strong>.</p>
+          <p>The goal is always the same: smart, practical, visually refined solutions. I'm always open to new collaborations — let's connect.</p>
+
+          <div class="signature">
+            <div>
+              <div class="sig-name">Wim Geerits</div>
+              <div class="sig-role">Founder &amp; Design Engineer</div>
+            </div>
+            <div class="rule"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="band" id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><span class="idx">03 /</span> How we work</p>
+        <h2>From good to great — we GED you there.</h2>
+        <p>A single, accountable path from first sketch to finished part. No hand-offs lost in translation.</p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <span class="no">01</span>
+          <h3>Concept</h3>
+          <p>Ideas moving. We shape the direction — sketches, feasibility, and the smartest route to a working product.</p>
+        </div>
+        <div class="step">
+          <span class="no">02</span>
+          <h3>Technical design</h3>
+          <p>Advanced surfacing and detailed 3D modelling turn the concept into precise, manufacturable geometry.</p>
+        </div>
+        <div class="step">
+          <span class="no">03</span>
+          <h3>Engineering</h3>
+          <p>Detailed engineering, material choices, and production optimisation — refined for cost and quality.</p>
+        </div>
+        <div class="step">
+          <span class="no">04</span>
+          <h3>Production</h3>
+          <p>Prototyping and full production through a trusted supplier network. Concept to creation — we GED it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section class="band alt" id="tools">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><span class="idx">04 /</span> Tools at WGED</p>
+        <h2>The right instruments — plus common sense.</h2>
+        <p>Advanced tools paired with a direct, practical mindset to streamline design from concept to production.</p>
+      </div>
+
+      <div class="tools-grid">
+        <ul class="tool-list">
+          <li><span class="k">T-01</span><span class="n">Pro/Engineer · Creo</span><span class="d">Advanced surfacing</span></li>
+          <li><span class="k">T-02</span><span class="n">SolidWorks</span><span class="d">Parametric CAD</span></li>
+          <li><span class="k">T-03</span><span class="n">3D Hand Scanner</span><span class="d">Reverse engineering</span></li>
+          <li><span class="k">T-04</span><span class="n">Prototyping Workshop</span><span class="d">Hands-on validation</span></li>
+          <li><span class="k">T-05</span><span class="n">Common Sense &amp; Direct Approach</span><span class="d">Standard equipment</span></li>
+        </ul>
+
+        <div class="tech-card">
+          <h3>Production techniques</h3>
+          <div class="tech-tags">
+            <span>Vacuum forming</span>
+            <span>Polyester hand lay-up</span>
+            <span>Rotational moulding</span>
+            <span>Sheet metal work</span>
+            <span>Tubing</span>
+            <span>Extrusion profiles</span>
+            <span>&amp; more</span>
+          </div>
+          <p style="color:var(--muted); font-size:15px; margin-top:22px;">
+            A broad range of techniques means the design is driven by what the product needs — not by one factory's limits.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="band" id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow"><span class="idx">05 /</span> Contact</p>
+        <h2>Let's build something well-crafted — together.</h2>
+        <p>Tell me about your product or challenge. I'll get back to you personally.</p>
+      </div>
+
+      <div class="contact-grid">
+        <ul class="info-list">
+          <li><span class="lbl">Phone</span><a class="val" href="tel:+32473362911">+32 473 36 29 11</a></li>
+          <li><span class="lbl">Email</span><a class="val" href="mailto:info@wged.be">info@wged.be</a></li>
+          <li><span class="lbl">Studio</span><span class="val">Kerkstraat 38<br>3990 Peer, Belgium</span></li>
+          <li><span class="lbl">Web</span><a class="val" href="#top">www.wged.be</a></li>
+          <li><span class="lbl">Social</span><a class="val" href="#top">LinkedIn ↗</a></li>
+        </ul>
+
+        <form id="contactForm" novalidate>
+          <div class="field">
+            <label for="fn">First name</label>
+            <input id="fn" name="firstName" type="text" autocomplete="given-name" required>
+          </div>
+          <div class="field">
+            <label for="ln">Last name</label>
+            <input id="ln" name="lastName" type="text" autocomplete="family-name" required>
+          </div>
+          <div class="field">
+            <label for="em">Email</label>
+            <input id="em" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="ph">Phone number</label>
+            <input id="ph" name="phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="field full">
+            <label for="msg">Leave a message</label>
+            <textarea id="msg" name="message" required></textarea>
+          </div>
+          <div class="form-submit">
+            <button class="btn btn-primary" type="submit">Send message →</button>
+            <span class="form-note" id="formNote">Demo form — nothing is sent.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span class="test-badge">● Test / preview build</span>
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">W<span class="ged">GED</span>.</div>
+        <div class="foot-tag">We GED it done — turning ideas into reality.</div>
+      </div>
+      <div class="foot-cols">
+        <div class="col">
+          <span class="h">Navigate</span>
+          <a href="#top">Home</a>
+          <a href="#about">About</a>
+          <a href="#tools">Tools</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <div class="col">
+          <span class="h">Contact</span>
+          <a href="tel:+32473362911">+32 473 36 29 11</a>
+          <a href="mailto:info@wged.be">info@wged.be</a>
+          <a href="#top">Kerkstraat 38, 3990 Peer</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© WGED · Wim Geerits · Peer, Belgium</span>
+      <span>Design engineering · Concept → Production</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Theme toggle (respects OS default, overrides via data-theme)
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    btn.addEventListener('click', function () {
+      var root = document.documentElement;
+      var current = root.getAttribute('data-theme');
+      if (!current) {
+        current = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      }
+      root.setAttribute('data-theme', current === 'dark' ? 'light' : 'dark');
+    });
+  })();
+
+  // Rotating "WE GED ..." line — the single motion moment
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return;
+    var el = document.getElementById('rotorWord');
+    var lines = [
+      'From concept to creation',
+      'We GED your ideas moving',
+      'We GED things to life',
+      'We GED your product to the next level',
+      'Smart, functional, well-crafted'
+    ];
+    var i = 0;
+    setInterval(function () {
+      el.style.opacity = '0';
+      setTimeout(function () {
+        i = (i + 1) % lines.length;
+        el.textContent = lines[i];
+        el.style.opacity = '1';
+      }, 420);
+    }, 3200);
+  })();
+
+  // Demo contact form
+  (function () {
+    var form = document.getElementById('contactForm');
+    var note = document.getElementById('formNote');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var fn = document.getElementById('fn').value.trim();
+      note.textContent = fn
+        ? 'Thanks, ' + fn + ' — this is a demo, so nothing was actually sent.'
+        : 'Thanks — this is a demo, so nothing was actually sent.';
+      note.classList.add('form-ok');
+      form.reset();
+    });
+  })();
+</script>
+</body>
+</html>
