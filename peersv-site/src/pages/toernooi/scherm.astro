@@ -125,9 +125,21 @@ import Layout from '../../layouts/Layout.astro';
       html+=gs.map(function(g){return '<div class="slotgroup"><div class="slot-t">'+g.uur+'</div><div class="grid">'+g.items.map(function(x){return cardHTML(x,true);}).join('')+'</div></div>';}).join('');
     }
     main.innerHTML=html;
+    // trim: nooit een half afgesneden kaart onderaan tonen
+    var guard=0;
+    while(main.scrollHeight>main.clientHeight+2 && guard<300){
+      var grps=main.querySelectorAll('.slotgroup');
+      if(!grps.length) break;
+      var last=grps[grps.length-1];
+      var cards=last.querySelectorAll('.card');
+      if(cards.length>1){ cards[cards.length-1].remove(); } else { last.remove(); }
+      guard++;
+    }
     const frac=Math.max(0,Math.min(1,(now-mk(10,0))/(mk(16,0)-mk(10,0))));
     bar.hidden=false;fill.style.width=(frac*100)+'%';
     fcount.textContent=live.length+' bezig · '+future.length+' te gaan';
   }
   render();setInterval(render,1000);
+  // herlaad periodiek zodat een gedeployede schemawijziging vanzelf verschijnt
+  setInterval(function(){ location.reload(); }, 15*60*1000);
 </script>
