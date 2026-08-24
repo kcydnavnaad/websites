@@ -38,7 +38,7 @@ import Layout from '../../layouts/Layout.astro';
   .kiosk .sec-h{display:flex;align-items:center;gap:1.4vmin;font-size:2vmin;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
   .kiosk .dot{width:1.4vmin;height:1.4vmin;border-radius:50%;background:#ff3b4e;box-shadow:0 0 0 0 rgba(255,59,78,.6);animation:kpulse 1.6s infinite}
   @keyframes kpulse{0%{box-shadow:0 0 0 0 rgba(255,59,78,.55)}70%{box-shadow:0 0 0 2.4vmin rgba(255,59,78,0)}100%{box-shadow:0 0 0 0 rgba(255,59,78,0)}}
-  .kiosk .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(30vmin,1fr));gap:1.6vmin;margin-top:1.2vmin}
+  .kiosk .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(26vmin,1fr));gap:1.6vmin;margin-top:1.2vmin}
   .kiosk .card{background:var(--anthra);border:1px solid var(--line);border-left:.7vmin solid var(--acc,#666);border-radius:1.4vmin;padding:1.8vmin 2vmin}
   .kiosk .card .r1{display:flex;align-items:center;gap:1.2vmin;margin-bottom:1vmin}
   .kiosk .card .veld{background:var(--acc,#666);color:#fff;font-weight:800;font-size:2vmin;border-radius:.8vmin;padding:.5vmin 1.4vmin}
@@ -58,6 +58,17 @@ import Layout from '../../layouts/Layout.astro';
   .kiosk .bar .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--red),var(--yellow));border-radius:999px}
   .kiosk .bar .lbls{position:absolute;inset:0;display:flex;justify-content:space-between;align-items:center;padding:0 1.4vmin;font-size:1.2vmin;color:#000;font-weight:700;mix-blend-mode:difference}
   .kiosk .foot{display:flex;justify-content:space-between;font-size:1.5vmin;color:var(--muted);margin-top:1vmin}
+  .kiosk .main{justify-content:flex-start;padding-top:2vmin;overflow:hidden}
+  .kiosk .cd-banner{font-size:2.6vmin;margin-bottom:1.2vmin}
+  .kiosk .cd-banner b{color:var(--yellow);font-weight:800;font-variant-numeric:tabular-nums}
+  .kiosk .sec-h.up{color:var(--muted);margin-top:1.6vmin}
+  .kiosk .slotgroup{margin-top:1vmin}
+  .kiosk .slot-t{font-size:1.6vmin;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:0 0 .6vmin}
+  .kiosk .card.dim{opacity:.5}
+  .kiosk .card.sm{padding:1.2vmin 1.4vmin}
+  .kiosk .card.sm .m{font-size:2.3vmin}
+  .kiosk .card.sm .veld{font-size:1.7vmin}
+  .kiosk .card.sm .cat{font-size:1.6vmin}
 </style>
 
 <script>
@@ -74,35 +85,49 @@ import Layout from '../../layouts/Layout.astro';
   const preStart=new Date(dayStart.getTime()-30*60000); // 30 min aanloop
   const main=document.getElementById('main'),clk=document.getElementById('clk'),
     bar=document.getElementById('bar'),fill=document.getElementById('fill'),fcount=document.getElementById('fcount');
+  function cardHTML(x, dim){
+    return '<div class="card sm'+(dim?' dim':'')+'" style="--acc:var(--'+x.cat+')">'
+      +'<div class="r1"><span class="veld">'+x.veld+'</span><span class="cat">'+x.cat+'</span></div>'
+      +'<div class="m">'+x.thuis+'<span class="vs">-</span>'+x.uit+'</div></div>';
+  }
+  function groups(list, maxCards){
+    const times=[], map={};
+    list.forEach(function(x){var k=x.start.getTime(); if(!map[k]){map[k]=[];times.push(k);} map[k].push(x);});
+    const out=[]; var cnt=0;
+    for(var i=0;i<times.length;i++){var g=map[times[i]];
+      if(out.length && cnt+g.length>maxCards) break;
+      out.push({uur:g[0].uur, items:g}); cnt+=g.length;}
+    return out;
+  }
   function render(){
     const now=nowBE();
     clk.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-    if(now<preStart){
-      const ms=dayStart-now,s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;
-      main.innerHTML='<div class="center"><div class="lab">Het toernooi begint over</div><div class="big">'+
-        (d>0?(d+' d '+h+' u'):(pad(h)+':'+pad(m)+':'+pad(ss)))+'</div><div class="lab">Welkom op de terreinen van K Peer SV</div></div>';
-      bar.hidden=true;fcount.textContent='';return;
-    }
     if(now>dayEnd){
       main.innerHTML='<div class="center"><div class="thanks">Bedankt aan alle clubs, spelers en supporters!</div><div class="lab">Tot volgend jaar</div></div>';
       bar.hidden=true;fcount.textContent='';return;
     }
     const live=M.filter(function(x){return now>=x.start&&now<=x.end;}).sort(function(a,b){return a.veld<b.veld?-1:1;});
-    const next=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
-    const preMatch = now<dayStart;
-    let html='<div class="sec-h"><span class="dot"></span>'+(preMatch?'Zo dadelijk':'Nu op het veld')+'</div>';
-    if(live.length){
-      html+='<div class="grid">'+live.map(function(x){return '<div class="card" style="--acc:var(--'+x.cat+')"><div class="r1"><span class="veld">'+x.veld+'</span><span class="cat">'+x.cat+'</span></div><div class="m">'+x.thuis+'<span class="vs">-</span>'+x.uit+'</div></div>';}).join('')+'</div>';
-    } else { html+='<div class="muted" style="font-size:2.4vmin;margin-top:1vmin">'+(preMatch?'Het toernooi start om 10u00. Eerste wedstrijden:':'Even geen wedstrijd bezig - volgende reeks komt eraan.')+'</div>'; }
-    if(next.length){
-      const t=next[0].start.getTime();const grp=next.filter(function(x){return x.start.getTime()===t;});
-      html+='<div class="next"><div class="sec-h" style="color:var(--muted)">Straks · '+grp[0].uur+'</div><div class="row">'+
-        grp.map(function(x){return '<span class="chip" style="--acc:var(--'+x.cat+')"><span class="cc">'+x.cat+' '+x.veld+'</span>'+x.thuis+' - '+x.uit+'</span>';}).join('')+'</div></div>';
+    const future=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
+    let html='';
+    if(now<dayStart){
+      const ms=dayStart-now,s2=Math.floor(ms/1000),d=Math.floor(s2/86400),h=Math.floor(s2%86400/3600),m=Math.floor(s2%3600/60),ss=s2%60;
+      html+='<div class="cd-banner">Het toernooi begint over <b>'+(d>0?(d+' d '+h+' u'):(pad(h)+':'+pad(m)+':'+pad(ss)))+'</b></div>';
+    }
+    if(now>=preStart){
+      html+='<div class="sec-h"><span class="dot"></span>Nu op het veld</div>';
+      if(live.length){ html+='<div class="grid">'+live.map(function(x){return cardHTML(x,false);}).join('')+'</div>'; }
+      else { html+='<div class="muted" style="font-size:2.2vmin">Even geen wedstrijd bezig - volgende reeks komt zo.</div>'; }
+    }
+    const maxUp = live.length>=5 ? 4 : (live.length>0 ? 8 : 12);
+    const gs=groups(future, maxUp);
+    if(gs.length){
+      html+='<div class="sec-h up">'+((now<dayStart)?'Eerste wedstrijden':'Straks')+'</div>';
+      html+=gs.map(function(g){return '<div class="slotgroup"><div class="slot-t">'+g.uur+'</div><div class="grid">'+g.items.map(function(x){return cardHTML(x,true);}).join('')+'</div></div>';}).join('');
     }
     main.innerHTML=html;
     const frac=Math.max(0,Math.min(1,(now-mk(10,0))/(mk(16,0)-mk(10,0))));
     bar.hidden=false;fill.style.width=(frac*100)+'%';
-    fcount.textContent=live.length+' bezig · '+next.length+' te gaan';
+    fcount.textContent=live.length+' bezig · '+future.length+' te gaan';
   }
   render();setInterval(render,1000);
 </script>
