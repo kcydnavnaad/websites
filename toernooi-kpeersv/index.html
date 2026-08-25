@@ -128,18 +128,121 @@ Terreinploeg: ____________________
 
 </main>
 <script>
+/* ================= sync shim (WebSocket, cross-device) ================= */
+(function(){
+  const WS_HOST = 'toernooi-kpeersv-sync.webbaas.be';
+  const PASSWORD_KEY = 'toernooi_kpeersv_password';
+  const STORAGE_KEY = 'psvcockpit';
+  let ws, connected = false;
+  const pending = new Map();
+  let reqId = 0;
+
+  function getPassword(){
+    let pw = localStorage.getItem(PASSWORD_KEY);
+    if(!pw){
+      pw = prompt('Toernooi-cockpit wachtwoord:');
+      if(pw) localStorage.setItem(PASSWORD_KEY, pw);
+    }
+    return pw;
+  }
+
+  function connect(){
+    const pw = getPassword();
+    if(!pw){ setTimeout(connect, 2000); return; }
+    const url = 'wss://' + WS_HOST + '/?token=' + encodeURIComponent(pw);
+    try {
+      ws = new WebSocket(url);
+      ws.onopen = () => { connected = true; console.log('sync: connected'); };
+      ws.onmessage = (ev) => {
+        try {
+          const msg = JSON.parse(ev.data);
+          if(msg.type === 'result' && msg.id){
+            const cb = pending.get(msg.id);
+            if(cb){ pending.delete(msg.id); cb.resolve(msg.value); }
+          } else if(msg.type === 'update' && msg.key === STORAGE_KEY){
+            if(window._remoteUpdate) window._remoteUpdate(msg.value);
+          } else if(msg.type === 'delete' && msg.key === STORAGE_KEY){
+            if(window._remoteUpdate) window._remoteUpdate(null);
+          }
+        } catch(e){}
+      };
+      ws.onclose = (ev) => {
+        connected = false;
+        if(ev.code === 1006){
+          console.log('sync: connection failed, may be auth');
+        }
+        setTimeout(connect, 1500);
+      };
+      ws.onerror = () => { try{ ws.close(); }catch(e){} };
+    } catch(e){ setTimeout(connect, 1500); }
+  }
+
+  function send(payload){
+    return new Promise((resolve, reject) => {
+      const id = ++reqId;
+      pending.set(id, { resolve, reject });
+      const tryToSend = (retries=50) => {
+        if(connected && ws && ws.readyState === 1){
+          ws.send(JSON.stringify(Object.assign({}, payload, { id })));
+        } else if(retries > 0){
+          setTimeout(() => tryToSend(retries-1), 100);
+        } else {
+          pending.delete(id);
+          reject(new Error('not connected'));
+        }
+      };
+      tryToSend();
+      setTimeout(() => {
+        if(pending.has(id)){ pending.delete(id); reject(new Error('timeout')); }
+      }, 5000);
+    });
+  }
+
+  window.syncStorage = {
+    get: async function(key){
+      try {
+        const r = await send({ type: 'get', key });
+        return r ? JSON.parse(r.value) : null;
+      } catch(e){ return null; }
+    },
+    set: async function(key, value){
+      try { await send({ type: 'set', key, value: JSON.stringify(value) }); return true; }
+      catch(e){ return false; }
+    },
+    delete: async function(key){
+      try { await send({ type: 'delete', key }); return true; }
+      catch(e){ return false; }
+    },
+    isConnected: function(){ return connected; },
+    clearPasswordAndReload: function(){ localStorage.removeItem(PASSWORD_KEY); location.reload(); },
+  };
+
+  connect();
+})();
+</script>
+<script>
 function show(id,btn){document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
  document.getElementById(id).classList.add('active');
  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
  window.scrollTo(0,0);}
-function save(){try{var o={};document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k)o[c.dataset.k]=c.checked});
+function save(){if(window._suppressSave)return;try{var o={};document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k)o[c.dataset.k]=c.checked});
  document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k&&c.value!=='')o[c.dataset.k]=c.value});
  document.querySelectorAll('.afr').forEach(r=>{o[r.dataset.k]=r.classList.contains('ok')});
- localStorage.setItem('psvcockpit',JSON.stringify(o));}catch(e){}}
-function load(){try{var o=JSON.parse(localStorage.getItem('psvcockpit')||'{}');
- document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k&&o[c.dataset.k])c.checked=true});
- document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k&&o[c.dataset.k]!==undefined)c.value=o[c.dataset.k]});
- document.querySelectorAll('.afr').forEach(r=>{if(o[r.dataset.k])r.classList.add('ok')});medcalc();}catch(e){}}
+ try{localStorage.setItem('psvcockpit',JSON.stringify(o));}catch(e){}
+ if(window.syncStorage) window.syncStorage.set('psvcockpit', o);
+}catch(e){}}
+async function load(){try{
+ var o = null;
+ if(window.syncStorage){ try{ o = await window.syncStorage.get('psvcockpit'); }catch(e){ o = null; } }
+ if(!o){ try{ o = JSON.parse(localStorage.getItem('psvcockpit')||'{}'); }catch(e){ o = {}; } }
+ if(!o) o = {};
+ window._suppressSave = true;
+ document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k){c.checked = !!o[c.dataset.k];}});
+ document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k){c.value = (o[c.dataset.k]!==undefined) ? o[c.dataset.k] : '';}});
+ document.querySelectorAll('.afr').forEach(r=>{if(o[r.dataset.k]){r.classList.add('ok');}else{r.classList.remove('ok');}});
+ window._suppressSave = false;
+ medcalc();
+}catch(e){}}
 function medcalc(){var sub={},grand=0;
  document.querySelectorAll('.medcount').forEach(function(i){var v=parseInt(i.value,10);if(isNaN(v)||v<0)v=0;
   sub[i.dataset.reeks]=(sub[i.dataset.reeks]||0)+v;grand+=v;});
@@ -148,6 +251,22 @@ function medcalc(){var sub={},grand=0;
 function resetMed(){if(confirm('Alle ingevulde spelersaantallen wissen?')){document.querySelectorAll('.medcount').forEach(function(i){i.value='';});medcalc();}}
 document.addEventListener('change',e=>{if(e.target.type==='checkbox')save()});
 document.addEventListener('click',e=>{var r=e.target.closest('.afr');if(r){r.classList.toggle('ok');save();}});
-function resetAll(){if(confirm('Alle vinkjes wissen?')){try{localStorage.removeItem('psvcockpit')}catch(e){}location.reload();}}
+async function resetAll(){if(confirm('Alle vinkjes wissen?')){
+ try{ if(window.syncStorage) await window.syncStorage.delete('psvcockpit'); }catch(e){}
+ try{ localStorage.removeItem('psvcockpit'); }catch(e){}
+ location.reload();
+}}
 window.addEventListener('DOMContentLoaded',load);
+
+window._remoteUpdate = function(v){
+  try{
+    var o = v || {};
+    window._suppressSave = true;
+    document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k){c.checked = !!o[c.dataset.k];}});
+    document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k){c.value = (o[c.dataset.k]!==undefined) ? o[c.dataset.k] : '';}});
+    document.querySelectorAll('.afr').forEach(r=>{if(o[r.dataset.k]){r.classList.add('ok');}else{r.classList.remove('ok');}});
+    window._suppressSave = false;
+    if(typeof medcalc === 'function') medcalc();
+  }catch(e){}
+};
 </script></body></html>
