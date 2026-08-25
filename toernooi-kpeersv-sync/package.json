@@ -1,0 +1,11 @@
+{
+  "name": "toernooi-kpeersv-sync",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}
