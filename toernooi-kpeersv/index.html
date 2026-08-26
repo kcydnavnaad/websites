@@ -240,8 +240,8 @@ async function load(){try{
  document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k){c.checked = !!o[c.dataset.k];}});
  document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k){c.value = (o[c.dataset.k]!==undefined) ? o[c.dataset.k] : '';}});
  document.querySelectorAll('.afr').forEach(r=>{if(o[r.dataset.k]){r.classList.add('ok');}else{r.classList.remove('ok');}});
- window._suppressSave = false;
  medcalc();
+ window._suppressSave = false;
 }catch(e){}}
 function medcalc(){var sub={},grand=0;
  document.querySelectorAll('.medcount').forEach(function(i){var v=parseInt(i.value,10);if(isNaN(v)||v<0)v=0;
@@ -265,8 +265,8 @@ window._remoteUpdate = function(v){
     document.querySelectorAll('input[type=checkbox]').forEach(c=>{if(c.dataset.k){c.checked = !!o[c.dataset.k];}});
     document.querySelectorAll('input.medcount').forEach(c=>{if(c.dataset.k){c.value = (o[c.dataset.k]!==undefined) ? o[c.dataset.k] : '';}});
     document.querySelectorAll('.afr').forEach(r=>{if(o[r.dataset.k]){r.classList.add('ok');}else{r.classList.remove('ok');}});
-    window._suppressSave = false;
     if(typeof medcalc === 'function') medcalc();
+    window._suppressSave = false;
   }catch(e){}
 };
 </script></body></html>
