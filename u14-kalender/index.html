@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>K Peer SV U14</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--orange:#FF8D28;--orange-dark:#e07515;--bg:#f7f7f5;--card:#fff;--muted:#6a7280;--text:#1a1f1a;--warn:#d97706;--past:#c9cec9;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Readex Pro',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+.header{background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;padding:24px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.header h1{font-size:26px;font-weight:700;margin-bottom:4px}
+.header p{opacity:.95;font-size:14px}
+.container{max-width:720px;margin:0 auto;padding:20px}
+.status{padding:14px;border-radius:8px;margin-bottom:16px;font-size:14px;text-align:center}
+.status.loading{background:#e0f2fe;color:#0369a1}
+.status.error{background:#fee2e2;color:#991b1b}
+.status.info{background:#fef3c7;color:#92400e}
+.event{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid var(--orange);position:relative}
+.event.past{opacity:.55;border-left-color:var(--past)}
+.event .date{color:var(--orange-dark);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.event.past .date{color:var(--muted)}
+.event .title{font-weight:600;font-size:17px;margin-bottom:6px}
+.event .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
+.taken{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.taak{background:#fff7e9;color:#8b5a11;padding:8px 12px;border-radius:6px;font-size:14px;display:flex;align-items:center;gap:8px;border-left:3px solid var(--orange)}
+.taak .naam{font-weight:600}
+.taak .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-right:auto}
+.event.past .taak{background:#f4f4f4;color:var(--muted);border-left-color:var(--past)}
+.divider{text-align:center;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:24px 0 12px;position:relative}
+.divider::before,.divider::after{content:"";position:absolute;top:50%;width:38%;height:1px;background:#dcdcdc}
+.divider::before{left:0}.divider::after{right:0}
+.notes{font-size:13px;color:var(--muted);margin-top:8px;white-space:pre-wrap;padding-top:8px;border-top:1px dashed #e5e5e5}
+.footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
+@media(max-width:520px){.header h1{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>K Peer SV U14</h1>
+  <p>Wedstrijden & taken · seizoen 2026-2027</p>
+</div>
+<div class="container">
+  <div id="status" class="status loading">Kalender wordt geladen...</div>
+  <div id="events"></div>
+</div>
+<div class="footer">Automatisch bijgewerkt · <span id="lastsync">--</span></div>
+
+<script>
+const FEED_URL = '/feed';
+
+function unescape_ical(s){
+  return (s||'').replace(/\\n/g,'\n').replace(/\\,/g,',').replace(/\\;/g,';').replace(/\\\\/g,'\\');
+}
+
+function parseDate(value){
+  if(!value) return null;
+  const isAllDay = !value.includes('T');
+  const y = parseInt(value.slice(0,4));
+  const m = parseInt(value.slice(4,6))-1;
+  const d = parseInt(value.slice(6,8));
+  if(isAllDay) return { date: new Date(y,m,d), allDay: true };
+  const h = parseInt(value.slice(9,11));
+  const min = parseInt(value.slice(11,13));
+  const utc = value.endsWith('Z');
+  const date = utc ? new Date(Date.UTC(y,m,d,h,min)) : new Date(y,m,d,h,min);
+  return { date, allDay: false };
+}
+
+function parseICS(text){
+  const lines = text.split(/\r?\n/);
+  const unfolded = [];
+  for(const line of lines){
+    if((line.startsWith(' ') || line.startsWith('\t')) && unfolded.length){
+      unfolded[unfolded.length-1] += line.slice(1);
+    } else {
+      unfolded.push(line);
+    }
+  }
+  const events = [];
+  let cur = null;
+  for(const line of unfolded){
+    if(line === 'BEGIN:VEVENT'){ cur = {}; continue; }
+    if(line === 'END:VEVENT'){ if(cur) events.push(cur); cur = null; continue; }
+    if(!cur) continue;
+    const colon = line.indexOf(':');
+    if(colon < 0) continue;
+    const keyPart = line.slice(0, colon);
+    const value = line.slice(colon+1);
+    const key = keyPart.split(';')[0];
+    if(key === 'SUMMARY') cur.summary = unescape_ical(value);
+    else if(key === 'DTSTART') cur.dtstart = parseDate(value);
+    else if(key === 'DTEND') cur.dtend = parseDate(value);
+    else if(key === 'DESCRIPTION') cur.description = unescape_ical(value);
+    else if(key === 'LOCATION') cur.location = unescape_ical(value);
+  }
+  return events;
+}
+
+function formatDate(d){
+  return d.toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long'});
+}
+function formatTime(d){
+  return d.toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit'});
+}
+
+/**
+ * Extract taken uit description.
+ * Format: "Was en traktatie: X\nKleedkamer: Y\nKantine: Z\n\nSpeeldag N..."
+ */
+function extractTaken(desc){
+  if(!desc) return { taken: [], notes: null };
+  const lines = desc.split('\n');
+  const taken = [];
+  const other = [];
+  const knownLabels = ['Was en traktatie','Was + traktatie','Was','Traktatie','Kleedkamer','Kantine','Vervoer','Scheidsrechter','Coach'];
+  for(const line of lines){
+    let matched = false;
+    for(const lbl of knownLabels){
+      const re = new RegExp('^\\s*' + lbl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\s*[:\\-]\\s*(.+)$','i');
+      const m = line.match(re);
+      if(m){
+        taken.push({ label: lbl, naam: m[1].trim() });
+        matched = true;
+        break;
+      }
+    }
+    if(!matched && line.trim()) other.push(line);
+  }
+  return { taken, notes: other.join('\n').trim() || null };
+}
+
+function render(events){
+  const now = new Date();
+  events.sort((a,b) => (a.dtstart?.date || 0) - (b.dtstart?.date || 0));
+
+  const upcoming = events.filter(e => e.dtstart && e.dtstart.date >= now);
+  const past = events.filter(e => e.dtstart && e.dtstart.date < now).reverse();
+
+  const container = document.getElementById('events');
+  container.innerHTML = '';
+
+  if(upcoming.length === 0 && past.length === 0){
+    const s = document.getElementById('status');
+    s.className = 'status info';
+    s.textContent = 'Geen wedstrijden gevonden in de kalender.';
+    return;
+  }
+  document.getElementById('status').style.display = 'none';
+
+  function renderEvent(e, isPast){
+    const div = document.createElement('div');
+    div.className = 'event' + (isPast ? ' past' : '');
+    const { taken, notes } = extractTaken(e.description);
+    const d = e.dtstart.date;
+    let timeStr = '';
+    if(!e.dtstart.allDay){
+      const startT = formatTime(d);
+      timeStr = ' · ' + startT;
+      if(e.dtend && !e.dtend.allDay){
+        timeStr += ' - ' + formatTime(e.dtend.date);
+      }
+    }
+    div.innerHTML =
+      '<div class="date">' + formatDate(d) + timeStr + '</div>' +
+      '<div class="title">' + (e.summary || '(geen titel)') + '</div>' +
+      (e.location ? '<div class="meta">📍 ' + e.location + '</div>' : '') +
+      (taken.length ? '<div class="taken">' + taken.map(t =>
+        '<div class="taak"><span class="label">' + t.label + '</span><span class="naam">' + t.naam + '</span></div>'
+      ).join('') + '</div>' : '') +
+      (notes ? '<div class="notes">' + notes + '</div>' : '');
+    return div;
+  }
+
+  if(upcoming.length){
+    const h = document.createElement('div');
+    h.className = 'divider';
+    h.textContent = 'Komende wedstrijden';
+    container.appendChild(h);
+    for(const e of upcoming) container.appendChild(renderEvent(e, false));
+  }
+  if(past.length){
+    const h = document.createElement('div');
+    h.className = 'divider';
+    h.textContent = 'Gespeelde wedstrijden';
+    container.appendChild(h);
+    for(const e of past.slice(0,10)) container.appendChild(renderEvent(e, true));
+  }
+}
+
+async function load(){
+  try {
+    const r = await fetch(FEED_URL, { cache: 'no-store' });
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    const text = await r.text();
+    const events = parseICS(text);
+    render(events);
+    document.getElementById('lastsync').textContent = new Date().toLocaleTimeString('nl-BE');
+  } catch(e){
+    const s = document.getElementById('status');
+    s.className = 'status error';
+    s.textContent = 'Kalender kon niet worden geladen: ' + e.message;
+  }
+}
+load();
+setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>
