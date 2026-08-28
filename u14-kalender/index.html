@@ -8,34 +8,66 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--orange:#FF8D28;--orange-dark:#e07515;--bg:#f7f7f5;--card:#fff;--muted:#6a7280;--text:#1a1f1a;--warn:#d97706;--past:#c9cec9;}
+:root{
+  --rood:#E2001A;
+  --rood-donker:#b0001a;
+  --geel:#FFD200;
+  --geel-licht:#fff9d6;
+  --bg:#f7f5f3;
+  --card:#fff;
+  --muted:#6a7280;
+  --text:#1a1f1a;
+  --past:#c9cec9;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Readex Pro',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
-.header{background:linear-gradient(135deg,var(--orange),var(--orange-dark));color:#fff;padding:24px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.header h1{font-size:26px;font-weight:700;margin-bottom:4px}
+.header{background:linear-gradient(135deg,var(--rood),var(--rood-donker));color:#fff;padding:24px 20px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.15);border-bottom:4px solid var(--geel)}
+.header h1{font-size:26px;font-weight:700;margin-bottom:4px;letter-spacing:.5px}
 .header p{opacity:.95;font-size:14px}
 .container{max-width:720px;margin:0 auto;padding:20px}
+
+/* Subscribe card */
+.subscribe{background:var(--card);border-radius:12px;padding:18px;margin-bottom:20px;box-shadow:0 2px 6px rgba(0,0,0,.08);border-top:4px solid var(--geel)}
+.subscribe h2{font-size:16px;font-weight:700;color:var(--rood);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.subscribe h2::before{content:"📅";font-size:20px}
+.subscribe p{font-size:14px;color:var(--muted);margin-bottom:12px}
+.sub-btn{display:inline-block;background:var(--rood);color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:10px;transition:background .15s}
+.sub-btn:hover{background:var(--rood-donker)}
+.sub-btn.geel{background:var(--geel);color:var(--rood-donker)}
+.sub-btn.geel:hover{background:#e6bd00}
+.sub-tabs{display:flex;gap:6px;margin-bottom:12px;border-bottom:1px solid #eee}
+.sub-tab{padding:8px 14px;cursor:pointer;font-size:13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;user-select:none}
+.sub-tab.active{color:var(--rood);border-bottom-color:var(--rood)}
+.sub-panel{display:none;font-size:13px;line-height:1.6}
+.sub-panel.active{display:block}
+.sub-panel ol{padding-left:20px;margin:8px 0}
+.sub-panel li{margin-bottom:4px}
+.sub-url{background:#f3f4f6;padding:8px 10px;border-radius:6px;font-family:ui-monospace,monospace;font-size:11px;word-break:break-all;margin:8px 0;color:#374151;position:relative}
+.copy-btn{background:var(--geel);color:var(--rood-donker);border:0;padding:4px 10px;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;margin-left:6px}
+.copy-btn:hover{background:#e6bd00}
+
+/* Status + events */
 .status{padding:14px;border-radius:8px;margin-bottom:16px;font-size:14px;text-align:center}
 .status.loading{background:#e0f2fe;color:#0369a1}
 .status.error{background:#fee2e2;color:#991b1b}
-.status.info{background:#fef3c7;color:#92400e}
-.event{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid var(--orange);position:relative}
+.status.info{background:var(--geel-licht);color:#8b5a11}
+.event{background:var(--card);border-radius:10px;padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.05);border-left:4px solid var(--rood);position:relative}
 .event.past{opacity:.55;border-left-color:var(--past)}
-.event .date{color:var(--orange-dark);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.event .date{color:var(--rood);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
 .event.past .date{color:var(--muted)}
 .event .title{font-weight:600;font-size:17px;margin-bottom:6px}
 .event .meta{font-size:13px;color:var(--muted);margin-bottom:8px}
 .taken{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.taak{background:#fff7e9;color:#8b5a11;padding:8px 12px;border-radius:6px;font-size:14px;display:flex;align-items:center;gap:8px;border-left:3px solid var(--orange)}
+.taak{background:var(--geel-licht);color:#8b5a11;padding:8px 12px;border-radius:6px;font-size:14px;display:flex;align-items:center;gap:8px;border-left:3px solid var(--geel)}
 .taak .naam{font-weight:600}
 .taak .label{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-right:auto}
 .event.past .taak{background:#f4f4f4;color:var(--muted);border-left-color:var(--past)}
-.divider{text-align:center;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:24px 0 12px;position:relative}
+.divider{text-align:center;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin:24px 0 12px;position:relative;font-weight:600}
 .divider::before,.divider::after{content:"";position:absolute;top:50%;width:38%;height:1px;background:#dcdcdc}
 .divider::before{left:0}.divider::after{right:0}
 .notes{font-size:13px;color:var(--muted);margin-top:8px;white-space:pre-wrap;padding-top:8px;border-top:1px dashed #e5e5e5}
 .footer{text-align:center;padding:20px;color:var(--muted);font-size:12px}
-@media(max-width:520px){.header h1{font-size:22px}}
+@media(max-width:520px){.header h1{font-size:22px}.sub-btn{width:100%;text-align:center}}
 </style>
 </head>
 <body>
@@ -44,169 +76,182 @@ body{font-family:'Readex Pro',system-ui,-apple-system,sans-serif;background:var(
   <p>Wedstrijden & taken · seizoen 2026-2027</p>
 </div>
 <div class="container">
+
+  <div class="subscribe">
+    <h2>Kalender abonneren op je gsm</h2>
+    <p>Zet deze kalender op je eigen telefoon zodat alle wedstrijden en taken automatisch verschijnen — ook wijzigingen.</p>
+
+    <div class="sub-tabs">
+      <div class="sub-tab active" data-tab="ios">iPhone / iPad</div>
+      <div class="sub-tab" data-tab="android">Android</div>
+    </div>
+
+    <div class="sub-panel active" data-panel="ios">
+      <p><strong>Snelste manier:</strong></p>
+      <a class="sub-btn" href="webcal://p147-caldav.icloud.com/published/2/MTA0NzQyMjYxNTAxMDQ3NKgGFFnPaC3DjyRnKTXOPIVsNQoVeJsqiBPs_0ciz1bo7W3tsSaJvNS8RzLT-Nx9-ZvwF9nHnS_QPvqU4yiNnKY">Abonneer op iPhone</a>
+      <p style="font-size:12px;color:var(--muted);margin-top:4px">Tik de knop op je iPhone → iOS vraagt te abonneren → 'Toevoegen'</p>
+      <p style="margin-top:12px"><strong>Handmatig (als de knop niet werkt):</strong></p>
+      <ol>
+        <li>Open <em>Instellingen</em> → <em>Agenda</em> → <em>Accounts</em> → <em>Voeg account toe</em> → <em>Overige</em></li>
+        <li>Kies <em>Voeg agenda-abonnement toe</em></li>
+        <li>Plak deze URL:</li>
+      </ol>
+      <div class="sub-url" id="url_ios">webcal://p147-caldav.icloud.com/published/2/MTA0NzQyMjYxNTAxMDQ3NKgGFFnPaC3DjyRnKTXOPIVsNQoVeJsqiBPs_0ciz1bo7W3tsSaJvNS8RzLT-Nx9-ZvwF9nHnS_QPvqU4yiNnKY<button class="copy-btn" data-copy="webcal://p147-caldav.icloud.com/published/2/MTA0NzQyMjYxNTAxMDQ3NKgGFFnPaC3DjyRnKTXOPIVsNQoVeJsqiBPs_0ciz1bo7W3tsSaJvNS8RzLT-Nx9-ZvwF9nHnS_QPvqU4yiNnKY">Kopieer</button></div>
+    </div>
+
+    <div class="sub-panel" data-panel="android">
+      <p><strong>Via Google Calendar (aanbevolen):</strong></p>
+      <ol>
+        <li>Ga in je browser naar <a href="https://calendar.google.com" target="_blank">calendar.google.com</a> (werkt niet in de app, wel op mobiel via browser)</li>
+        <li>Links onder "Andere agenda's" klik op <strong>+</strong></li>
+        <li>Kies <em>Van URL</em></li>
+        <li>Plak deze URL:</li>
+      </ol>
+      <div class="sub-url" id="url_android">https://p147-caldav.icloud.com/published/2/MTA0NzQyMjYxNTAxMDQ3NKgGFFnPaC3DjyRnKTXOPIVsNQoVeJsqiBPs_0ciz1bo7W3tsSaJvNS8RzLT-Nx9-ZvwF9nHnS_QPvqU4yiNnKY<button class="copy-btn" data-copy="https://p147-caldav.icloud.com/published/2/MTA0NzQyMjYxNTAxMDQ3NKgGFFnPaC3DjyRnKTXOPIVsNQoVeJsqiBPs_0ciz1bo7W3tsSaJvNS8RzLT-Nx9-ZvwF9nHnS_QPvqU4yiNnKY">Kopieer</button></div>
+      <p style="margin-top:12px"><strong>Alternatief via app:</strong> installeer <a href="https://play.google.com/store/apps/details?id=at.bitfire.icsdroid" target="_blank">ICSx⁵</a> uit Play Store → tik +  → plak dezelfde URL</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:8px">Na toevoegen: de kalender verschijnt in je Google agenda op alle apparaten (ook je Android telefoon).</p>
+    </div>
+  </div>
+
   <div id="status" class="status loading">Kalender wordt geladen...</div>
   <div id="events"></div>
 </div>
 <div class="footer">Automatisch bijgewerkt · <span id="lastsync">--</span></div>
 
 <script>
+// Tab switching
+document.querySelectorAll('.sub-tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.sub-tab').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.sub-panel').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    document.querySelector('.sub-panel[data-panel="'+t.dataset.tab+'"]').classList.add('active');
+  });
+});
+
+// Copy buttons
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const url = btn.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(url);
+      const orig = btn.textContent;
+      btn.textContent = 'Gekopieerd!';
+      setTimeout(() => btn.textContent = orig, 1500);
+    } catch(err) {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      btn.textContent = 'Gekopieerd!';
+      setTimeout(() => btn.textContent = 'Kopieer', 1500);
+    }
+  });
+});
+
+// iCal parser
 const FEED_URL = '/feed';
-
-function unescape_ical(s){
-  return (s||'').replace(/\\n/g,'\n').replace(/\\,/g,',').replace(/\\;/g,';').replace(/\\\\/g,'\\');
+function unescape_ical(s){return (s||'').replace(/\\n/g,'\n').replace(/\\,/g,',').replace(/\\;/g,';').replace(/\\\\/g,'\\');}
+function parseDate(v){
+  if(!v) return null;
+  const allDay = !v.includes('T');
+  const y=parseInt(v.slice(0,4)), m=parseInt(v.slice(4,6))-1, d=parseInt(v.slice(6,8));
+  if(allDay) return {date:new Date(y,m,d), allDay:true};
+  const h=parseInt(v.slice(9,11)), min=parseInt(v.slice(11,13));
+  const utc=v.endsWith('Z');
+  return {date: utc? new Date(Date.UTC(y,m,d,h,min)) : new Date(y,m,d,h,min), allDay:false};
 }
-
-function parseDate(value){
-  if(!value) return null;
-  const isAllDay = !value.includes('T');
-  const y = parseInt(value.slice(0,4));
-  const m = parseInt(value.slice(4,6))-1;
-  const d = parseInt(value.slice(6,8));
-  if(isAllDay) return { date: new Date(y,m,d), allDay: true };
-  const h = parseInt(value.slice(9,11));
-  const min = parseInt(value.slice(11,13));
-  const utc = value.endsWith('Z');
-  const date = utc ? new Date(Date.UTC(y,m,d,h,min)) : new Date(y,m,d,h,min);
-  return { date, allDay: false };
-}
-
 function parseICS(text){
-  const lines = text.split(/\r?\n/);
-  const unfolded = [];
-  for(const line of lines){
-    if((line.startsWith(' ') || line.startsWith('\t')) && unfolded.length){
-      unfolded[unfolded.length-1] += line.slice(1);
-    } else {
-      unfolded.push(line);
-    }
+  const lines=text.split(/\r?\n/); const un=[];
+  for(const l of lines){
+    if((l.startsWith(' ')||l.startsWith('\t'))&&un.length) un[un.length-1]+=l.slice(1);
+    else un.push(l);
   }
-  const events = [];
-  let cur = null;
-  for(const line of unfolded){
-    if(line === 'BEGIN:VEVENT'){ cur = {}; continue; }
-    if(line === 'END:VEVENT'){ if(cur) events.push(cur); cur = null; continue; }
+  const evs=[]; let cur=null;
+  for(const l of un){
+    if(l==='BEGIN:VEVENT'){cur={};continue;}
+    if(l==='END:VEVENT'){if(cur)evs.push(cur);cur=null;continue;}
     if(!cur) continue;
-    const colon = line.indexOf(':');
-    if(colon < 0) continue;
-    const keyPart = line.slice(0, colon);
-    const value = line.slice(colon+1);
-    const key = keyPart.split(';')[0];
-    if(key === 'SUMMARY') cur.summary = unescape_ical(value);
-    else if(key === 'DTSTART') cur.dtstart = parseDate(value);
-    else if(key === 'DTEND') cur.dtend = parseDate(value);
-    else if(key === 'DESCRIPTION') cur.description = unescape_ical(value);
-    else if(key === 'LOCATION') cur.location = unescape_ical(value);
+    const c=l.indexOf(':'); if(c<0) continue;
+    const kp=l.slice(0,c), val=l.slice(c+1);
+    const k=kp.split(';')[0];
+    if(k==='SUMMARY') cur.summary=unescape_ical(val);
+    else if(k==='DTSTART') cur.dtstart=parseDate(val);
+    else if(k==='DTEND') cur.dtend=parseDate(val);
+    else if(k==='DESCRIPTION') cur.description=unescape_ical(val);
+    else if(k==='LOCATION') cur.location=unescape_ical(val);
   }
-  return events;
+  return evs;
 }
-
-function formatDate(d){
-  return d.toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long'});
-}
-function formatTime(d){
-  return d.toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit'});
-}
-
-/**
- * Extract taken uit description.
- * Format: "Was en traktatie: X\nKleedkamer: Y\nKantine: Z\n\nSpeeldag N..."
- */
+function fD(d){return d.toLocaleDateString('nl-BE',{weekday:'long',day:'numeric',month:'long'});}
+function fT(d){return d.toLocaleTimeString('nl-BE',{hour:'2-digit',minute:'2-digit'});}
 function extractTaken(desc){
-  if(!desc) return { taken: [], notes: null };
-  const lines = desc.split('\n');
-  const taken = [];
-  const other = [];
-  const knownLabels = ['Was en traktatie','Was + traktatie','Was','Traktatie','Kleedkamer','Kantine','Vervoer','Scheidsrechter','Coach'];
+  if(!desc) return {taken:[],notes:null};
+  const lines=desc.split('\n'); const taken=[]; const other=[];
+  const labels=['Was en traktatie','Was + traktatie','Was','Traktatie','Kleedkamer','Kantine','Vervoer','Scheidsrechter','Coach'];
   for(const line of lines){
-    let matched = false;
-    for(const lbl of knownLabels){
-      const re = new RegExp('^\\s*' + lbl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + '\\s*[:\\-]\\s*(.+)$','i');
-      const m = line.match(re);
-      if(m){
-        taken.push({ label: lbl, naam: m[1].trim() });
-        matched = true;
-        break;
-      }
+    let m=false;
+    for(const lbl of labels){
+      const re=new RegExp('^\\s*'+lbl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*[:\\-]\\s*(.+)$','i');
+      const mt=line.match(re);
+      if(mt){ taken.push({label:lbl,naam:mt[1].trim()}); m=true; break; }
     }
-    if(!matched && line.trim()) other.push(line);
+    if(!m && line.trim()) other.push(line);
   }
-  return { taken, notes: other.join('\n').trim() || null };
+  return {taken, notes: other.join('\n').trim() || null};
 }
-
 function render(events){
-  const now = new Date();
-  events.sort((a,b) => (a.dtstart?.date || 0) - (b.dtstart?.date || 0));
-
-  const upcoming = events.filter(e => e.dtstart && e.dtstart.date >= now);
-  const past = events.filter(e => e.dtstart && e.dtstart.date < now).reverse();
-
-  const container = document.getElementById('events');
-  container.innerHTML = '';
-
-  if(upcoming.length === 0 && past.length === 0){
-    const s = document.getElementById('status');
-    s.className = 'status info';
-    s.textContent = 'Geen wedstrijden gevonden in de kalender.';
-    return;
+  const now=new Date();
+  events.sort((a,b)=>(a.dtstart?.date||0)-(b.dtstart?.date||0));
+  const up=events.filter(e=>e.dtstart&&e.dtstart.date>=now);
+  const past=events.filter(e=>e.dtstart&&e.dtstart.date<now).reverse();
+  const c=document.getElementById('events'); c.innerHTML='';
+  if(!up.length && !past.length){
+    const s=document.getElementById('status'); s.className='status info';
+    s.textContent='Geen wedstrijden gevonden in de kalender.'; return;
   }
-  document.getElementById('status').style.display = 'none';
-
-  function renderEvent(e, isPast){
-    const div = document.createElement('div');
-    div.className = 'event' + (isPast ? ' past' : '');
-    const { taken, notes } = extractTaken(e.description);
-    const d = e.dtstart.date;
-    let timeStr = '';
-    if(!e.dtstart.allDay){
-      const startT = formatTime(d);
-      timeStr = ' · ' + startT;
-      if(e.dtend && !e.dtend.allDay){
-        timeStr += ' - ' + formatTime(e.dtend.date);
-      }
-    }
-    div.innerHTML =
-      '<div class="date">' + formatDate(d) + timeStr + '</div>' +
-      '<div class="title">' + (e.summary || '(geen titel)') + '</div>' +
-      (e.location ? '<div class="meta">📍 ' + e.location + '</div>' : '') +
-      (taken.length ? '<div class="taken">' + taken.map(t =>
-        '<div class="taak"><span class="label">' + t.label + '</span><span class="naam">' + t.naam + '</span></div>'
-      ).join('') + '</div>' : '') +
-      (notes ? '<div class="notes">' + notes + '</div>' : '');
+  document.getElementById('status').style.display='none';
+  function re(e,past){
+    const div=document.createElement('div'); div.className='event'+(past?' past':'');
+    const {taken,notes}=extractTaken(e.description);
+    const d=e.dtstart.date; let ts='';
+    if(!e.dtstart.allDay){ ts=' · '+fT(d); if(e.dtend&&!e.dtend.allDay) ts+=' - '+fT(e.dtend.date); }
+    div.innerHTML='<div class="date">'+fD(d)+ts+'</div>'
+      +'<div class="title">'+(e.summary||'(geen titel)')+'</div>'
+      +(e.location?'<div class="meta">📍 '+e.location+'</div>':'')
+      +(taken.length?'<div class="taken">'+taken.map(t=>'<div class="taak"><span class="label">'+t.label+'</span><span class="naam">'+t.naam+'</span></div>').join('')+'</div>':'')
+      +(notes?'<div class="notes">'+notes+'</div>':'');
     return div;
   }
-
-  if(upcoming.length){
-    const h = document.createElement('div');
-    h.className = 'divider';
-    h.textContent = 'Komende wedstrijden';
-    container.appendChild(h);
-    for(const e of upcoming) container.appendChild(renderEvent(e, false));
+  if(up.length){
+    const h=document.createElement('div'); h.className='divider'; h.textContent='Komende wedstrijden';
+    c.appendChild(h);
+    for(const e of up) c.appendChild(re(e,false));
   }
   if(past.length){
-    const h = document.createElement('div');
-    h.className = 'divider';
-    h.textContent = 'Gespeelde wedstrijden';
-    container.appendChild(h);
-    for(const e of past.slice(0,10)) container.appendChild(renderEvent(e, true));
+    const h=document.createElement('div'); h.className='divider'; h.textContent='Gespeelde wedstrijden';
+    c.appendChild(h);
+    for(const e of past.slice(0,10)) c.appendChild(re(e,true));
   }
 }
-
 async function load(){
-  try {
-    const r = await fetch(FEED_URL, { cache: 'no-store' });
-    if(!r.ok) throw new Error('HTTP ' + r.status);
-    const text = await r.text();
-    const events = parseICS(text);
-    render(events);
-    document.getElementById('lastsync').textContent = new Date().toLocaleTimeString('nl-BE');
-  } catch(e){
-    const s = document.getElementById('status');
-    s.className = 'status error';
-    s.textContent = 'Kalender kon niet worden geladen: ' + e.message;
+  try{
+    const r=await fetch(FEED_URL,{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const t=await r.text();
+    render(parseICS(t));
+    document.getElementById('lastsync').textContent=new Date().toLocaleTimeString('nl-BE');
+  }catch(e){
+    const s=document.getElementById('status'); s.className='status error';
+    s.textContent='Kalender kon niet worden geladen: '+e.message;
   }
 }
 load();
-setInterval(load, 5 * 60 * 1000);
+setInterval(load, 5*60*1000);
 </script>
 </body>
 </html>
