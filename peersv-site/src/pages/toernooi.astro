@@ -713,17 +713,20 @@ import Footer from '../components/Footer.astro';
         else if (now > r.end) r.tr.classList.add('is-done');
       });
       const during = now >= preStart && now <= dayEnd; // livebar al 30 min voor start
+      const _liveN = rows.filter(function(r){return now>=r.start&&now<=r.end;}).length;
+      const _futN = rows.filter(function(r){return r.start>now;}).length;
+      const finished = now > dayEnd || (now >= dayStart && _liveN===0 && _futN===0);
 
       if (cd) {
         if (now < dayStart) { cd.hidden = false; cd.classList.remove('done');
           cd.innerHTML = 'Het toernooi begint over <b>' + fmtDur(dayStart - now) + '</b>'; }
-        else if (now > dayEnd) { cd.hidden = false; cd.classList.add('done');
+        else if (finished) { cd.hidden = false; cd.classList.add('done');
           cd.textContent = 'Het toernooi is afgelopen — bedankt aan alle clubs, spelers en supporters.'; }
         else { cd.hidden = true; }
       }
 
       if (lb) {
-        if (during) {
+        if (during && !finished) {
           const live = rows.filter(function (r) { return now >= r.start && now <= r.end; });
           const next = rows.filter(function (r) { return r.start > now; }).sort(function (a, b) { return a.start - b.start; });
           let html = '<div class="lb-h"><span class="lb-dot"></span>Nu op het veld</div>';

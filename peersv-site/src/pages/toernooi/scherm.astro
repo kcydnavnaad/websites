@@ -102,12 +102,12 @@ import Layout from '../../layouts/Layout.astro';
   function render(){
     const now=nowBE();
     clk.textContent=pad(now.getHours())+':'+pad(now.getMinutes())+':'+pad(now.getSeconds());
-    if(now>dayEnd){
+    const live=M.filter(function(x){return now>=x.start&&now<=x.end;}).sort(function(a,b){return a.veld<b.veld?-1:1;});
+    const future=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
+    if(now>dayEnd || (now>=dayStart && live.length===0 && future.length===0)){
       main.innerHTML='<div class="center"><div class="thanks">Bedankt aan alle clubs, spelers en supporters!</div><div class="lab">Tot volgend jaar</div></div>';
       bar.hidden=true;fcount.textContent='';return;
     }
-    const live=M.filter(function(x){return now>=x.start&&now<=x.end;}).sort(function(a,b){return a.veld<b.veld?-1:1;});
-    const future=M.filter(function(x){return x.start>now;}).sort(function(a,b){return a.start-b.start;});
     let html='';
     if(now<dayStart){
       const ms=dayStart-now,s2=Math.floor(ms/1000),d=Math.floor(s2/86400),h=Math.floor(s2%86400/3600),m=Math.floor(s2%3600/60),ss=s2%60;
