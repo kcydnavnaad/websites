@@ -1,8 +1,14 @@
 ---
-const navItems: ReadonlyArray<{ label: string; href: string }> = [
+import { isMosselfestijnActive } from '../lib/mosselfestijn';
+
+const navItems: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'Home', href: '/#home' },
   { label: 'Over', href: '/#over' },
   { label: 'Lid worden', href: '/lid-worden' },
+  // Verschijnt automatisch in de aanloop naar het event, zie src/lib/mosselfestijn.ts
+  ...(isMosselfestijnActive()
+    ? [{ label: 'Mosselfestijn', href: '/#mosselfestijn', highlight: true }]
+    : []),
   { label: 'Contact', href: '/#contact' },
 ];
 ---
@@ -32,7 +38,10 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
               <li>
                 <a
                   href={item.href}
-                  class="transition-colors hover:text-club-red focus:outline-none focus-visible:text-club-red"
+                  class:list={[
+                    'transition-colors hover:text-club-red focus:outline-none focus-visible:text-club-red',
+                    item.highlight && 'text-club-yellow',
+                  ]}
                 >
                   {item.label}
                 </a>
@@ -81,7 +90,10 @@ const navItems: ReadonlyArray<{ label: string; href: string }> = [
             <li>
               <a
                 href={item.href}
-                class="block rounded-lg px-3 py-2 text-white/85 hover:bg-white/10 hover:text-club-red"
+                class:list={[
+                  'block rounded-lg px-3 py-2 hover:bg-white/10 hover:text-club-red',
+                  item.highlight ? 'text-club-yellow font-semibold' : 'text-white/85',
+                ]}
                 data-nav-link
               >
                 {item.label}
