@@ -22,7 +22,7 @@ export const mosselfestijn = {
    */
   registrationUrl:
     import.meta.env.MOSSELFESTIJN_URL ??
-    'https://kpeersv.vdk-consulting.be/event/mosselfestijn-2026/register',
+    'https://kpeersv.odoo.com/event/mosselfestijn-2026-7/register',
   location: 'Kantine K. Peer SV — Deusterstraat 74, 3990 Peer',
 } as const;
 
