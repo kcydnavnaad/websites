@@ -15,7 +15,7 @@ export const mosselfestijn = {
   /** Tot en met deze datum blijft alles zichtbaar (einde van het event). */
   end: new Date('2026-10-25T23:59:59+02:00'),
   /** Wanneer de online inschrijvingen openen (enkel informatief in de banner). */
-  registrationOpens: new Date('2026-09-23T08:00:00+02:00'),
+  registrationOpens: new Date('2026-09-28T08:00:00+02:00'),
   /**
    * Odoo-eventpagina. Voeg `/register` toe om direct op de slotkeuze te landen.
    * Kan overschreven worden met de env var MOSSELFESTIJN_URL (handig zonder rebuild).
