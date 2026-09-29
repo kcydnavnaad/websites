@@ -1,19 +1,6 @@
-# syntax=docker/dockerfile:1
-# Opgebouwd volgens Second brain/klant-hosting/genereer.py (npm-variant)
-
-# --- build ---
-FROM node:22-alpine AS build
-WORKDIR /app
-COPY package.json package-lock.json ./
-RUN npm ci
-COPY . .
-# (geen build-time variabelen: statische site)
-RUN npm run build
-
-# --- runtime ---
-# nginx-unprivileged draait als niet-root (uid 101) en luistert op 8080.
-# Config rechtstreeks in conf.d: compatibel met readOnlyRootFilesystem.
-FROM nginxinc/nginx-unprivileged:alpine AS runtime
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /app/dist /usr/share/nginx/html
+# WGED-site als één zelfstandig HTML-bestand (JS, CSS, fonts en beelden inline).
+# Geen npm-build nodig: wat je lokaal in de preview ziet, staat online.
+FROM nginxinc/nginx-unprivileged:alpine
+COPY --chmod=644 nginx.conf /etc/nginx/conf.d/default.conf
+COPY --chmod=644 index.html /usr/share/nginx/html/index.html
 EXPOSE 8080

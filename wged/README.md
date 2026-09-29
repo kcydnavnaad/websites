@@ -1,21 +1,7 @@
-# WGED — website
+# WGED — testsite (wged.webbaas.be)
 
-Statische Vite-site met een three.js-scène (flenssteun die zichzelf tekent en
-op scroll van schets naar productiestuk gaat). NL/EN, geen backend.
+`index.html` is de volledige site in één bestand (three.js, fonts en beelden inline).
+De broncode (Vite-project) staat apart in `Second brain/02 Projecten/WGED/wged-site.zip`.
 
-```bash
-npm install
-npm run dev       # lokaal
-npm run build     # -> dist/
-```
-
-## Deploy (kcydnavnaad)
-- Monorepo `kcydnavnaad/websites`, map `wged/`; bestaande workflow `.github/workflows/wged-build.yml` bouwt met context `./wged` naar `ghcr.io/kcydnavnaad/wged:latest`.
-- Manifests in `kcydnavnaad/k3s-homelab/apps/wged/` (ArgoCD). Service port 80 -> targetPort 8080, LoadBalancer 10.20.0.116, Cloudflare Tunnel ongewijzigd.
-- Na een push: `kubectl -n wged rollout restart deploy/wged` (de tag blijft `latest`).
-- nginx.conf staat rechtstreeks in conf.d (geen envsubst), dus compatibel met readOnlyRootFilesystem. `/healthz` geeft 200 voor de probes.
-
-## Nog te doen voor livegang
-- Echte projectbeelden/renders van Wim
-- Privacyverklaring + btw-nummer in de footer
-- `public/img/og.jpg` vervangen door een definitief deelbeeld
+Deploy: push naar `main` → GHA `wged-build.yml` → `ghcr.io/kcydnavnaad/wged:latest`, daarna
+`kubectl --context dell-srv-01 -n wged rollout restart deploy/wged`.
