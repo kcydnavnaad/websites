@@ -13,7 +13,7 @@ npm run build     # -> dist/
 - Monorepo `kcydnavnaad/websites`, map `wged/`; bestaande workflow `.github/workflows/wged-build.yml` bouwt met context `./wged` naar `ghcr.io/kcydnavnaad/wged:latest`.
 - Manifests in `kcydnavnaad/k3s-homelab/apps/wged/` (ArgoCD). Service port 80 -> targetPort 8080, LoadBalancer 10.20.0.116, Cloudflare Tunnel ongewijzigd.
 - Na een push: `kubectl -n wged rollout restart deploy/wged` (de tag blijft `latest`).
-- `DEV_BANNER_HTML` heeft een lege standaardwaarde in de Dockerfile; niets aan te passen in deployment.yaml.
+- nginx.conf staat rechtstreeks in conf.d (geen envsubst), dus compatibel met readOnlyRootFilesystem. `/healthz` geeft 200 voor de probes.
 
 ## Nog te doen voor livegang
 - Echte projectbeelden/renders van Wim
