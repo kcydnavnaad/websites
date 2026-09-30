@@ -138,6 +138,56 @@ const JSON_URL =
     </section>
   </main>
 
+  <div
+    id="event-modal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-4"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="event-modal-title"
+  >
+    <div class="w-full max-w-md rounded-2xl border border-white/10 bg-anthracite p-6 shadow-2xl">
+      <div class="mb-4 flex items-start justify-between gap-4">
+        <h3 id="event-modal-title" class="text-xl font-semibold text-white"></h3>
+        <button
+          id="event-modal-close"
+          type="button"
+          class="flex-none text-white/50 transition-colors hover:text-white"
+          aria-label="Sluiten"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <dl class="space-y-3 text-sm">
+        <div>
+          <dt class="mb-1 text-xs uppercase tracking-wide text-white/50">Wanneer</dt>
+          <dd id="event-modal-when" class="text-white"></dd>
+        </div>
+        <div id="event-modal-location-wrap" class="hidden">
+          <dt class="mb-1 text-xs uppercase tracking-wide text-white/50">Locatie</dt>
+          <dd id="event-modal-location" class="text-white"></dd>
+        </div>
+        <div id="event-modal-description-wrap" class="hidden">
+          <dt class="mb-1 text-xs uppercase tracking-wide text-white/50">Extra info</dt>
+          <dd id="event-modal-description" class="whitespace-pre-line text-white"></dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+
   <link
     href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css"
     rel="stylesheet"
@@ -148,6 +198,46 @@ const JSON_URL =
   ></script>
   <script is:inline define:vars={{ apiUrl: JSON_URL }}>
     document.addEventListener('DOMContentLoaded', function () {
+      // --- Event-detail modal ---
+      const modal = document.getElementById('event-modal');
+      const titleEl = document.getElementById('event-modal-title');
+      const whenEl = document.getElementById('event-modal-when');
+      const locWrap = document.getElementById('event-modal-location-wrap');
+      const locEl = document.getElementById('event-modal-location');
+      const descWrap = document.getElementById('event-modal-description-wrap');
+      const descEl = document.getElementById('event-modal-description');
+      const closeBtn = document.getElementById('event-modal-close');
+
+      let lastFocused = null;
+
+      function openModal() {
+        lastFocused = document.activeElement;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+        if (closeBtn) closeBtn.focus();
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.classList.remove('overflow-hidden');
+        if (lastFocused && lastFocused.focus) lastFocused.focus();
+      }
+
+      if (modal) {
+        if (closeBtn) closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function (e) {
+          if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            closeModal();
+          }
+        });
+      }
+
       const calendarEl = document.getElementById('calendar');
       if (!calendarEl || typeof FullCalendar === 'undefined') return;
 
@@ -187,15 +277,62 @@ const JSON_URL =
         },
         eventClick: function (info) {
           info.jsEvent.preventDefault();
+          if (!modal) return;
+
+          titleEl.textContent = info.event.title;
+
+          // Datum/tijd formatteren
+          const start = info.event.start;
+          const end = info.event.end;
+          const allDay = info.event.allDay;
+
+          if (!start) {
+            whenEl.textContent = '';
+          } else if (allDay) {
+            const dateOpts = {
+              weekday: 'long',
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric',
+            };
+            // FullCalendar zet het einde van een all-day event op de dag ná de laatste dag
+            const endInclusive = end ? new Date(end.getTime() - 86400000) : null;
+            if (endInclusive && endInclusive.toDateString() !== start.toDateString()) {
+              whenEl.textContent =
+                start.toLocaleDateString('nl-BE', dateOpts) +
+                ' t/m ' +
+                endInclusive.toLocaleDateString('nl-BE', dateOpts);
+            } else {
+              whenEl.textContent = start.toLocaleDateString('nl-BE', dateOpts);
+            }
+          } else {
+            const dateOpts = { weekday: 'long', day: 'numeric', month: 'long' };
+            const timeOpts = { hour: '2-digit', minute: '2-digit' };
+            const startStr =
+              start.toLocaleDateString('nl-BE', dateOpts) +
+              ' · ' +
+              start.toLocaleTimeString('nl-BE', timeOpts);
+            const endStr = end ? end.toLocaleTimeString('nl-BE', timeOpts) : '';
+            whenEl.textContent = endStr ? startStr + ' – ' + endStr : startStr;
+          }
+
           const props = info.event.extendedProps || {};
-          const parts = [
-            info.event.start
-              ? new Date(info.event.start).toLocaleString('nl-BE')
-              : '',
-            props.location ? '📍 ' + props.location : '',
-            props.description ? props.description : '',
-          ].filter(Boolean);
-          alert(info.event.title + '\n\n' + parts.join('\n\n'));
+
+          if (props.location) {
+            locEl.textContent = props.location;
+            locWrap.classList.remove('hidden');
+          } else {
+            locWrap.classList.add('hidden');
+          }
+
+          if (props.description) {
+            descEl.textContent = props.description;
+            descWrap.classList.remove('hidden');
+          } else {
+            descWrap.classList.add('hidden');
+          }
+
+          openModal();
         },
         eventColor: '#d72638',
         height: 'auto',
