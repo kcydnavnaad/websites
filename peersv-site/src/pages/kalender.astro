@@ -124,7 +124,7 @@ const JSON_URL =
           </details>
         </div>
 
-        <div class="rounded-2xl bg-white p-4 text-ink-deep shadow-lg sm:p-6">
+        <div class="rounded-2xl border border-white/10 bg-anthracite p-4 sm:p-6">
           <div id="calendar"></div>
         </div>
 
@@ -166,6 +166,25 @@ const JSON_URL =
           list: 'Lijst',
         },
         events: apiUrl,
+        eventDidMount: function (info) {
+          const colors = {
+            training: '#d72638',
+            tournament: '#eab308',
+            match: '#3b82f6',
+            other: '#22c55e',
+          };
+          const type = (info.event.extendedProps || {}).type;
+          const color = colors[type] || '#d72638';
+
+          // Lijstweergave toont een gekleurde stip i.p.v. een gevuld blok
+          const dot = info.el.querySelector('.fc-list-event-dot');
+          if (dot) {
+            dot.style.borderColor = color;
+          } else {
+            info.el.style.backgroundColor = color;
+            info.el.style.borderColor = color;
+          }
+        },
         eventClick: function (info) {
           info.jsEvent.preventDefault();
           const props = info.event.extendedProps || {};
@@ -187,3 +206,91 @@ const JSON_URL =
 
   <Footer />
 </Layout>
+
+<style is:global>
+  /* FullCalendar dark theme override — matcht kpeersv.be huisstijl */
+  #calendar {
+    --fc-border-color: rgba(255, 255, 255, 0.1);
+    --fc-page-bg-color: transparent;
+    --fc-neutral-bg-color: rgba(255, 255, 255, 0.05);
+    --fc-list-event-hover-bg-color: rgba(255, 255, 255, 0.05);
+    --fc-today-bg-color: rgba(249, 200, 14, 0.08);
+    --fc-event-bg-color: #d72638;
+    --fc-event-border-color: #d72638;
+    --fc-event-text-color: #ffffff;
+    --fc-button-bg-color: rgba(255, 255, 255, 0.08);
+    --fc-button-border-color: rgba(255, 255, 255, 0.1);
+    --fc-button-hover-bg-color: rgba(255, 255, 255, 0.15);
+    --fc-button-hover-border-color: rgba(255, 255, 255, 0.2);
+    --fc-button-active-bg-color: rgba(249, 200, 14, 0.2);
+    --fc-button-active-border-color: rgba(249, 200, 14, 0.4);
+    color: #ffffff;
+  }
+
+  /* Header toolbar */
+  #calendar .fc-toolbar-title {
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* Day headers (ma, di, wo...) */
+  #calendar .fc-col-header-cell {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  #calendar .fc-col-header-cell-cushion {
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem;
+  }
+
+  /* Day numbers */
+  #calendar .fc-daygrid-day-number {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.5rem;
+  }
+
+  /* Dagen buiten de huidige maand dimmen */
+  #calendar .fc-day-other .fc-daygrid-day-number {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  /* Event styling */
+  #calendar .fc-daygrid-event {
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-size: 0.75rem;
+    border: none;
+  }
+
+  /* Tijd-tekst van events */
+  #calendar .fc-event-time {
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  /* Lijstweergave */
+  #calendar .fc-list-day-cushion {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+  #calendar .fc-list-event:hover td {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+  #calendar .fc-list-empty {
+    background: transparent;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Buttons */
+  #calendar .fc-button {
+    color: #ffffff;
+    text-transform: capitalize;
+    box-shadow: none;
+  }
+
+  /* Vandaag-indicator */
+  #calendar .fc-day-today {
+    background-color: rgba(249, 200, 14, 0.08) !important;
+  }
+</style>
