@@ -5,6 +5,7 @@ const navItems: ReadonlyArray<{ label: string; href: string; highlight?: boolean
   { label: 'Home', href: '/#home' },
   { label: 'Over', href: '/#over' },
   { label: 'Lid worden', href: '/lid-worden' },
+  { label: 'Kalender', href: '/kalender' },
   // Verschijnt automatisch in de aanloop naar het event, zie src/lib/mosselfestijn.ts
   ...(isMosselfestijnActive()
     ? [{ label: 'Mosselfestijn', href: '/#mosselfestijn', highlight: true }]
