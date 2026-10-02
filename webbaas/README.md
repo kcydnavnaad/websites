@@ -1,6 +1,6 @@
 # WebBaas landingspagina
 
-Marketing site voor WebBaas, een Belgisch webbureau dat professionele websites bouwt vanaf €500 binnen 30 dagen. One-pager met intake-formulier dat via SMTP2GO verstuurt.
+Marketing site voor WebBaas, een Belgisch webbureau dat professionele websites bouwt vanaf €795 binnen 30 dagen. One-pager met intake-formulier dat via SMTP2GO verstuurt.
 
 ## Stack
 

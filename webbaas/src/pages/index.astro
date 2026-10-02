@@ -1,26 +1,390 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Benefits from '../components/Benefits.astro';
-import Pricing from '../components/Pricing.astro';
-import Process from '../components/Process.astro';
-import Portfolio from '../components/Portfolio.astro';
-import FAQ from '../components/FAQ.astro';
-import Contact from '../components/Contact.astro';
-import Footer from '../components/Footer.astro';
 ---
 
 <Layout>
-  <Header />
-  <main id="main">
-    <Hero />
-    <Benefits />
-    <Pricing />
-    <Process />
-    <Portfolio />
-    <FAQ />
-    <Contact />
-  </main>
-  <Footer />
+<header id="top">
+  <div class="wrap nav">
+    <a class="logo" href="#top"><i></i>WebBaas</a>
+    <nav class="links" id="menu">
+      <a href="#voordelen">Voordelen</a>
+      <a href="#werkwijze">Werkwijze</a>
+      <a href="#prijzen">Prijzen</a>
+      <a href="#portfolio">Werk</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn btn-acc" href="#contact">Gratis intake</a>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="mono"><span class="idx">Webbureau</span> &nbsp;·&nbsp; Vaste prijzen, geen gedoe</div>
+      <h1 class="serif">Een website waar je <em>trots</em> op bent.</h1>
+      <p>Vaste prijs vanaf €795. Binnen 30 dagen online. Het eerste jaar hosting en onderhoud inbegrepen — en de site is van jou, niet van ons.</p>
+      <div class="cta">
+        <a class="btn btn-acc" href="#contact">Vraag een gratis intake <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn" href="https://wa.me/32483062307" target="_blank" rel="noopener">Stuur een WhatsApp</a>
+      </div>
+      <div class="facts">
+        <div><b>Vaste prijs</b>Geen uurtje-factuurtje</div>
+        <div><b>30 dagen</b>Van intake tot live</div>
+        <div><b>1 jaar</b>Hosting en support erbij</div>
+      </div>
+    </div>
+
+    <div class="hv" aria-hidden="true">
+      <div class="browser">
+        <div class="bar"><s></s><s></s><s></s><div class="url"><b id="hvUrl">kapsalon-noor.be</b><span class="caret"></span></div><div class="status"><span class="dot"></span><span id="st"><b>Dag 01</b> — Intake</span></div></div>
+        <div class="hv-page" id="hvPage">
+          <div class="hv-canvas" id="hvCanvas"></div>
+          <div class="hv-toast" id="hvToast"><i><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M20 6L9 17l-5-5"/></svg></i><span><b id="hvToastT">Nieuwe aanvraag</b><small>via jouw website · zojuist</small></span></div>
+          <div class="hv-cursor" id="hvCursor"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M4 2l16 9-7 2-3 7z" fill="#F3F1EA" stroke="#0D0D0C" stroke-width="1.2"/></svg></div>
+          <span class="hv-ripple" id="hvRipple"></span>
+        </div>
+        <div class="prog"><i id="hvProg"></i></div>
+      </div>
+      <div class="hv-phone" id="hvPhone"><div class="scr2" id="hvPhoneScr"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Kappers</span><span>Garages</span><span>Restaurants</span><span>Praktijken</span><span>Sportclubs</span><span>Bakkers</span><span>Bouwbedrijven</span><span>Schoonheidssalons</span><span>Traiteurs</span><span>Verenigingen</span>
+    <span>Kappers</span><span>Garages</span><span>Restaurants</span><span>Praktijken</span><span>Sportclubs</span><span>Bakkers</span><span>Bouwbedrijven</span><span>Schoonheidssalons</span><span>Traiteurs</span><span>Verenigingen</span>
+  </div>
+</div>
+
+<!-- VOORDELEN -->
+<section class="sec" id="voordelen">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">01</span> &nbsp;/&nbsp; Waarom WebBaas</div><h2 class="serif">Concreet, transparant, <em>geen gedoe</em>.</h2></div>
+      <p>Geen loze beloftes en geen kleine lettertjes. Je weet vooraf wat je krijgt, wat het kost en wanneer het klaar is.</p>
+    </div>
+    <div class="rows">
+      <div class="row rv"><span class="idx">01</span><h3>Binnen 30 dagen online</h3><p>Zodra je content binnen is, bouwen we. Twintig werkdagen later staat je site klaar voor feedback, binnen dertig dagen is hij live.</p></div>
+      <div class="row rv"><span class="idx">02</span><h3>Vaste prijs vanaf €795</h3><p>Eén bedrag, vooraf afgesproken. Geen meerwerk dat opduikt op de factuur, geen verrassingen achteraf.</p></div>
+      <div class="row rv"><span class="idx">03</span><h3>Hosting en support inbegrepen</h3><p>Een vol jaar hosting, updates en support zit in de prijs. Jij hoeft nergens naar om te kijken.</p></div>
+      <div class="row rv"><span class="idx">04</span><h3>Snel, mooi en veilig</h3><p>Verzorgd design, korte laadtijd, SSL en dagelijkse back-ups. Op elk scherm, van gsm tot desktop.</p></div>
+      <div class="row rv"><span class="idx">05</span><h3>Rechtstreeks contact</h3><p>Je spreekt met de persoon die je site bouwt. Geen accountmanagers, geen ticketsysteem.</p></div>
+      <div class="row rv"><span class="idx">06</span><h3>Jouw site, jouw regels</h3><p>Domein, content en code zijn van jou. Wil je ooit verhuizen, dan krijg je gewoon de bestanden mee.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WERKWIJZE -->
+<section class="sec" id="werkwijze" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">02</span> &nbsp;/&nbsp; Werkwijze</div><h2 class="serif">Van intake tot <em>live</em> in vier stappen.</h2></div>
+      <p>Jij levert de inhoud, wij doen de rest. Je weet op elk moment waar we staan.</p>
+    </div>
+    <div class="process rv" id="process">
+      <div class="pline"></div>
+      <div class="steps">
+        <div class="step"><div class="n">1</div><h3>Gratis intake</h3><p>We bespreken je wensen en je krijgt een duidelijke offerte. Vrijblijvend.</p><div class="d">Dag 1</div></div>
+        <div class="step"><div class="n">2</div><h3>Wij bouwen</h3><p>Binnen twintig werkdagen staat je website klaar om te bekijken.</p><div class="d">Dag 2–20</div></div>
+        <div class="step"><div class="n">3</div><h3>Jouw feedback</h3><p>Jij geeft aan wat anders mag, wij passen aan tot het klopt.</p><div class="d">Dag 21–27</div></div>
+        <div class="step"><div class="n">4</div><h3>Live, met support</h3><p>Je site gaat online. Het eerste jaar hosting en support is inbegrepen.</p><div class="d">Dag 30</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRIJZEN -->
+<section class="sec" id="prijzen">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">03</span> &nbsp;/&nbsp; Prijzen</div><h2 class="serif">Drie pakketten. <em>Eén</em> vaste prijs.</h2></div>
+      <p>Wat je ziet is wat je betaalt. Elk pakket komt met een jaar hosting en support.</p>
+    </div>
+    <div class="prices rv">
+      <div class="price">
+        <div class="lbl"><span class="mono">Start</span></div>
+        <div class="amt">€795<small>eenmalig</small></div>
+        <p class="desc">Snel en professioneel online.</p>
+        <ul>
+          <li>One-page website</li>
+          <li>Mobielvriendelijk design</li>
+          <li>Contactformulier</li>
+          <li>1 jaar hosting en support</li>
+          <li class="off">Extra pagina's</li>
+          <li class="off">Integraties</li>
+        </ul>
+        <a class="btn" href="#contact">Kies Start</a>
+      </div>
+      <div class="price feat">
+        <div class="lbl"><span class="mono">Professioneel</span><span class="tag">Aanrader</span></div>
+        <div class="amt">€1.295<small>eenmalig</small></div>
+        <p class="desc">Beste prijs-kwaliteit voor de meeste zaken.</p>
+        <ul>
+          <li>Alles uit Start</li>
+          <li>Tot 3 pagina's</li>
+          <li>Structuur en copy-feedback</li>
+          <li>Snellere oplevering</li>
+          <li>1 jaar hosting en support</li>
+        </ul>
+        <a class="btn btn-acc" href="#contact">Kies Professioneel</a>
+      </div>
+      <div class="price">
+        <div class="lbl"><span class="mono">Groei</span></div>
+        <div class="amt">€1.950<small>eenmalig</small></div>
+        <p class="desc">Voor wie klaar is om te groeien.</p>
+        <ul>
+          <li>Alles uit Professioneel</li>
+          <li>5+ pagina's</li>
+          <li>Integraties op maat</li>
+          <li>Extra feedbackronde</li>
+          <li>Prioriteit bij support</li>
+        </ul>
+        <a class="btn" href="#contact">Kies Groei</a>
+      </div>
+    </div>
+    <div class="pnote rv">
+      <span>Vanaf jaar 2: hosting, back-ups, SSL, updates en tot 1 uur aanpassingen per jaar voor <b>€25 per maand</b>, jaarlijks gefactureerd. Extra werk aan €75 per uur, altijd na jouw akkoord.</span>
+      <span>Twijfel je? Voor de meeste zaken is <b>Professioneel</b> de beste keuze.</span>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="sec" id="portfolio" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:80px">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">04</span> &nbsp;/&nbsp; Werk</div><h2 class="serif">Sites die <em>werken</em> voor lokale zaken.</h2></div>
+      <p>Een greep uit wat we bouwen. Beweeg je muis over de strook om te pauzeren.</p>
+    </div>
+  </div>
+  <div class="strip rv" aria-hidden="true">
+    <div class="ptrack">
+      <!-- set A -->
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">kapsalon-lien.be</div></div><div class="scr"><div class="h"></div><div class="t" style="width:80%"></div><div class="t" style="width:60%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Kapsalon</b><span>Online afspraken</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">garage-peeters.be</div></div><div class="scr" style="background:#131a16"><div class="h" style="width:45%"></div><div class="t" style="width:85%"></div><div class="t" style="width:55%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Garage</b><span>Diensten en offerte</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">bistro-hetplein.be</div></div><div class="scr" style="background:#1a1412"><div class="h" style="width:70%"></div><div class="t" style="width:65%"></div><div class="t" style="width:75%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Restaurant</b><span>Menu en reservatie</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">kine-vandenbosch.be</div></div><div class="scr" style="background:#121619"><div class="h" style="width:55%"></div><div class="t" style="width:70%"></div><div class="t" style="width:50%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Praktijk</b><span>Info en afspraken</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">vc-desterren.be</div></div><div class="scr" style="background:#141612"><div class="h" style="width:65%"></div><div class="t" style="width:60%"></div><div class="t" style="width:80%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Sportclub</b><span>Leden en inschrijvingen</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">bakkerij-janssens.be</div></div><div class="scr" style="background:#191512"><div class="h" style="width:50%"></div><div class="t" style="width:75%"></div><div class="t" style="width:60%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Bakkerij</b><span>Assortiment en bestellen</span></div></div>
+      <!-- set B (duplicate for seamless loop) -->
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">kapsalon-lien.be</div></div><div class="scr"><div class="h"></div><div class="t" style="width:80%"></div><div class="t" style="width:60%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Kapsalon</b><span>Online afspraken</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">garage-peeters.be</div></div><div class="scr" style="background:#131a16"><div class="h" style="width:45%"></div><div class="t" style="width:85%"></div><div class="t" style="width:55%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Garage</b><span>Diensten en offerte</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">bistro-hetplein.be</div></div><div class="scr" style="background:#1a1412"><div class="h" style="width:70%"></div><div class="t" style="width:65%"></div><div class="t" style="width:75%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Restaurant</b><span>Menu en reservatie</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">kine-vandenbosch.be</div></div><div class="scr" style="background:#121619"><div class="h" style="width:55%"></div><div class="t" style="width:70%"></div><div class="t" style="width:50%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Praktijk</b><span>Info en afspraken</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">vc-desterren.be</div></div><div class="scr" style="background:#141612"><div class="h" style="width:65%"></div><div class="t" style="width:60%"></div><div class="t" style="width:80%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#CBFF3D"></div></div><div class="cap"><b>Sportclub</b><span>Leden en inschrijvingen</span></div></div>
+      <div class="work"><div class="bar"><s></s><s></s><s></s><div class="url">bakkerij-janssens.be</div></div><div class="scr" style="background:#191512"><div class="h" style="width:50%"></div><div class="t" style="width:75%"></div><div class="t" style="width:60%"></div><div class="g"><i></i><i></i><i></i></div><div class="b" style="background:#F3F1EA"></div></div><div class="cap"><b>Bakkerij</b><span>Assortiment en bestellen</span></div></div>
+    </div>
+  </div>
+  <div class="wrap"><p class="fnote">Voorbeeldweergaven ter illustratie. Vervang door screenshots van je eigen projecten zodra ze live staan.</p></div>
+</section>
+
+<!-- PORTALEN -->
+<section class="sec" id="portalen">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">05</span> &nbsp;/&nbsp; Op maat</div><h2 class="serif">Meer dan een site: een <em>portaal</em> op jouw maat.</h2></div>
+      <p>Van bestelsysteem tot ledenbeheer. Jij bepaalt de functies, wij bouwen ze.</p>
+    </div>
+    <div class="two">
+      <div class="pan rv">
+        <div class="mono"><span class="idx">A</span> &nbsp;·&nbsp; Lokale dienstverleners</div>
+        <h3>Boekingen, klanten en planning in één plek.</h3>
+        <p>Een boekingssysteem, klantbeheer of intern portaal, helemaal op maat van hoe jij werkt.</p>
+        <div class="chips"><span class="chip">Kapper</span><span class="chip">Garage</span><span class="chip">Praktijk</span></div>
+      </div>
+      <div class="pan rv">
+        <div class="mono"><span class="idx">B</span> &nbsp;·&nbsp; Sportclubs en verenigingen</div>
+        <h3>Leden, inschrijvingen en betalingen zonder Excel-chaos.</h3>
+        <p>Ledenlijsten, inschrijvingen, betalingen en communicatie in één platform, gemaakt voor Belgische clubs.</p>
+        <div class="chips"><span class="chip">Voetbal</span><span class="chip">Turnen</span><span class="chip">Jeugdbeweging</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REFERRAL BAND -->
+<section class="band">
+  <div class="wrap band-in">
+    <div class="rv">
+      <div class="mono">Baas brengt baas</div>
+      <h2>Ken je iemand die een site nodig heeft?</h2>
+    </div>
+    <div class="rv">
+      <p>Verwijs iemand door en laat je naam vermelden bij de intake. Zodra die nieuwe klant zijn bouwfactuur betaald heeft, krijg jij 3 maanden hosting gratis. Bij 4 doorverwijzingen is je hosting dat jaar dus volledig gratis. En wie jij doorverwijst, krijgt €50 welkomstkorting.</p>
+      <div class="big">
+        <div><b>3 mnd</b><span>gratis hosting per doorverwijzing</span></div>
+        <div><b>€50</b><span>welkomstkorting voor de nieuwe klant</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="head rv">
+      <div><div class="mono"><span class="idx">06</span> &nbsp;/&nbsp; FAQ</div><h2 class="serif">Veelgestelde <em>vragen</em>.</h2></div>
+      <p>Staat je vraag er niet bij? Stuur een WhatsApp, je krijgt snel antwoord.</p>
+    </div>
+    <div class="faq rv">
+      <details><summary><span class="i">01</span>Hoe snel is mijn website klaar?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Na een korte intake en het aanleveren van je content gaan we aan de slag. Meestal staat je site binnen twintig werkdagen klaar voor feedback en is hij binnen dertig dagen live. Haast voor een opening of evenement? Zeg het bij de intake, dan bekijken we wat kan.</p></details>
+      <details><summary><span class="i">02</span>Wat zit er vanaf jaar 2 in de €25 per maand?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Hosting in een Europees datacenter, SSL-certificaat, dagelijkse back-ups, security-updates en kleine inhoudelijke aanpassingen tot een uur per jaar. Plus voorrang bij vragen via mail of WhatsApp. Je betaalt €300 per jaar, jaarlijks gefactureerd. Extra werk rekenen we aan €75 per uur, en altijd pas na jouw akkoord.</p></details>
+      <details><summary><span class="i">03</span>Kan ik later uitbreiden?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Zeker. Je start met het pakket dat past en groeit mee. Extra pagina's, een blog, een webshop of een koppeling met je boekhouding, kassa of reservatiesysteem voegen we toe op aanvraag. Je site hoeft niet opnieuw gebouwd te worden.</p></details>
+      <details><summary><span class="i">04</span>Krijg ik volledige eigendom van de site?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Ja. Content, domein en broncode zijn van jou. Wil je later naar een andere provider, dan krijg je gewoon de bestanden. Geen lock-in, geen verborgen kosten.</p></details>
+      <details><summary><span class="i">05</span>Wat als ik al een domeinnaam heb?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Geen probleem. We koppelen je bestaande domein zonder downtime aan je nieuwe site. Nog geen domein? Dan registreren en beheren we het voor je, inbegrepen in het eerste jaar.</p></details>
+      <details><summary><span class="i">06</span>Hoe werkt Baas brengt baas precies?<span class="pl"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></span></summary><p>Laat de nieuwe klant jouw naam vermelden bij de intake. Zodra die zijn bouwfactuur betaald heeft, krijg jij 3 maanden hosting gratis, verrekend op je volgende jaarfactuur. Je kan maximaal een volledig jaar hosting gratis verdienen per jaar. De nieuwe klant krijgt €50 korting op de bouwprijs.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="sec" id="contact" style="background:var(--bg2);border-top:1px solid var(--line)">
+  <div class="wrap cgrid">
+    <div class="rv">
+      <div class="mono"><span class="idx">07</span> &nbsp;/&nbsp; Gratis intake</div>
+      <h2 class="serif" style="margin-top:14px">Klaar om te <em>starten</em>?</h2>
+      <p class="muted" style="margin-top:16px;font-size:17px;max-width:44ch">Vraag een gratis, vrijblijvende intake aan. We bespreken je wensen en je krijgt een duidelijke offerte. Reactie binnen 24 uur, meestal sneller.</p>
+      <div class="chan">
+        <a href="https://wa.me/32483062307" target="_blank" rel="noopener"><span><small>WhatsApp</small><b>+32 483 06 23 07</b></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        <a href="mailto:info@webbaas.be"><span><small>E-mail</small><b>info@webbaas.be</b></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M9 7h8v8"/></svg></a>
+        
+      </div>
+    </div>
+    <form class="rv" id="contact-form" aria-describedby="form-status">
+      <div class="r2">
+        <div class="f"><label for="naam">Naam</label><input id="naam" name="naam" autocomplete="name" required placeholder="Jouw naam" /></div>
+        <div class="f"><label for="telefoon">Telefoon</label><input id="telefoon" name="telefoon" type="tel" autocomplete="tel" placeholder="+32 ..." /></div>
+      </div>
+      <div class="f"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="jij@zaak.be" /></div>
+      <div class="f"><label for="bericht">Je project</label><textarea id="bericht" name="bericht" rows="4" required placeholder="Wat voor zaak heb je, en wat wil je bereiken?"></textarea></div>
+      <div class="f"><label for="huidige_site">Huidige website (optioneel)</label><input id="huidige_site" name="huidige_site" placeholder="https://..." /></div>
+      <div class="hp" aria-hidden="true"><label for="website_url">Laat dit veld leeg</label><input id="website_url" name="website_url" type="text" tabindex="-1" autocomplete="off" /></div>
+      <button class="btn btn-acc" id="submit-btn" type="submit" style="justify-content:center">Vraag gratis intake aan</button>
+      <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      <p class="tiny">Vrijblijvend. Geen verplichtingen. Reactie binnen 24 uur.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <a class="logo" href="#top"><i></i>WebBaas</a>
+    <span>© 2026 WebBaas — Jouw site, jouw regels.</span>
+  </div>
+</footer>
+
+<script is:inline>
+  const hdr=document.querySelector('header');
+  addEventListener('scroll',()=>hdr.classList.toggle('scrolled',scrollY>10),{passive:true});
+  const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+  burger.addEventListener('click',()=>menu.classList.toggle('open'));
+  menu.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>menu.classList.remove('open')));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* ---------- Hero live demo ---------- */
+  const SERIF="'Instrument Serif',Georgia,serif", SANS="'Manrope',system-ui,sans-serif";
+  const SITES=[
+   {url:'kapsalon-noor.be',brand:'Kapsalon Noor',font:SERIF,bw:400,hw:400,bg:'#F6EFE9',ink:'#2B1E1A',acc:'#2B1E1A',accInk:'#F6EFE9',line:'#D9C6BB',
+    links:['Behandelingen','Prijzen'],cta:'Boek online',h:'Jouw haar, in goede handen.',p:'Knippen, kleuren en verzorging. Boek je afspraak online, ook buiten de openingsuren.',
+    chips:['Online boeken','Openingsuren','Prijslijst'],toast:'Nieuwe afspraak — zaterdag 10:30',
+    svg:`<svg viewBox="0 0 240 172" preserveAspectRatio="xMidYMid slice"><rect width="240" height="172" fill="#E9D5CA"/><circle cx="172" cy="58" r="50" fill="#D9A68F" opacity=".55"/><circle cx="60" cy="150" r="70" fill="#F3E4DB" opacity=".7"/><g stroke="#2B1E1A" stroke-width="5" fill="none" stroke-linecap="round"><circle cx="66" cy="118" r="14"/><circle cx="100" cy="132" r="14"/><path d="M77 107L168 46"/><path d="M110 122L182 70"/></g><rect x="132" y="112" width="78" height="12" rx="5" fill="#2B1E1A"/><path d="M140 124v15M149 124v15M158 124v15M167 124v15M176 124v15M185 124v15M194 124v15M203 124v15" stroke="#2B1E1A" stroke-width="3"/></svg>`},
+   {url:'garage-vermeulen.be',brand:'GARAGE VERMEULEN',font:SANS,bw:800,hw:800,bg:'#0F1A2B',ink:'#EAF0F7',acc:'#F2B705',accInk:'#0F1A2B',line:'#2A3B55',
+    links:['Diensten','Merken'],cta:'Vraag offerte',h:'Uw auto, snel weer op de baan.',p:'Onderhoud, banden en herstellingen voor alle merken. Vraag vandaag nog een offerte.',
+    chips:['Onderhoud','Banden','Keuring'],toast:'Nieuwe offerteaanvraag — onderhoud',
+    svg:`<svg viewBox="0 0 240 172" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1D3150"/><stop offset="1" stop-color="#16253B"/></linearGradient></defs><rect width="240" height="172" fill="url(#gg)"/><circle cx="190" cy="44" r="18" fill="#F2B705" opacity=".9"/><rect y="132" width="240" height="40" fill="#0C1524"/><path d="M10 152h34M64 152h34M118 152h34M172 152h34" stroke="#F2B705" stroke-width="4"/><path d="M34 126q2-20 28-24l30-20q10-6 24-6h40q14 0 22 10l16 18q24 4 28 22v8H34z" fill="#EAF0F7"/><path d="M98 84h34v20H78z" fill="#1D3150"/><path d="M140 84h22l14 20h-36z" fill="#1D3150"/><circle cx="78" cy="128" r="15" fill="#0C1524" stroke="#EAF0F7" stroke-width="4"/><circle cx="182" cy="128" r="15" fill="#0C1524" stroke="#EAF0F7" stroke-width="4"/></svg>`},
+   {url:'bistro-delinde.be',brand:'Bistro De Linde',font:SERIF,bw:400,hw:400,bg:'#1E1410',ink:'#F5E9DC',acc:'#E07A4F',accInk:'#1E1410',line:'#4A3328',
+    links:['Menu','Over ons'],cta:'Reserveer',h:'Lokaal, seizoensgebonden, lekker.',p:'Eerlijke keuken met producten uit de streek. Reserveer je tafel in twee klikken.',
+    chips:['Menu','Reserveren','Afhaal'],toast:'Nieuwe reservatie — 4 personen, vrijdag',
+    svg:`<svg viewBox="0 0 240 172" preserveAspectRatio="xMidYMid slice"><rect width="240" height="172" fill="#2A1C16"/><circle cx="120" cy="88" r="60" fill="#F5E9DC"/><circle cx="120" cy="88" r="42" fill="none" stroke="#E5D3C1" stroke-width="3"/><circle cx="108" cy="84" r="15" fill="#E07A4F"/><circle cx="134" cy="96" r="12" fill="#7FA36B"/><circle cx="126" cy="70" r="7" fill="#C9A227"/><g stroke="#F5E9DC" stroke-width="4" fill="none" stroke-linecap="round"><path d="M38 38v96M31 38v26M45 38v26M31 64q7 9 14 0"/><path d="M202 38q14 24 0 54v42"/></g></svg>`},
+   {url:'bakkerij-vanhout.be',brand:'Bakkerij Van Hout',font:SERIF,bw:400,hw:400,bg:'#FBF4E6',ink:'#3A2614',acc:'#B5651D',accInk:'#FBF4E6',line:'#E6D3B3',
+    links:['Assortiment','Taarten'],cta:'Bestel vooraf',h:'Elke ochtend vers gebakken.',p:'Brood, koffiekoeken en taarten. Bestel vooraf en haal af zonder wachten.',
+    chips:['Assortiment','Bestellen','Openingsuren'],toast:'Nieuwe bestelling — 2 taarten, zondag',
+    svg:`<svg viewBox="0 0 240 172" preserveAspectRatio="xMidYMid slice"><rect width="240" height="172" fill="#F1E1C2"/><circle cx="52" cy="40" r="44" fill="#F7EBD3"/><ellipse cx="112" cy="110" rx="74" ry="38" fill="#C98A47"/><ellipse cx="112" cy="104" rx="70" ry="30" fill="#D9A05C"/><path d="M68 100q10-15 20 0M98 96q10-15 20 0M128 100q10-15 20 0" stroke="#F1E1C2" stroke-width="4" fill="none" stroke-linecap="round"/><g stroke="#B5651D" stroke-width="3" fill="#B5651D"><path d="M206 150V58" fill="none"/><ellipse cx="200" cy="70" rx="5" ry="9" transform="rotate(-25 200 70)"/><ellipse cx="212" cy="70" rx="5" ry="9" transform="rotate(25 212 70)"/><ellipse cx="200" cy="90" rx="5" ry="9" transform="rotate(-25 200 90)"/><ellipse cx="212" cy="90" rx="5" ry="9" transform="rotate(25 212 90)"/><ellipse cx="200" cy="110" rx="5" ry="9" transform="rotate(-25 200 110)"/><ellipse cx="212" cy="110" rx="5" ry="9" transform="rotate(25 212 110)"/></g></svg>`}
+  ];
+  const $=id=>document.getElementById(id);
+  const page=$('hvPage'),canvas=$('hvCanvas'),urlEl=$('hvUrl'),st=$('st'),prog=$('hvProg'),toast=$('hvToast'),toastT=$('hvToastT'),
+        cursor=$('hvCursor'),ripple=$('hvRipple'),phone=$('hvPhone'),phoneScr=$('hvPhoneScr');
+  const STAGES=['<b>Dag 01</b> — Intake','<b>Dag 08</b> — Ontwerp','<b>Dag 18</b> — Bouw','<b>Dag 30</b> — Live'];
+  const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+  function fit(){canvas.style.transform='scale('+(page.clientWidth/560)+')';}
+  new ResizeObserver(fit).observe(page);
+  function siteHTML(s){
+    return `<div class="hv-site" style="background:${s.bg};color:${s.ink}">
+      <div class="sn b" data-t="0"><span class="brand" style="font-family:${s.font};font-weight:${s.bw}">${s.brand}</span><span class="lk"><span>${s.links[0]}</span><span>${s.links[1]}</span><span>Contact</span></span><span class="cta" style="background:${s.acc};color:${s.accInk}">${s.cta}</span></div>
+      <div class="sh"><div>
+        <h4 class="b" data-t="1" style="font-family:${s.font};font-weight:${s.hw}">${s.h}</h4>
+        <p class="b" data-t="2">${s.p}</p>
+        <span class="btn2 b" data-t="4" id="hvCta" style="background:${s.acc};color:${s.accInk}">${s.cta} &rarr;</span>
+      </div><div class="scene b" data-t="3">${s.svg}</div></div>
+      <div class="chips2 b" data-t="5">${s.chips.map(c=>`<span style="border-color:${s.line}">${c}</span>`).join('')}</div>
+    </div>`;
+  }
+  function phoneHTML(s){
+    return `<div style="background:${s.bg};color:${s.ink};height:100%;padding:16px 9px 9px;display:flex;flex-direction:column;gap:7px">
+      <div style="display:flex;justify-content:space-between;align-items:center"><b style="font-family:${s.font};font-weight:${s.bw};font-size:8.5px;white-space:nowrap;overflow:hidden">${s.brand}</b><span style="width:12px;height:2px;background:${s.ink};box-shadow:0 4px 0 ${s.ink};flex-shrink:0"></span></div>
+      <div style="height:38%;border-radius:7px;overflow:hidden">${s.svg}</div>
+      <div style="font-family:${s.font};font-weight:${s.hw};font-size:13px;line-height:1.05">${s.h}</div>
+      <span style="margin-top:auto;background:${s.acc};color:${s.accInk};font-size:8px;font-weight:700;text-align:center;padding:6px;border-radius:5px">${s.cta}</span></div>`;
+  }
+  function render(s){canvas.innerHTML=siteHTML(s);phoneScr.innerHTML=phoneHTML(s);page.style.background=s.bg;fit();}
+  async function cycle(s){
+    render(s); st.innerHTML=STAGES[0];
+    cursor.style.transition='none';cursor.style.left='72%';cursor.style.top='84%';cursor.offsetWidth;cursor.style.transition='';
+    prog.style.transition='none';prog.style.width='0%';prog.offsetWidth;prog.style.transition='width 4.8s linear';prog.style.width='100%';
+    urlEl.textContent='';
+    for(const ch of s.url){urlEl.textContent+=ch;await sleep(50);}
+    const on=t=>canvas.querySelectorAll(`.b[data-t="${t}"]`).forEach(b=>b.classList.add('on'));
+    on(0);st.innerHTML=STAGES[1];await sleep(380);
+    on(1);await sleep(380);on(2);await sleep(380);
+    on(3);st.innerHTML=STAGES[2];await sleep(420);
+    on(4);await sleep(300);on(5);await sleep(300);
+    phone.classList.add('on');cursor.style.opacity=1;await sleep(350);
+    const cta=$('hvCta'),pr=page.getBoundingClientRect(),cr=cta.getBoundingClientRect();
+    const x=(cr.left-pr.left+cr.width*.62)+'px',y=(cr.top-pr.top+cr.height*.55)+'px';
+    cursor.style.left=x;cursor.style.top=y;await sleep(950);
+    ripple.style.left=x;ripple.style.top=y;ripple.classList.remove('go');ripple.offsetWidth;ripple.classList.add('go');
+    cta.style.transform='scale(.94)';await sleep(150);cta.style.transform='';
+    st.innerHTML=STAGES[3];toastT.textContent=s.toast;toast.classList.add('on');
+    await sleep(2400);
+    toast.classList.remove('on');phone.classList.remove('on');cursor.style.opacity=0;
+    canvas.querySelector('.hv-site').classList.add('out');
+    await sleep(650);
+  }
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+    render(SITES[0]);canvas.querySelectorAll('.b').forEach(b=>b.classList.add('on'));
+    phone.classList.add('on');st.innerHTML=STAGES[3];prog.style.width='100%';
+  }else{
+    (async()=>{let i=0;for(;;){await cycle(SITES[i++%SITES.length]);}})();
+  }
+  /* ---------- Intake-formulier -> /api/contact (SMTP2GO) ---------- */
+  const form=document.getElementById('contact-form');
+  if(form){
+    const statusEl=document.getElementById('form-status'),btn=document.getElementById('submit-btn');
+    const setStatus=(state,msg)=>{statusEl.className='form-status'+(state?' '+state:'');statusEl.textContent=msg;};
+    form.addEventListener('submit',async e=>{
+      e.preventDefault();setStatus('','');
+      const d=new FormData(form),v=k=>String(d.get(k)||'').trim();
+      let bericht=v('bericht');
+      if(!v('naam')||!v('email')||!bericht){setStatus('error','Vul je naam, e-mail en project in.');return;}
+      if(v('huidige_site'))bericht+='\n\nHuidige website: '+v('huidige_site');
+      const payload={naam:v('naam'),email:v('email'),telefoon:v('telefoon'),bericht,website_url:String(d.get('website_url')||'')};
+      const label=btn.textContent;btn.disabled=true;btn.textContent='Verzenden…';
+      try{
+        const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(r.ok){form.reset();setStatus('success','Bedankt! Je aanvraag is verstuurd. Je hoort binnen 24 uur van ons.');}
+        else{const b=await r.json().catch(()=>({}));setStatus('error',b.error||'Er ging iets mis. Probeer opnieuw of stuur een WhatsApp.');}
+      }catch(_){setStatus('error','Geen verbinding. Probeer opnieuw of stuur een WhatsApp.');}
+      finally{btn.disabled=false;btn.textContent=label;}
+    });
+  }
+</script>
 </Layout>

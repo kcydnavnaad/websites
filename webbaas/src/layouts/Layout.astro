@@ -1,5 +1,5 @@
 ---
-import '../styles/global.css';
+import '../styles/webbaas.css';
 
 interface Props {
   title?: string;
@@ -8,8 +8,8 @@ interface Props {
 }
 
 const {
-  title = 'WebBaas — Professionele website vanaf €500, binnen 30 dagen online',
-  description = 'WebBaas bouwt professionele websites voor Belgische ondernemers. Vaste prijs vanaf €500, online binnen 30 dagen. 1 jaar hosting en support inbegrepen.',
+  title = 'WebBaas — Professionele website vanaf €795, binnen 30 dagen online',
+  description = 'WebBaas bouwt professionele websites voor Belgische ondernemers. Vaste prijs vanaf €795, online binnen 30 dagen. Het eerste jaar hosting en onderhoud inbegrepen.',
   canonical = 'https://webbaas.be/',
 } = Astro.props;
 
@@ -21,7 +21,7 @@ const ogImage = 'https://webbaas.be/og-image.png';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0a0a0f" />
+    <meta name="theme-color" content="#0D0D0C" />
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonical} />
@@ -46,7 +46,7 @@ const ogImage = 'https://webbaas.be/og-image.png';
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap"
     />
 
     <script
@@ -79,12 +79,7 @@ const ogImage = 'https://webbaas.be/og-image.png';
     />
   </head>
   <body>
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-accent focus:px-4 focus:py-2 focus:text-ink"
-    >
-      Naar hoofdinhoud
-    </a>
+    <a href="#main" class="skip">Naar hoofdinhoud</a>
     <slot />
   </body>
 </html>
