@@ -136,6 +136,13 @@ const JSON_URL =
         </div>
 
         <div class="rounded-2xl border border-white/10 bg-anthracite p-4 sm:p-6">
+          <div
+            id="calendar-status"
+            role="status"
+            aria-live="polite"
+            class="hidden mb-4 rounded-lg border px-4 py-3 text-sm"
+          >
+          </div>
           <div id="calendar"></div>
         </div>
 
@@ -249,8 +256,38 @@ const JSON_URL =
         });
       }
 
+      // --- Statusbanner boven de kalender ---
+      const statusEl = document.getElementById('calendar-status');
+
+      function showStatus(type, message) {
+        if (!statusEl) return;
+        statusEl.className = 'mb-4 rounded-lg border px-4 py-3 text-sm';
+        if (type === 'error') {
+          statusEl.classList.add(
+            'border-club-red/40',
+            'bg-club-red/10',
+            'text-white',
+          );
+        } else if (type === 'info') {
+          statusEl.classList.add('border-white/20', 'bg-white/5', 'text-white/80');
+        }
+        statusEl.textContent = message;
+      }
+
+      function hideStatus() {
+        if (!statusEl) return;
+        statusEl.className = 'hidden';
+        statusEl.textContent = '';
+      }
+
       const calendarEl = document.getElementById('calendar');
-      if (!calendarEl || typeof FullCalendar === 'undefined') return;
+      if (!calendarEl || typeof FullCalendar === 'undefined') {
+        showStatus(
+          'error',
+          'De agenda kon niet geladen worden. Ververs de pagina of probeer later opnieuw.',
+        );
+        return;
+      }
 
       const calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -266,7 +303,30 @@ const JSON_URL =
           month: 'Maand',
           list: 'Lijst',
         },
-        events: apiUrl,
+        events: async function (fetchInfo, successCallback, failureCallback) {
+          try {
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+              throw new Error('HTTP ' + response.status);
+            }
+            const events = await response.json();
+
+            if (!Array.isArray(events) || events.length === 0) {
+              showStatus('info', 'Nog geen events gevonden. Probeer later nog eens.');
+            } else {
+              hideStatus();
+            }
+
+            successCallback(Array.isArray(events) ? events : []);
+          } catch (error) {
+            console.error('Calendar fetch error:', error);
+            showStatus(
+              'error',
+              'De agenda kon niet geladen worden. Ververs de pagina of probeer later opnieuw.',
+            );
+            failureCallback(error);
+          }
+        },
         eventDidMount: function (info) {
           const colors = {
             training: '#d72638',
