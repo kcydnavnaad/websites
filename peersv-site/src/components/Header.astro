@@ -1,14 +1,16 @@
 ---
-import { isMosselfestijnActive } from '../lib/mosselfestijn';
+import { getActiveEvent } from '../lib/events';
+
+const activeEvent = getActiveEvent();
 
 const navItems: ReadonlyArray<{ label: string; href: string; highlight?: boolean }> = [
   { label: 'Home', href: '/#home' },
   { label: 'Over', href: '/#over' },
   { label: 'Lid worden', href: '/lid-worden' },
   { label: 'Kalender', href: '/kalender' },
-  // Verschijnt automatisch in de aanloop naar het event, zie src/lib/mosselfestijn.ts
-  ...(isMosselfestijnActive()
-    ? [{ label: 'Mosselfestijn', href: '/#mosselfestijn', highlight: true }]
+  // Verschijnt automatisch in de aanloop naar het event, zie src/lib/events.ts
+  ...(activeEvent
+    ? [{ label: activeEvent.shortTitle, href: `/#${activeEvent.slug}`, highlight: true }]
     : []),
   { label: 'Contact', href: '/#contact' },
 ];
