@@ -51,6 +51,21 @@ export const events: ClubEvent[] = [
       'Een avond fijn tafelen met proefwijnen van Wijngedacht. Degustatie, aangepaste hapjes en een glas in goede sfeer in onze kantine.',
   },
   {
+    slug: 'kwis',
+    title: 'K. Peer SV Kwis 2027',
+    shortTitle: 'Kwis',
+    kicker: 'Jaarlijkse kwis',
+    dates: 'Vrijdag 29 januari 2027 — 19:15 tot 23:45',
+    start: new Date('2026-11-14T00:00:00+01:00'),
+    end: new Date('2027-01-29T23:59:59+01:00'),
+    registrationOpens: new Date('2026-10-01T00:00:00+02:00'),
+    registrationUrl:
+      'https://kpeersv.odoo.com/event/k-peer-sv-kwist-2027-9/register',
+    location: 'Kantine K. Peer SV — Deusterstraat 74, 3990 Peer',
+    description:
+      'Een avond puzzelen, lachen en kennis testen met vrienden en familie in onze kantine. Teams tot 6 personen, inschrijven via de knop hieronder.',
+  },
+  {
     // Voorbij — staat hier enkel zodat de oude link kpeersv.be/mosselfestijn
     // (affiches, Facebook) netjes op de homepage uitkomt in plaats van op een 404.
     slug: 'mosselfestijn',
