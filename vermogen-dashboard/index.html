@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vermogensdashboard — Daan &amp; Rhyana</title>
+<title>Vermogensdashboard · Daan &amp; Rhyana</title>
 <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -11,64 +11,77 @@
   --deep:#030330;--surface:#0C0C63;--surface2:#12126e;
   --grad:linear-gradient(45deg,var(--violet) 0%,var(--carmine) 52%,var(--orange) 100%);
   --grad-h:linear-gradient(90deg,var(--violet) 0%,var(--carmine) 52%,var(--orange) 100%);
-  --ok:#4ADE80;
+  --ok:#4ADE80;--warn:#FBBF24;--bad:#FF575D;--lilac:#B98CFF;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{background:#050543;font-size:16px}
 body{font-family:'Readex Pro',system-ui,sans-serif;background:var(--midnight);color:#fff;-webkit-font-smoothing:antialiased;line-height:1.55;min-height:100vh}
-.wrap{max-width:940px;margin:0 auto;padding:1.5rem 1.4rem 4rem}
-header{padding:1.5rem 0 1rem;position:relative}
+.wrap{max-width:960px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+header{padding:1.2rem 0 .6rem}
 .eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.68rem;color:var(--tangerine);font-weight:600;margin-bottom:.6rem}
 h1{font-size:1.7rem;font-weight:600;letter-spacing:-.02em}
 .updated{font-size:.78rem;color:rgba(255,255,255,.45);margin-top:.4rem}
-/* total hero */
-.hero{background:var(--surface);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:1.8rem;margin:1.4rem 0;position:relative;overflow:hidden}
+.tabs{display:flex;gap:.4rem;margin:1.2rem 0 .4rem;border-bottom:1px solid rgba(255,255,255,.1);overflow-x:auto}
+.tabs button{background:none;border:none;border-bottom:2px solid transparent;border-radius:0;color:rgba(255,255,255,.55);padding:.7rem .9rem;font-size:.9rem;white-space:nowrap}
+.tabs button.on{color:#fff;border-bottom-color:var(--tangerine)}
+.panel{display:none}.panel.on{display:block}
+.hero{background:var(--surface);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:1.6rem;margin:1.2rem 0;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;top:-40%;right:-10%;width:50%;height:160%;background:var(--grad);opacity:.15;filter:blur(70px);border-radius:50%}
+.hero>*{position:relative}
 .hero .lbl{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.5);font-weight:500}
-.hero .total{font-size:2.8rem;font-weight:600;letter-spacing:-.03em;margin:.2rem 0;font-variant-numeric:tabular-nums}
-.hero .split{display:flex;gap:1.6rem;flex-wrap:wrap;font-size:.85rem;color:rgba(255,255,255,.65);margin-top:.4rem}
+.hero .total{font-size:2.6rem;font-weight:600;letter-spacing:-.03em;margin:.2rem 0;font-variant-numeric:tabular-nums}
+.hero .split{display:flex;gap:1.4rem;flex-wrap:wrap;font-size:.85rem;color:rgba(255,255,255,.65);margin-top:.4rem}
 .hero .split b{color:#fff;font-weight:600}
-h2{font-size:.95rem;font-weight:600;margin:1.8rem 0 .8rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55)}
-/* input rows */
-.accounts{display:grid;gap:.55rem}
-.arow{display:flex;align-items:center;gap:.8rem;background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.7rem 1rem}
-.arow .nm{flex:1;font-size:.92rem;font-weight:300;color:rgba(255,255,255,.85)}
-.arow .nm small{display:block;font-size:.72rem;color:rgba(255,255,255,.4);font-weight:300}
-.arow .cat{font-size:.62rem;text-transform:uppercase;letter-spacing:.1em;padding:.15rem .5rem;border-radius:5px;font-weight:600}
-.cat-b{background:rgba(149,28,243,.22);color:#C9A8FF}
-.cat-c{background:rgba(255,126,35,.18);color:#FFB98A}
+h2{font-size:.9rem;font-weight:600;margin:1.8rem 0 .8rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.55)}
+.muted{font-size:.8rem;color:rgba(255,255,255,.5);margin:-.3rem 0 1rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem}
+.kpi{background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1rem 1.1rem;border-left:4px solid rgba(255,255,255,.15)}
+.kpi.g{border-left-color:var(--ok)}.kpi.o{border-left-color:var(--warn)}.kpi.r{border-left-color:var(--bad)}
+.kpi .k{font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.5);font-weight:500}
+.kpi .v{font-size:1.45rem;font-weight:600;font-variant-numeric:tabular-nums;margin:.15rem 0}
+.kpi .t{font-size:.75rem;color:rgba(255,255,255,.5)}
+.accounts{display:grid;gap:.5rem}
+.arow{display:flex;align-items:center;gap:.8rem;background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:.65rem 1rem}
+.arow .nm{flex:1;font-size:.9rem;font-weight:300;color:rgba(255,255,255,.85)}
+.arow .nm small{display:block;font-size:.72rem;color:rgba(255,255,255,.4)}
 .arow input{width:120px;background:var(--midnight);border:1px solid rgba(255,255,255,.14);border-radius:8px;color:#fff;font-family:inherit;font-size:.95rem;padding:.5rem .7rem;text-align:right;font-variant-numeric:tabular-nums}
 .arow input:focus{outline:none;border-color:var(--tangerine)}
-/* milestones */
-.ms{display:grid;gap:1rem;margin-top:.4rem}
-.mcard{background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1.1rem 1.2rem}
-.mcard.done{border-color:rgba(74,222,128,.4)}
-.mtop{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.15rem}
-.mtop .goal{font-size:1.15rem;font-weight:600}
-.mtop .yr{font-size:.78rem;color:var(--tangerine);font-weight:600}
-.mlabel{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:.7rem}
-.track{height:12px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden}
-.fill{height:100%;border-radius:6px;background:var(--grad-h);transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.ms{display:grid;gap:.8rem}
+.mcard{background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1rem 1.1rem}
+.mcard.done{border-color:rgba(74,222,128,.45)}
+.mtop{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.mtop .goal{font-size:1.1rem;font-weight:600}
+.mtop .when{font-size:.74rem;color:rgba(255,255,255,.55)}
+.mtop .when b{color:var(--tangerine);font-weight:600}
+.track{height:10px;background:rgba(255,255,255,.07);border-radius:6px;overflow:hidden;margin-top:.6rem}
+.fill{height:100%;border-radius:6px;background:var(--grad-h)}
 .fill.done{background:linear-gradient(90deg,#22C55E,#4ADE80)}
-.mfoot{display:flex;justify-content:space-between;font-size:.78rem;margin-top:.5rem}
-.mfoot .pct{font-weight:600;color:#fff}
-.mfoot .rem{color:rgba(255,255,255,.5)}
-.mfoot .rem.done{color:var(--ok)}
-/* buttons */
-.actions{display:flex;gap:.7rem;margin-top:1.4rem;flex-wrap:wrap}
-button{font-family:inherit;font-size:.85rem;font-weight:500;border:none;border-radius:9px;padding:.7rem 1.2rem;cursor:pointer;transition:transform .1s}
-button:active{transform:scale(.97)}
+.mfoot{display:flex;justify-content:space-between;font-size:.76rem;margin-top:.4rem;color:rgba(255,255,255,.55)}
+.mfoot b{color:#fff}
+button{font-family:inherit;font-size:.85rem;font-weight:500;border:none;border-radius:9px;padding:.65rem 1.1rem;cursor:pointer}
 .btn-primary{background:var(--grad);color:#fff}
 .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.8)}
-.hint{font-size:.75rem;color:rgba(255,255,255,.4);margin-top:1.5rem;padding:.9rem 1.1rem;border:1px dashed rgba(255,255,255,.15);border-radius:10px;line-height:1.6}
-.snapshot-note{font-size:.72rem;color:var(--ok);margin-top:.6rem;height:1rem;transition:opacity .3s}
-/* history */
-.hist{margin-top:.6rem;font-size:.82rem;color:rgba(255,255,255,.55)}
-.hist table{width:100%;border-collapse:collapse;margin-top:.5rem}
-.hist th,.hist td{text-align:right;padding:.4rem .5rem;border-bottom:1px solid rgba(255,255,255,.07);font-variant-numeric:tabular-nums}
-.hist th:first-child,.hist td:first-child{text-align:left}
-.hist th{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);font-weight:600}
-@media(max-width:560px){.hero .total{font-size:2.1rem}.arow{flex-wrap:wrap}.arow input{width:100%}}
+.actions{display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap}
+.note{font-size:.75rem;color:var(--ok);margin-top:.5rem;min-height:1rem}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+th,td{text-align:right;padding:.5rem .55rem;border-bottom:1px solid rgba(255,255,255,.08);font-variant-numeric:tabular-nums;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);font-weight:600}
+td{color:rgba(255,255,255,.8);font-weight:300}
+td.g{color:var(--ok)}td.o{color:var(--warn)}td.r{color:#FF888C}
+.chart{background:var(--surface);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:1rem}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:1rem;font-size:.76rem;color:rgba(255,255,255,.7);margin-top:.6rem}
+.legend span{display:flex;align-items:center;gap:.4rem}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.empty{background:var(--surface);border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:1.2rem;font-size:.86rem;color:rgba(255,255,255,.6)}
+.sel{background:var(--midnight);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:8px;padding:.45rem .6rem;font-family:inherit}
+.hint{font-size:.75rem;color:rgba(255,255,255,.45);margin-top:1.6rem;padding:.9rem 1.1rem;border:1px dashed rgba(255,255,255,.15);border-radius:10px;line-height:1.6}
+.agenda li{list-style:none;display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.86rem;color:rgba(255,255,255,.8)}
+.agenda li span{color:var(--tangerine);font-variant-numeric:tabular-nums;white-space:nowrap}
+.agenda li.past{opacity:.4}
+@media(max-width:560px){.hero .total{font-size:2rem}.arow{flex-wrap:wrap}.arow input{width:100%}}
 </style>
 </head>
 <body>
@@ -76,150 +89,258 @@ button:active{transform:scale(.97)}
   <header>
     <div class="eyebrow">Vermogensdashboard · intern</div>
     <h1>Waar staan we vandaag?</h1>
-    <div class="updated" id="updated">Nog geen momentopname opgeslagen</div>
+    <div class="updated" id="updated">Laden...</div>
   </header>
 
-  <div class="hero">
-    <div class="lbl">Totaal bruto vermogen</div>
-    <div class="total" id="totalDisplay">€0</div>
-    <div class="split">
-      <span>Belegd: <b id="investedDisplay">€0</b></span>
-      <span>Cash: <b id="cashDisplay">€0</b></span>
+  <div class="tabs" id="tabs">
+    <button data-t="vermogen" class="on">Vermogen</button>
+    <button data-t="maand">Maand</button>
+    <button data-t="doelen">Doelen</button>
+    <button data-t="invullen">Snel invullen</button>
+  </div>
+
+  <!-- VERMOGEN -->
+  <section class="panel on" id="p-vermogen">
+    <div class="hero">
+      <div class="lbl">Totaal vermogen</div>
+      <div class="total" id="totalDisplay">€0</div>
+      <div class="split">
+        <span>Belegd: <b id="investedDisplay">€0</b></span>
+        <span>Cash: <b id="cashDisplay">€0</b></span>
+        <span>Goud: <b id="goldPct">-</b></span>
+        <span>Crypto: <b id="cryptoPct">-</b></span>
+      </div>
     </div>
-  </div>
+    <div class="grid" id="vermKpis"></div>
+    <h2>Per rekening</h2>
+    <div class="tbl" id="accTable"></div>
+    <h2>Historiek</h2>
+    <div class="tbl" id="history"></div>
+  </section>
 
-  <h2>Belegd (Saxo &amp; crypto)</h2>
-  <div class="accounts" id="investedAccounts"></div>
+  <!-- MAAND -->
+  <section class="panel" id="p-maand">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;margin-top:1.2rem">
+      <h2 style="margin:0">Scorebord</h2>
+      <select class="sel" id="monthSel"></select>
+    </div>
+    <div id="monthBody" style="margin-top:1rem"></div>
+    <h2>Overschot per maand</h2>
+    <div class="chart" id="surplusChart"></div>
+    <h2>Alle maanden</h2>
+    <div class="tbl" id="monthTable"></div>
+  </section>
 
-  <h2>Cash &amp; sparen</h2>
-  <div class="accounts" id="cashAccounts"></div>
+  <!-- DOELEN -->
+  <section class="panel" id="p-doelen">
+    <h2>Totaal vermogen vs. plan</h2>
+    <p class="muted">Kwartaal-checkpoints bij 6%. De beurs kan 15% opzij duwen: ligt de inleg op schema, dan is er niets mis.</p>
+    <div class="chart" id="planChart"></div>
+    <h2>Checkpoints</h2>
+    <div class="tbl" id="cpTable"></div>
+    <h2>Mijlpalen belegd vermogen</h2>
+    <div class="ms" id="milestones"></div>
+    <h2>Agenda</h2>
+    <ul class="agenda" id="agenda"></ul>
+  </section>
 
-  <div class="actions">
-    <button class="btn-primary" onclick="saveSnapshot()">Momentopname opslaan</button>
-    <button class="btn-ghost" onclick="resetInputs()">Velden leegmaken</button>
-  </div>
-  <div class="snapshot-note" id="snapNote"></div>
+  <!-- INVULLEN -->
+  <section class="panel" id="p-invullen">
+    <p class="muted" style="margin-top:1.2rem">Voor een snelle tussentijdse check. Dit blijft enkel in deze browser. De officiële maandcijfers komen uit data.json.</p>
+    <h2>Belegd (Saxo)</h2>
+    <div class="accounts" id="investedAccounts"></div>
+    <h2>Cash (KBC)</h2>
+    <div class="accounts" id="cashAccounts"></div>
+    <div class="hero" style="margin-top:1rem"><div class="lbl">Totaal ingevuld</div><div class="total" id="manualTotal">€0</div></div>
+    <div class="actions">
+      <button class="btn-primary" id="saveSnap">Momentopname lokaal opslaan</button>
+      <button class="btn-ghost" id="resetIn">Velden leegmaken</button>
+    </div>
+    <div class="note" id="snapNote"></div>
+  </section>
 
-  <h2>Voortgang naar onze doelen</h2>
-  <p style="font-size:.8rem;color:rgba(255,255,255,.5);margin:-.3rem 0 1rem">Op basis van belegd vermogen — het zuiverste beeld van onze FIRE-voortgang.</p>
-  <div class="ms" id="milestones"></div>
-
-  <h2>Historiek</h2>
-  <div class="hist" id="history">Nog geen opgeslagen momentopnames. Vul je saldi in en klik "Momentopname opslaan".</div>
-
-  <div class="hint">
-    <strong style="color:rgba(255,255,255,.7)">Hoe dit werkt.</strong> Vul elk kwartaal je saldi in en sla een momentopname op. Je gegevens blijven lokaal in deze browser op dit toestel — er wordt niets naar een server gestuurd. De doelen zijn onze eigen mijlpalen (eigen kracht, ~6%). Dit is geen live koppeling met Saxo; het bedrag tik je zelf over uit je broker of uit een tracker.
-  </div>
+  <div class="hint"><strong style="color:rgba(255,255,255,.7)">Hoe dit werkt.</strong> Elke maand gaat de KBC-export (CSV) naar Claude. Die categoriseert alles en werkt <code>data.json</code> bij: inkomsten, uitgaven, motor, buffer en een saldo-momentopname. Push, Argo synct, klaar. Interne overschrijvingen (Saxo, spaarrekening, Start2Save) zijn geen uitgaven. Project T (metekindje) telt niet mee.</div>
 </div>
 
 <script>
-const ACCOUNTS = {
-  invested: [
-    {id:'saxo_gez', name:'Saxo gezamenlijk', sub:'ACWI', cat:'b'},
-    {id:'saxo_daan', name:'Saxo Daan', sub:'ACWI', cat:'b'},
-    {id:'saxo_rhyana', name:'Saxo Rhyana', sub:'ACWI', cat:'b'},
-    {id:'goud', name:'Goud', sub:'ETC / fysiek', cat:'b'},
-    {id:'bitcoin', name:'Bitcoin', sub:'crypto', cat:'c'},
-  ],
-  cash: [
-    {id:'belfius', name:'Belfius', sub:'spaar'},
-    {id:'fortis_spaar', name:'Fortis spaar', sub:'incl. noodbuffer'},
-    {id:'fortis_buffer', name:'Fortis buffer', sub:'uitgavenpot'},
-    {id:'geldmarkt', name:'Geldmarkt-ETF', sub:'cash-comfort'},
-  ]
-};
-const MILESTONES = [
-  {goal:50000, year:2027, label:'Eerste serieuze mijlpaal'},
-  {goal:100000, year:2029, label:'Zes cijfers'},
-  {goal:250000, year:2038, label:'Vermogen begint te werken'},
-  {goal:500000, year:2046, label:'Basis voor Coast FIRE'},
-];
-const LS_KEY='vermogen_dashboard_v1';
-const fmt = n => '€'+Math.round(n).toLocaleString('nl-BE');
+const fmt=n=>(n<0?'-€':'€')+Math.abs(Math.round(n)).toLocaleString('nl-BE');
+const pct=n=>(Math.round(n*10)/10).toLocaleString('nl-BE')+'%';
+const MONTHS=['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+const mLabel=m=>{const [y,mo]=m.split('-');return MONTHS[+mo-1]+' '+y};
+const sum=o=>Object.values(o||{}).reduce((a,b)=>a+(+b||0),0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let D=null;
 
-function loadState(){
-  try{ return JSON.parse(localStorage.getItem(LS_KEY)) || {current:{},history:[]}; }
-  catch(e){ return {current:{},history:[]}; }
+/* tabs */
+function showTab(t){
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));
+  try{history.replaceState(null,'','#'+t)}catch(e){}
 }
-function saveState(s){ localStorage.setItem(LS_KEY, JSON.stringify(s)); }
-let state = loadState();
+document.querySelectorAll('#tabs button').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.t)));
 
+/* status helpers */
+function surplusTarget(m){return m>='2028-01'?D.doelen.overschot_doel_2028:D.doelen.overschot_vloer}
+function cls(v,green,red,higherBetter=true){
+  if(v==null||isNaN(v))return '';
+  if(higherBetter) return v>=green?'g':(v<red?'r':'o');
+  return v<=green?'g':(v>red?'r':'o');
+}
+function monthStats(m){
+  const inc=sum(m.inkomsten), exp=sum(m.uitgaven), surplus=inc-exp;
+  return {inc,exp,surplus,rate:inc?surplus/inc*100:null,wonen:inc?(+((m.uitgaven||{}).Wonen)||0)/inc*100:null};
+}
+
+/* VERMOGEN */
+function renderVermogen(){
+  const s=D.snapshots[D.snapshots.length-1];
+  document.getElementById('totalDisplay').textContent=fmt(s.totaal);
+  document.getElementById('investedDisplay').textContent=fmt(s.belegd);
+  document.getElementById('cashDisplay').textContent=fmt(s.cash);
+  document.getElementById('goldPct').textContent=pct(s.goud/s.belegd*100)+' (doel 10%)';
+  document.getElementById('cryptoPct').textContent=pct(s.crypto/s.belegd*100)+' (max 5%)';
+  const nb=s.noodbuffer??null;
+  const k=[];
+  const next=D.mijlpalen.find(x=>x.bedrag>s.belegd);
+  k.push(`<div class="kpi"><div class="k">Volgende mijlpaal belegd</div><div class="v">${next?fmt(next.bedrag):'-'}</div><div class="t">${next?'nog '+fmt(next.bedrag-s.belegd)+' · vloer '+next.vloer:''}</div></div>`);
+  const cp=closestCheckpoint(s.datum);
+  if(cp){const diff=s.totaal-cp.v;const c=diff>=0?'g':(diff>-0.15*cp.v?'o':'r');
+    k.push(`<div class="kpi ${c}"><div class="k">vs. vloer (${mLabel(cp.m)})</div><div class="v">${diff>=0?'+':''}${fmt(diff)}</div><div class="t">plan ${fmt(cp.v)} totaal</div></div>`);}
+  k.push(`<div class="kpi ${s.crypto/s.belegd*100<=5?'g':'r'}"><div class="k">Crypto-plafond</div><div class="v">${pct(s.crypto/s.belegd*100)}</div><div class="t">max 5%</div></div>`);
+  document.getElementById('vermKpis').innerHTML=k.join('');
+  document.getElementById('updated').textContent='Laatste saldi: '+s.datum+' · data bijgewerkt '+D.updated;
+  const rows=Object.entries(s.rekeningen).map(([n,v])=>`<tr><td>${esc(n)}</td><td>${fmt(v)}</td></tr>`).join('');
+  document.getElementById('accTable').innerHTML=`<table><thead><tr><th>Rekening</th><th>Saldo</th></tr></thead><tbody>${rows}<tr><td><b>Totaal</b></td><td><b>${fmt(s.totaal)}</b></td></tr></tbody></table>`;
+  const local=loadLocal().history.map(h=>({datum:h.date+' (lokaal)',belegd:h.invested,cash:h.cash,totaal:h.total}));
+  const all=[...D.snapshots].reverse().concat(local);
+  document.getElementById('history').innerHTML=`<table><thead><tr><th>Datum</th><th>Belegd</th><th>Cash</th><th>Totaal</th></tr></thead><tbody>${all.map(h=>`<tr><td>${esc(h.datum)}</td><td>${fmt(h.belegd)}</td><td>${fmt(h.cash)}</td><td>${fmt(h.totaal)}</td></tr>`).join('')}</tbody></table>`;
+}
+function closestCheckpoint(date){
+  const m=date.slice(0,7);const v=D.scenarios.vloer;let best=null;
+  v.forEach(([mm,inv,tot])=>{if(mm<=m)best={m:mm,v:tot}});return best;
+}
+
+/* MAAND */
+function renderMaand(){
+  const ms=D.maanden;
+  const sel=document.getElementById('monthSel');
+  if(!ms.length){
+    sel.style.display='none';
+    document.getElementById('monthBody').innerHTML='<div class="empty">Nog geen maanddata. Stuur de KBC CSV-export van november naar Claude, dan verschijnt hier het eerste scorebord. November, december en januari vormen de basislijn; in februari 2027 leggen we het budget per categorie vast.</div>';
+    document.getElementById('surplusChart').innerHTML='<div class="muted" style="margin:0">Verschijnt na de eerste maand.</div>';
+    document.getElementById('monthTable').innerHTML='';
+    return;
+  }
+  sel.innerHTML=ms.map((m,i)=>`<option value="${i}">${mLabel(m.maand)}</option>`).reverse().join('');
+  sel.onchange=()=>renderMonth(+sel.value);
+  renderMonth(ms.length-1);
+  renderSurplusChart();
+  const rows=ms.map(m=>{const s=monthStats(m);const t=surplusTarget(m.maand);
+    return `<tr><td>${mLabel(m.maand)}</td><td>${fmt(s.inc)}</td><td>${fmt(s.exp)}</td><td class="${cls(s.surplus,t,D.doelen.overschot_rood)}">${fmt(s.surplus)}</td><td class="${cls(s.rate,D.doelen.spaarquote_groen,D.doelen.spaarquote_rood)}">${s.rate==null?'-':pct(s.rate)}</td></tr>`}).reverse().join('');
+  document.getElementById('monthTable').innerHTML=`<table><thead><tr><th>Maand</th><th>Inkomsten</th><th>Uitgaven</th><th>Overschot</th><th>Spaarquote</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+function renderMonth(i){
+  const m=D.maanden[i], s=monthStats(m), d=D.doelen, t=surplusTarget(m.maand);
+  const motor=m.motor||{}; const mk=Object.keys(motor).filter(k=>motor[k]!==null);
+  const motorOk=mk.filter(k=>motor[k]).length;
+  const k=[
+    [`Overschot`,fmt(s.surplus),`groen ≥ ${fmt(t)} · rood < ${fmt(d.overschot_rood)}`,cls(s.surplus,t,d.overschot_rood)],
+    [`Spaarquote`,s.rate==null?'-':pct(s.rate),`≥ ${d.spaarquote_groen}% goed · ≥ ${d.spaarquote_sterk}% sterk`,cls(s.rate,d.spaarquote_groen,d.spaarquote_rood)],
+    [`Woonkost`,s.wonen==null?'-':pct(s.wonen),`≤ ${d.woonkost_groen}% van netto inkomen`,cls(s.wonen,d.woonkost_groen,d.woonkost_rood,false)],
+    [`Motor uitgevoerd`,mk.length?motorOk+' / '+mk.length:'-',mk.map(x=>(motor[x]?'✓ ':'✗ ')+x).join(' · '),mk.length?(motorOk===mk.length?'g':'r'):''],
+    [`Noodbuffer`,m.noodbuffer!=null?fmt(m.noodbuffer):'-',`≥ ${fmt(d.noodbuffer)}`,m.noodbuffer!=null?(m.noodbuffer>=d.noodbuffer?'g':'r'):''],
+    [`Start2Save`,m.start2save!=null?fmt(m.start2save):'-',`+${fmt(d.start2save_per_maand)} per maand`,m.start2save_ok==null?'':(m.start2save_ok?'g':'r')],
+    [`Impulsaankopen`,m.impuls!=null?m.impuls:'-',`doel 0`,m.impuls==null?'':(m.impuls===0?'g':'r')],
+  ];
+  let html='<div class="grid">'+k.map(([a,b,c,e])=>`<div class="kpi ${e}"><div class="k">${a}</div><div class="v">${b}</div><div class="t">${c}</div></div>`).join('')+'</div>';
+  const cats=D.categorieen.uitgaven; const b=D.budget||{};
+  const extra=Object.keys(m.uitgaven||{}).filter(c=>!cats.includes(c));
+  const rows=cats.concat(extra).map(c=>{const v=+((m.uitgaven||{})[c])||0;const bud=b[c];
+    const st=bud?(v<=bud?'g':(v>bud*1.1?'r':'o')):'';
+    return `<tr><td>${esc(c)}</td><td class="${st}">${fmt(v)}</td><td>${bud?fmt(bud):'-'}</td><td>${s.exp?pct(v/s.exp*100):'-'}</td></tr>`}).join('');
+  html+=`<h2>Uitgaven per categorie</h2><div class="tbl"><table><thead><tr><th>Categorie</th><th>Bedrag</th><th>Budget</th><th>Aandeel</th></tr></thead><tbody>${rows}<tr><td><b>Totaal</b></td><td><b>${fmt(s.exp)}</b></td><td>${sum(b)?fmt(sum(b)):'-'}</td><td></td></tr></tbody></table></div>`;
+  const inc=Object.entries(m.inkomsten||{}).map(([c,v])=>`<tr><td>${esc(c)}</td><td>${fmt(v)}</td></tr>`).join('');
+  html+=`<h2>Inkomsten</h2><div class="tbl"><table><tbody>${inc}<tr><td><b>Totaal</b></td><td><b>${fmt(s.inc)}</b></td></tr></tbody></table></div>`;
+  if(m.notities) html+=`<h2>Notities</h2><div class="empty" style="border-style:solid">${esc(m.notities)}</div>`;
+  if(!sum(b)) html+='<p class="muted" style="margin-top:.8rem">Nog geen budget: we meten nov, dec en jan als basislijn en leggen het budget vast in februari 2027.</p>';
+  document.getElementById('monthBody').innerHTML=html;
+}
+function renderSurplusChart(){
+  const ms=D.maanden.slice(-12);const W=640,H=220,P=36;
+  const vals=ms.map(m=>monthStats(m).surplus);const tg=ms.map(m=>surplusTarget(m.maand));
+  const max=Math.max(...vals,...tg,0)*1.15, min=Math.min(...vals,0)*1.15;
+  const y=v=>P/2+(max-v)/(max-min||1)*(H-P);
+  const bw=(W-P)/ms.length;
+  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Overschot per maand">`;
+  svg+=`<line x1="${P}" x2="${W}" y1="${y(0)}" y2="${y(0)}" stroke="rgba(255,255,255,.25)"/>`;
+  ms.forEach((m,i)=>{const v=vals[i],x=P+i*bw+bw*.18,w=bw*.64;const c=cls(v,tg[i],D.doelen.overschot_rood);
+    const col=c==='g'?'#4ADE80':(c==='r'?'#FF575D':'#FBBF24');
+    svg+=`<rect x="${x}" y="${Math.min(y(v),y(0))}" width="${w}" height="${Math.abs(y(v)-y(0))}" rx="3" fill="${col}" opacity=".85"><title>${mLabel(m.maand)}: ${fmt(v)}</title></rect>`;
+    svg+=`<text x="${x+w/2}" y="${H-4}" fill="rgba(255,255,255,.5)" font-size="10" text-anchor="middle">${MONTHS[+m.maand.slice(5)-1]}</text>`;
+    svg+=`<line x1="${P+i*bw}" x2="${P+(i+1)*bw}" y1="${y(tg[i])}" y2="${y(tg[i])}" stroke="#FF7E23" stroke-dasharray="4 3"/>`;});
+  svg+=`<text x="0" y="${y(max/1.15)+4}" fill="rgba(255,255,255,.45)" font-size="10">${fmt(max/1.15)}</text></svg>`;
+  document.getElementById('surplusChart').innerHTML=svg+'<div class="legend"><span><i style="background:#4ADE80"></i>op of boven doel</span><span><i style="background:#FBBF24"></i>tussen rood en doel</span><span><i style="background:#FF575D"></i>onder €800</span><span><i style="background:#FF7E23"></i>doellijn</span></div>';
+}
+
+/* DOELEN */
+function renderDoelen(){
+  const S=D.scenarios; const W=680,H=300,PL=56,PB=28,PT=12;
+  const all=[...S.vloer,...S.doel,...S.dividend];
+  const months=S.vloer.map(r=>r[0]);
+  const idx=m=>{const [y,mo]=m.split('-').map(Number);return (y-2026)*12+mo-11};
+  const xmax=idx(months[months.length-1]);
+  const vmax=Math.max(...all.map(r=>r[2]),...D.snapshots.map(s=>s.totaal))*1.05, vmin=80000;
+  const X=m=>PL+idx(m)/xmax*(W-PL-10), Y=v=>PT+(vmax-v)/(vmax-vmin)*(H-PT-PB);
+  let svg=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Totaal vermogen versus plan">`;
+  for(let v=100000;v<=vmax;v+=25000){svg+=`<line x1="${PL}" x2="${W-10}" y1="${Y(v)}" y2="${Y(v)}" stroke="rgba(255,255,255,.07)"/><text x="${PL-6}" y="${Y(v)+3}" fill="rgba(255,255,255,.45)" font-size="10" text-anchor="end">€${v/1000}k</text>`}
+  [2027,2028,2029,2030].forEach(y=>{const m=y+'-01';svg+=`<text x="${X(m)}" y="${H-8}" fill="rgba(255,255,255,.45)" font-size="10" text-anchor="middle">${y}</text>`});
+  const line=(rows,col,w,dash)=>`<polyline fill="none" stroke="${col}" stroke-width="${w}" ${dash?'stroke-dasharray="5 4"':''} points="${rows.map(r=>X(r[0])+','+Y(r[2])).join(' ')}"/>`;
+  svg+=line(S.dividend,'#FF7E23',2,true)+line(S.doel,'#FF575D',2.5)+line(S.vloer,'#B98CFF',2.5);
+  D.snapshots.forEach(s=>{const m=s.datum.slice(0,7);svg+=`<circle cx="${X(m)}" cy="${Y(s.totaal)}" r="5" fill="#fff" stroke="#050543" stroke-width="2"><title>${s.datum}: ${fmt(s.totaal)}</title></circle>`});
+  svg+='</svg>';
+  document.getElementById('planChart').innerHTML=svg+'<div class="legend"><span><i style="background:#B98CFF"></i>vloer</span><span><i style="background:#FF575D"></i>doel</span><span><i style="background:#FF7E23"></i>doel + €10k dividend</span><span><i style="background:#fff;height:8px;width:8px;border-radius:50%"></i>werkelijk</span></div>';
+  const cps=['2026-12','2027-03','2027-06','2027-12','2028-12','2029-12','2030-12'];
+  const get=(sc,m)=>(S[sc].find(r=>r[0]===m)||[])[2];
+  const getI=(sc,m)=>(S[sc].find(r=>r[0]===m)||[])[1];
+  const act=m=>{const s=[...D.snapshots].reverse().find(x=>x.datum.slice(0,7)===m);return s?fmt(s.totaal):'-'};
+  document.getElementById('cpTable').innerHTML=`<table><thead><tr><th>Checkpoint</th><th>Belegd vloer</th><th>Totaal vloer</th><th>Totaal doel</th><th>Doel + div.</th><th>Werkelijk</th></tr></thead><tbody>${cps.map(m=>`<tr><td>${mLabel(m)}</td><td>${fmt(getI('vloer',m))}</td><td>${fmt(get('vloer',m))}</td><td>${fmt(get('doel',m))}</td><td>${fmt(get('dividend',m))}</td><td>${act(m)}</td></tr>`).join('')}</tbody></table>`;
+  const inv=D.snapshots[D.snapshots.length-1].belegd;
+  document.getElementById('milestones').innerHTML=D.mijlpalen.map(m=>{const p=Math.min(100,inv/m.bedrag*100),done=inv>=m.bedrag;
+    return `<div class="mcard${done?' done':''}"><div class="mtop"><span class="goal">${fmt(m.bedrag)}</span><span class="when">vloer ${m.vloer} · doel <b>${m.doel}</b> · + dividend ${m.dividend}</span></div><div class="track"><div class="fill${done?' done':''}" style="width:${p}%"></div></div><div class="mfoot"><b>${pct(p)}</b><span>${done?'✓ bereikt':'nog '+fmt(m.bedrag-inv)}</span></div></div>`}).join('');
+  const today=new Date().toISOString().slice(0,10);
+  document.getElementById('agenda').innerHTML=[...D.agenda].sort((a,b)=>a.datum.localeCompare(b.datum)).map(a=>`<li class="${a.datum<today?'past':''}">${esc(a.wat)}<span>${a.datum}</span></li>`).join('');
+}
+
+/* SNEL INVULLEN (lokaal) */
+const ACC={invested:[
+  {id:'imie',name:'Saxo gezamenlijk',sub:'IMIE (AutoInvest)'},{id:'goud',name:'Saxo gezamenlijk',sub:'goud-ETC (Self invest)'},
+  {id:'daan',name:'Saxo Daan',sub:'IWDA + cash'},{id:'btc',name:'Saxo Daan',sub:'bitcoin-ETN'},{id:'rhyana',name:'Saxo Rhyana',sub:'IWDA (Self Investing + LT)'}],
+ cash:[{id:'zicht',name:'KBC zichtrekening',sub:'gezamenlijk'},{id:'buffer',name:'KBC buffer',sub:'uitgavenpot'},
+  {id:'spaar',name:'KBC spaarrekening',sub:'nood + kans + DCA-pot'},{id:'s2s_d',name:'Start2Save Daan',sub:'noodbuffer'},{id:'s2s_r',name:'Start2Save Rhyana',sub:'noodbuffer'}]};
+const LS='vermogen_dashboard_v2';
+function loadLocal(){try{const v2=JSON.parse(localStorage.getItem(LS));if(v2)return v2;const v1=JSON.parse(localStorage.getItem('vermogen_dashboard_v1'));return{current:{},history:(v1&&v1.history)||[]}}catch(e){return{current:{},history:[]}}}
+function saveLocal(s){try{localStorage.setItem(LS,JSON.stringify(s))}catch(e){}}
+let L=loadLocal();
 function buildInputs(){
-  const inv = document.getElementById('investedAccounts');
-  const csh = document.getElementById('cashAccounts');
-  inv.innerHTML=''; csh.innerHTML='';
-  ACCOUNTS.invested.forEach(a=>inv.appendChild(row(a)));
-  ACCOUNTS.cash.forEach(a=>csh.appendChild(row(a)));
+  const mk=(a,box)=>{const d=document.createElement('div');d.className='arow';
+    d.innerHTML=`<div class="nm">${a.name}<small>${a.sub}</small></div><input type="number" inputmode="decimal" placeholder="0" data-id="${a.id}" value="${L.current[a.id]??''}">`;
+    d.querySelector('input').addEventListener('input',manualCalc);box.appendChild(d)};
+  const i=document.getElementById('investedAccounts'),c=document.getElementById('cashAccounts');i.innerHTML='';c.innerHTML='';
+  ACC.invested.forEach(a=>mk(a,i));ACC.cash.forEach(a=>mk(a,c));manualCalc();
 }
-function row(a){
-  const d=document.createElement('div'); d.className='arow';
-  const catHtml = a.cat ? `<span class="cat cat-${a.cat}">${a.cat==='b'?'belegd':'crypto'}</span>` : '';
-  d.innerHTML=`<div class="nm">${a.name}<small>${a.sub}</small></div>${catHtml}
-    <input type="number" inputmode="decimal" placeholder="0" data-id="${a.id}" value="${state.current[a.id]??''}">`;
-  d.querySelector('input').addEventListener('input', recalc);
-  return d;
-}
-function recalc(){
-  let invested=0, cash=0;
-  document.querySelectorAll('input[data-id]').forEach(inp=>{
-    const v=parseFloat(inp.value)||0;
-    state.current[inp.dataset.id]=inp.value;
-    if(ACCOUNTS.invested.some(a=>a.id===inp.dataset.id)) invested+=v; else cash+=v;
-  });
-  const total=invested+cash;
-  document.getElementById('totalDisplay').textContent=fmt(total);
-  document.getElementById('investedDisplay').textContent=fmt(invested);
-  document.getElementById('cashDisplay').textContent=fmt(cash);
-  renderMilestones(invested);
-  saveState(state);
-}
-function renderMilestones(invested){
-  const box=document.getElementById('milestones'); box.innerHTML='';
-  MILESTONES.forEach(m=>{
-    const pct=Math.min(100, invested/m.goal*100);
-    const done=invested>=m.goal;
-    const rem=m.goal-invested;
-    const c=document.createElement('div'); c.className='mcard'+(done?' done':'');
-    c.innerHTML=`
-      <div class="mtop"><span class="goal">${fmt(m.goal)}</span><span class="yr">tegen ${m.year}</span></div>
-      <div class="mlabel">${m.label}</div>
-      <div class="track"><div class="fill${done?' done':''}" style="width:${pct}%"></div></div>
-      <div class="mfoot">
-        <span class="pct">${pct.toFixed(1)}%</span>
-        <span class="rem${done?' done':''}">${done?'✓ Bereikt!':'Nog '+fmt(rem)}</span>
-      </div>`;
-    box.appendChild(c);
-  });
-}
-function saveSnapshot(){
-  recalc();
-  let invested=0,cash=0;
-  ACCOUNTS.invested.forEach(a=>invested+=parseFloat(state.current[a.id])||0);
-  ACCOUNTS.cash.forEach(a=>cash+=parseFloat(state.current[a.id])||0);
-  const now=new Date();
-  state.history.unshift({date:now.toISOString().slice(0,10), invested, cash, total:invested+cash});
-  state.history=state.history.slice(0,40);
-  saveState(state);
-  renderHistory(); renderUpdated();
-  const note=document.getElementById('snapNote');
-  note.textContent='✓ Momentopname opgeslagen op '+now.toLocaleDateString('nl-BE');
-  setTimeout(()=>note.textContent='',4000);
-}
-function renderHistory(){
-  const h=document.getElementById('history');
-  if(!state.history.length){h.textContent='Nog geen opgeslagen momentopnames.';return;}
-  let rows=state.history.map(s=>`<tr><td>${s.date}</td><td>${fmt(s.invested)}</td><td>${fmt(s.cash)}</td><td>${fmt(s.total)}</td></tr>`).join('');
-  h.innerHTML=`<table><thead><tr><th>Datum</th><th>Belegd</th><th>Cash</th><th>Totaal</th></tr></thead><tbody>${rows}</tbody></table>`;
-}
-function renderUpdated(){
-  const u=document.getElementById('updated');
-  if(state.history.length) u.textContent='Laatste momentopname: '+state.history[0].date;
-}
-function resetInputs(){
-  if(!confirm('Alle ingevulde velden leegmaken? Je opgeslagen historiek blijft behouden.'))return;
-  state.current={}; saveState(state); buildInputs(); recalc();
-}
-buildInputs(); recalc(); renderHistory(); renderUpdated();
+function manualTotals(){let inv=0,cash=0;ACC.invested.forEach(a=>inv+=parseFloat(L.current[a.id])||0);ACC.cash.forEach(a=>cash+=parseFloat(L.current[a.id])||0);return{inv,cash}}
+function manualCalc(){document.querySelectorAll('#p-invullen input[data-id]').forEach(x=>L.current[x.dataset.id]=x.value);saveLocal(L);
+  const t=manualTotals();document.getElementById('manualTotal').textContent=fmt(t.inv+t.cash)}
+document.getElementById('saveSnap').onclick=()=>{const t=manualTotals();L.history.unshift({date:new Date().toISOString().slice(0,10),invested:t.inv,cash:t.cash,total:t.inv+t.cash});L.history=L.history.slice(0,40);saveLocal(L);
+  if(D)renderVermogen();const n=document.getElementById('snapNote');n.textContent='✓ Lokaal opgeslagen';setTimeout(()=>n.textContent='',3000)};
+document.getElementById('resetIn').onclick=()=>{L.current={};saveLocal(L);buildInputs()};
+
+/* boot */
+buildInputs();
+fetch('data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(j=>{
+  D=j;renderVermogen();renderMaand();renderDoelen();
+  const h=(location.hash||'').slice(1);if(['vermogen','maand','doelen','invullen'].includes(h))showTab(h);
+}).catch(e=>{document.getElementById('updated').textContent='data.json kon niet geladen worden ('+e.message+'). Snel invullen werkt wel.';});
 </script>
 </body>
 </html>
