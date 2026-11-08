@@ -390,5 +390,108 @@
    "datum": "2027-01-15",
    "wat": "Jaarcheck: budget, inleg, meerwaardebelasting-tab"
   }
- ]
+ ],
+ "posities": [
+  {
+   "naam": "SPDR MSCI ACWI IMI (IMIE)",
+   "ticker": "SPYI.DE",
+   "rekening": "Saxo gezamenlijk",
+   "stuks": 1589.42,
+   "soort": "acwi",
+   "geschat": true
+  },
+  {
+   "naam": "iShares Physical Gold ETC",
+   "ticker": "PPFB.DE",
+   "rekening": "Saxo gezamenlijk",
+   "stuks": 8.551,
+   "soort": "goud",
+   "geschat": true
+  },
+  {
+   "naam": "iShares Core MSCI World (IWDA)",
+   "ticker": "IWDA.AS",
+   "rekening": "Saxo Daan",
+   "stuks": 98,
+   "soort": "acwi"
+  },
+  {
+   "naam": "WisdomTree Physical Bitcoin",
+   "ticker": "WBTC.PA",
+   "rekening": "Saxo Daan",
+   "stuks": 57,
+   "soort": "crypto"
+  },
+  {
+   "naam": "iShares Core MSCI World (IWDA)",
+   "ticker": "IWDA.AS",
+   "rekening": "Saxo Rhyana · Self Investing",
+   "stuks": 54,
+   "soort": "acwi"
+  },
+  {
+   "naam": "iShares Core MSCI World (IWDA)",
+   "ticker": "IWDA.AS",
+   "rekening": "Saxo Rhyana · LT",
+   "stuks": 3.736,
+   "soort": "acwi",
+   "geschat": true
+  }
+ ],
+ "cashrekeningen": [
+  {
+   "naam": "KBC zichtrekening (gezamenlijk)",
+   "saldo": 1387,
+   "basis": 0.0,
+   "premie": 0.0
+  },
+  {
+   "naam": "KBC buffer",
+   "saldo": 2600,
+   "basis": 0.4,
+   "premie": 0.2,
+   "geschat": true
+  },
+  {
+   "naam": "KBC spaarrekening",
+   "saldo": 52300,
+   "basis": 0.4,
+   "premie": 0.2
+  },
+  {
+   "naam": "Start2Save Daan",
+   "saldo": 0,
+   "basis": 1.65,
+   "premie": 1.5
+  },
+  {
+   "naam": "Start2Save Rhyana",
+   "saldo": 0,
+   "basis": 1.65,
+   "premie": 1.5
+  },
+  {
+   "naam": "Saxo Daan · cash",
+   "saldo": 109,
+   "basis": 0.0,
+   "premie": 0.0
+  }
+ ],
+ "inflatie": {
+  "bron": "Statbel (CPI) via Federaal Planbureau, 3 nov 2026",
+  "basis_maand": "2026-10",
+  "reeks": [
+   {
+    "maand": "2026-10",
+    "index": 105.37,
+    "jaar_op_jaar": 5.26
+   }
+  ],
+  "prognose": {
+   "2026": 3.7,
+   "2027": 4.4
+  },
+  "lange_termijn_aanname": 2.5
+ },
+ "verwacht_rendement_etf": 6.0
 }

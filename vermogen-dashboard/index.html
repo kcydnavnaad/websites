@@ -81,6 +81,9 @@ td.g{color:var(--ok)}td.o{color:var(--warn)}td.r{color:#FF888C}
 .agenda li{list-style:none;display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.07);font-size:.86rem;color:rgba(255,255,255,.8)}
 .agenda li span{color:var(--tangerine);font-variant-numeric:tabular-nums;white-space:nowrap}
 .agenda li.past{opacity:.4}
+.live{display:inline-flex;align-items:center;gap:.35rem;font-size:.66rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ok);margin-left:.6rem}
+.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+.up{color:var(--ok)!important}.down{color:#FF888C!important}
 @media(max-width:560px){.hero .total{font-size:2rem}.arow{flex-wrap:wrap}.arow input{width:100%}}
 </style>
 </head>
@@ -102,8 +105,9 @@ td.g{color:var(--ok)}td.o{color:var(--warn)}td.r{color:#FF888C}
   <!-- VERMOGEN -->
   <section class="panel on" id="p-vermogen">
     <div class="hero">
-      <div class="lbl">Totaal vermogen</div>
+      <div class="lbl">Totaal vermogen<span class="live" id="liveBadge" style="display:none">live</span></div>
       <div class="total" id="totalDisplay">€0</div>
+      <div class="split" id="liveSplit"></div>
       <div class="split">
         <span>Belegd: <b id="investedDisplay">€0</b></span>
         <span>Cash: <b id="cashDisplay">€0</b></span>
@@ -112,7 +116,14 @@ td.g{color:var(--ok)}td.o{color:var(--warn)}td.r{color:#FF888C}
       </div>
     </div>
     <div class="grid" id="vermKpis"></div>
-    <h2>Per rekening</h2>
+    <h2>Posities</h2>
+    <p class="muted" id="liveNote">Koersen laden...</p>
+    <div class="tbl" id="posTable"></div>
+    <h2>Cash, rente en inflatie</h2>
+    <div class="grid" id="inflKpis"></div>
+    <div class="tbl" id="cashTable" style="margin-top:.8rem"></div>
+    <p class="muted" id="inflNote" style="margin-top:.6rem"></p>
+    <h2>Momentopname per rekening</h2>
     <div class="tbl" id="accTable"></div>
     <h2>Historiek</h2>
     <div class="tbl" id="history"></div>
@@ -335,10 +346,69 @@ document.getElementById('saveSnap').onclick=()=>{const t=manualTotals();L.histor
   if(D)renderVermogen();const n=document.getElementById('snapNote');n.textContent='✓ Lokaal opgeslagen';setTimeout(()=>n.textContent='',3000)};
 document.getElementById('resetIn').onclick=()=>{L.current={};saveLocal(L);buildInputs()};
 
+
+/* LIVE KOERSEN + RENTE + INFLATIE */
+let PRICES={};
+function lastInfl(){const r=(D.inflatie&&D.inflatie.reeks)||[];return r[r.length-1]||null}
+async function loadLive(){
+  const tickers=[...new Set((D.posities||[]).map(p=>p.ticker))];
+  const res=await Promise.all(tickers.map(t=>fetch('live/'+t+'.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).catch(()=>null)));
+  PRICES={};
+  res.forEach((j,i)=>{try{const r=j.chart.result[0];const c=r.indicators.quote[0].close.filter(x=>x!=null);
+    const price=r.meta.regularMarketPrice??c[c.length-1];const prev=c.length>1?c[c.length-2]:r.meta.chartPreviousClose;
+    PRICES[tickers[i]]={price,prev,time:r.meta.regularMarketTime*1000};}catch(e){}});
+  renderLive();
+}
+function renderLive(){
+  const pos=D.posities||[];const snap=D.snapshots[D.snapshots.length-1];
+  const have=pos.length&&pos.every(p=>PRICES[p.ticker]);
+  let inv=0,day=0;const rows=[];
+  pos.forEach(p=>{const q=PRICES[p.ticker];const price=q?q.price:null;const v=q?p.stuks*price:null;const dd=q?p.stuks*(price-q.prev):null;
+    if(q){inv+=v;day+=dd}
+    const dp=q&&q.prev?(price/q.prev-1)*100:null;
+    rows.push(`<tr><td>${esc(p.naam)}<br><span style="font-size:.72rem;color:rgba(255,255,255,.45)">${esc(p.rekening)} · ${p.ticker}</span></td><td>${p.stuks.toLocaleString('nl-BE')}${p.geschat?'*':''}</td><td>${q?'€'+price.toLocaleString('nl-BE',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'}</td><td class="${dp==null?'':(dp>=0?'up':'down')}">${dp==null?'-':(dp>=0?'+':'')+pct(dp)}</td><td>${v==null?'-':fmt(v)}</td></tr>`)});
+  const cashTot=(D.cashrekeningen||[]).reduce((a,c)=>a+c.saldo,0);
+  document.getElementById('posTable').innerHTML=`<table><thead><tr><th>Positie</th><th>Stuks</th><th>Koers</th><th>Dag</th><th>Waarde</th></tr></thead><tbody>${rows.join('')}${have?`<tr><td><b>Totaal belegd</b></td><td></td><td></td><td class="${day>=0?'up':'down'}">${day>=0?'+':''}${fmt(day)}</td><td><b>${fmt(inv)}</b></td></tr>`:''}</tbody></table>`;
+  const note=document.getElementById('liveNote');
+  if(have){
+    const t=Math.max(...Object.values(PRICES).map(x=>x.time));
+    note.textContent='Koersen van '+new Date(t).toLocaleString('nl-BE',{dateStyle:'medium',timeStyle:'short'})+' (Yahoo Finance, elke 15 min ververst). * = aantal afgeleid uit saldo, bevestigen bij volgende update.';
+    const total=inv+cashTot, sinceSnap=total-snap.totaal;
+    document.getElementById('liveBadge').style.display='';
+    document.getElementById('totalDisplay').textContent=fmt(total);
+    document.getElementById('investedDisplay').textContent=fmt(inv);
+    document.getElementById('cashDisplay').textContent=fmt(cashTot);
+    const gold=pos.filter(p=>p.soort==='goud').reduce((a,p)=>a+p.stuks*PRICES[p.ticker].price,0);
+    const cr=pos.filter(p=>p.soort==='crypto').reduce((a,p)=>a+p.stuks*PRICES[p.ticker].price,0);
+    document.getElementById('goldPct').textContent=pct(gold/inv*100)+' (doel 10%)';
+    document.getElementById('cryptoPct').textContent=pct(cr/inv*100)+' (max 5%)';
+    const inf=lastInfl();let real='';
+    if(inf){const base=(D.inflatie.reeks.find(r=>r.maand===D.inflatie.basis_maand)||inf).index;real=` · <span>Koopkracht ${mLabel(D.inflatie.basis_maand)}: <b>${fmt(total*base/inf.index)}</b></span>`}
+    document.getElementById('liveSplit').innerHTML=`<span>Vandaag: <b class="${day>=0?'up':'down'}">${day>=0?'+':''}${fmt(day)}</b></span><span>Sinds ${snap.datum}: <b class="${sinceSnap>=0?'up':'down'}">${sinceSnap>=0?'+':''}${fmt(sinceSnap)}</b></span>${real}`;
+  } else note.textContent='Live koersen nog niet beschikbaar: waarden komen uit de laatste momentopname. (De koers-sidecar draait nog niet of Yahoo antwoordt niet.)';
+}
+function renderCash(){const pct=n=>n.toLocaleString('nl-BE',{maximumFractionDigits:2})+'%';
+  const cs=D.cashrekeningen||[];const inf=lastInfl();const i=inf?inf.jaar_op_jaar:null;
+  let tot=0,rente=0;
+  const rows=cs.map(c=>{const r=c.basis+c.premie;const ry=c.saldo*r/100;tot+=c.saldo;rente+=ry;const real=i==null?null:r-i;
+    return `<tr><td>${esc(c.naam)}${c.geschat?'*':''}</td><td>${fmt(c.saldo)}</td><td>${pct(r)}</td><td>${fmt(ry)}</td><td class="${real==null?'':(real>=0?'up':'down')}">${real==null?'-':(real>=0?'+':'')+pct(real)}</td></tr>`}).join('');
+  document.getElementById('cashTable').innerHTML=`<table><thead><tr><th>Rekening</th><th>Saldo</th><th>Rente</th><th>Rente/jaar</th><th>Reëel</th></tr></thead><tbody>${rows}<tr><td><b>Totaal cash</b></td><td><b>${fmt(tot)}</b></td><td>${tot?pct(rente/tot*100):'-'}</td><td><b>${fmt(rente)}</b></td><td></td></tr></tbody></table>`;
+  if(i==null)return;
+  const loss=tot*i/100-rente;const etf=D.verwacht_rendement_etf||6;const lt=D.inflatie.lange_termijn_aanname;
+  const k=[
+    [`Inflatie ${mLabel(inf.maand)}`,pct(i),`prognose Planbureau: ${pct(D.inflatie.prognose['2026'])} (2026) · ${pct(D.inflatie.prognose['2027'])} (2027)`,i>3?'r':(i>2?'o':'g')],
+    [`Cash verliest koopkracht`,'-'+fmt(loss)+'/jaar',`${fmt(tot*i/100)} inflatie − ${fmt(rente)} rente`,'r'],
+    [`Start2Save reëel`,((3.15-i)>=0?'+':'')+pct(3.15-i),`3,15% rente − ${pct(i)} inflatie`,(3.15-i)>=0?'g':'o'],
+    [`ETF's reëel (verwacht)`,'+'+pct(etf-i),`nu · +${pct(etf-lt)} bij ${pct(lt)} inflatie op lange termijn`,'g'],
+  ];
+  document.getElementById('inflKpis').innerHTML=k.map(([a,b,c,e])=>`<div class="kpi ${e}"><div class="k">${a}</div><div class="v">${b}</div><div class="t">${c}</div></div>`).join('');
+  document.getElementById('inflNote').textContent='Bron inflatie: '+D.inflatie.bron+'. Rente = basisrente + getrouwheidspremie (bruto). * = tarief te bevestigen.';
+}
+
 /* boot */
 buildInputs();
 fetch('data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(j=>{
-  D=j;renderVermogen();renderMaand();renderDoelen();
+  D=j;renderVermogen();renderMaand();renderDoelen();renderCash();loadLive();setInterval(loadLive,5*60*1000);
   const h=(location.hash||'').slice(1);if(['vermogen','maand','doelen','invullen'].includes(h))showTab(h);
 }).catch(e=>{document.getElementById('updated').textContent='data.json kon niet geladen worden ('+e.message+'). Snel invullen werkt wel.';});
 </script>
