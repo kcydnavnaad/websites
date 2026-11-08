@@ -394,33 +394,38 @@
  "posities": [
   {
    "naam": "SPDR MSCI ACWI IMI (IMIE)",
-   "ticker": "SPYI.DE",
-   "rekening": "Saxo gezamenlijk",
-   "stuks": 1589.42,
+   "ticker": "IMIE.PA",
+   "rekening": "Saxo gezamenlijk · AutoInvest D&R",
+   "stuks": 1587,
    "soort": "acwi",
-   "geschat": true
+   "geschat": false,
+   "isin": "IE00B3YLTY66",
+   "ak": 11.0
   },
   {
    "naam": "iShares Physical Gold ETC",
    "ticker": "PPFB.DE",
-   "rekening": "Saxo gezamenlijk",
-   "stuks": 8.551,
+   "rekening": "Saxo gezamenlijk · Self invest",
+   "stuks": 8,
    "soort": "goud",
-   "geschat": true
+   "geschat": false,
+   "ak": 69.565
   },
   {
    "naam": "iShares Core MSCI World (IWDA)",
    "ticker": "IWDA.AS",
    "rekening": "Saxo Daan",
    "stuks": 98,
-   "soort": "acwi"
+   "soort": "acwi",
+   "ak": 102.457
   },
   {
    "naam": "WisdomTree Physical Bitcoin",
    "ticker": "WBTC.PA",
    "rekening": "Saxo Daan",
    "stuks": 57,
-   "soort": "crypto"
+   "soort": "crypto",
+   "ak": 17.244
   },
   {
    "naam": "iShares Core MSCI World (IWDA)",
@@ -475,6 +480,12 @@
    "saldo": 109,
    "basis": 0.0,
    "premie": 0.0
+  },
+  {
+   "naam": "Saxo gezamenlijk · cash",
+   "saldo": 56.68,
+   "basis": 0.0,
+   "premie": 0.0
   }
  ],
  "inflatie": {
@@ -493,5 +504,23 @@
   },
   "lange_termijn_aanname": 2.5
  },
- "verwacht_rendement_etf": 6.0
+ "verwacht_rendement_etf": 6.0,
+ "uitgesloten": [
+  {
+   "naam": "Project T (metekindje)",
+   "rekening": "Saxo gezamenlijk",
+   "ticker": "IMIE.PA",
+   "stuks": 38,
+   "cash": 7.92
+  }
+ ],
+ "resultaat_dit_jaar": {
+  "periode": "1 jan t/m 6 nov 2026 (Saxo, tab Resultaat > Dit jaar)",
+  "rekeningen": {
+   "Saxo gezamenlijk": 669.67,
+   "Saxo Daan": null,
+   "Saxo Rhyana": null
+  },
+  "noot": "Gezamenlijk is gemeten vanaf 9 dec 2025 en bevat een klein deel Project T."
+ }
 }

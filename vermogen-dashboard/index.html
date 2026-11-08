@@ -362,17 +362,18 @@ async function loadLive(){
 function renderLive(){
   const pos=D.posities||[];const snap=D.snapshots[D.snapshots.length-1];
   const have=pos.length&&pos.every(p=>PRICES[p.ticker]);
-  let inv=0,day=0;const rows=[];
+  let inv=0,day=0,gain=0,gainBase=0;const rows=[];
   pos.forEach(p=>{const q=PRICES[p.ticker];const price=q?q.price:null;const v=q?p.stuks*price:null;const dd=q?p.stuks*(price-q.prev):null;
     if(q){inv+=v;day+=dd}
     const dp=q&&q.prev?(price/q.prev-1)*100:null;
-    rows.push(`<tr><td>${esc(p.naam)}<br><span style="font-size:.72rem;color:rgba(255,255,255,.45)">${esc(p.rekening)} · ${p.ticker}</span></td><td>${p.stuks.toLocaleString('nl-BE')}${p.geschat?'*':''}</td><td>${q?'€'+price.toLocaleString('nl-BE',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'}</td><td class="${dp==null?'':(dp>=0?'up':'down')}">${dp==null?'-':(dp>=0?'+':'')+pct(dp)}</td><td>${v==null?'-':fmt(v)}</td></tr>`)});
+    const gw=(q&&p.ak)?p.stuks*(price-p.ak):null;if(gw!=null){gain+=gw;gainBase+=p.stuks*p.ak}
+    rows.push(`<tr><td>${esc(p.naam)}<br><span style="font-size:.72rem;color:rgba(255,255,255,.45)">${esc(p.rekening)} · ${p.ticker}</span></td><td>${p.stuks.toLocaleString('nl-BE')}${p.geschat?'*':''}</td><td>${q?'€'+price.toLocaleString('nl-BE',{minimumFractionDigits:2,maximumFractionDigits:2}):'-'}</td><td class="${dp==null?'':(dp>=0?'up':'down')}">${dp==null?'-':(dp>=0?'+':'')+pct(dp)}</td><td>${v==null?'-':fmt(v)}</td><td class="${gw==null?'':(gw>=0?'up':'down')}">${gw==null?'?':(gw>=0?'+':'')+fmt(gw)+' ('+(gw>=0?'+':'')+pct((price/p.ak-1)*100)+')'}</td></tr>`)});
   const cashTot=(D.cashrekeningen||[]).reduce((a,c)=>a+c.saldo,0);
-  document.getElementById('posTable').innerHTML=`<table><thead><tr><th>Positie</th><th>Stuks</th><th>Koers</th><th>Dag</th><th>Waarde</th></tr></thead><tbody>${rows.join('')}${have?`<tr><td><b>Totaal belegd</b></td><td></td><td></td><td class="${day>=0?'up':'down'}">${day>=0?'+':''}${fmt(day)}</td><td><b>${fmt(inv)}</b></td></tr>`:''}</tbody></table>`;
+  document.getElementById('posTable').innerHTML=`<table><thead><tr><th>Positie</th><th>Stuks</th><th>Koers</th><th>Dag</th><th>Waarde</th><th>Latente winst</th></tr></thead><tbody>${rows.join('')}${have?`<tr><td><b>Totaal belegd</b></td><td></td><td></td><td class="${day>=0?'up':'down'}">${day>=0?'+':''}${fmt(day)}</td><td><b>${fmt(inv)}</b></td><td class="${gain>=0?'up':'down'}"><b>${gain>=0?'+':''}${fmt(gain)}</b></td></tr>`:''}</tbody></table>`;
   const note=document.getElementById('liveNote');
   if(have){
     const t=Math.max(...Object.values(PRICES).map(x=>x.time));
-    note.textContent='Koersen van '+new Date(t).toLocaleString('nl-BE',{dateStyle:'medium',timeStyle:'short'})+' (Yahoo Finance, elke 15 min ververst). * = aantal afgeleid uit saldo, bevestigen bij volgende update.';
+    window._LATENT={gain,gainBase};note.textContent='Koersen van '+new Date(t).toLocaleString('nl-BE',{dateStyle:'medium',timeStyle:'short'})+' (Yahoo Finance, elke 15 min ververst). * = aantal afgeleid uit saldo. Latente winst = t.o.v. aankoopkoers (AK) uit Saxo; ? = AK nog niet doorgegeven.';renderCash();
     const total=inv+cashTot, sinceSnap=total-snap.totaal;
     document.getElementById('liveBadge').style.display='';
     document.getElementById('totalDisplay').textContent=fmt(total);
@@ -395,7 +396,14 @@ function renderCash(){const pct=n=>n.toLocaleString('nl-BE',{maximumFractionDigi
   document.getElementById('cashTable').innerHTML=`<table><thead><tr><th>Rekening</th><th>Saldo</th><th>Rente</th><th>Rente/jaar</th><th>Reëel</th></tr></thead><tbody>${rows}<tr><td><b>Totaal cash</b></td><td><b>${fmt(tot)}</b></td><td>${tot?pct(rente/tot*100):'-'}</td><td><b>${fmt(rente)}</b></td><td></td></tr></tbody></table>`;
   if(i==null)return;
   const loss=tot*i/100-rente;const etf=D.verwacht_rendement_etf||6;const lt=D.inflatie.lange_termijn_aanname;
-  const k=[
+  const R=D.resultaat_dit_jaar||{rekeningen:{}};const known=Object.entries(R.rekeningen).filter(([a,b])=>b!=null);const missing=Object.entries(R.rekeningen).filter(([a,b])=>b==null).map(([a])=>a);
+  const winst=known.reduce((a,[x,b])=>a+b,0);const snap=D.snapshots[D.snapshots.length-1];
+  const erosie=snap.totaal*i/100;const netto=winst+rente-erosie;
+  const k0=[
+    [`Beleggingswinst dit jaar`,'+'+fmt(winst),missing.length?`nog in te vullen: ${missing.join(', ')}`:R.periode,'g'],
+    [`Hele vermogen vs inflatie`,(netto>=0?'+':'')+fmt(netto),`${fmt(winst)} winst + ${fmt(rente)} rente − ${fmt(erosie)} inflatie op ${fmt(snap.totaal)}${missing.length?' (onvolledig)':''}`,netto>=0?'g':(missing.length?'o':'r')],
+  ];
+  const k=[...k0,
     [`Inflatie ${mLabel(inf.maand)}`,pct(i),`prognose Planbureau: ${pct(D.inflatie.prognose['2026'])} (2026) · ${pct(D.inflatie.prognose['2027'])} (2027)`,i>3?'r':(i>2?'o':'g')],
     [`Cash verliest koopkracht`,'-'+fmt(loss)+'/jaar',`${fmt(tot*i/100)} inflatie − ${fmt(rente)} rente`,'r'],
     [`Start2Save reëel`,((3.15-i)>=0?'+':'')+pct(3.15-i),`3,15% rente − ${pct(i)} inflatie`,(3.15-i)>=0?'g':'o'],
